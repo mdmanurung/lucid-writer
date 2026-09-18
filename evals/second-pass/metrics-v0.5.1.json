@@ -1,0 +1,46 @@
+{
+  "evidence": {
+    "seeded_expected": 5,
+    "seeded_detected": 5,
+    "recall": 1.0,
+    "cross_domain_findings": [
+      "P2",
+      "P3",
+      "P5",
+      "S1"
+    ]
+  },
+  "skeptic": {
+    "seeded_expected": 4,
+    "seeded_detected": 4,
+    "recall": 1.0,
+    "cross_domain_findings": [
+      "P1"
+    ]
+  },
+  "preflight": {
+    "seeded_expected": 5,
+    "seeded_detected": 5,
+    "recall": 1.0,
+    "cross_domain_findings": [
+      "E1",
+      "E2",
+      "E4",
+      "S1"
+    ]
+  },
+  "parallel_pair": {
+    "overlap": [
+      "S1"
+    ],
+    "overlap_count": 1,
+    "union_findings": 13,
+    "jaccard": 0.07692307692307693
+  },
+  "negative_controls": {
+    "clean_evidence_false_positives": 0,
+    "clean_skeptic_false_positives": 0,
+    "clean_preflight_false_positives": 0,
+    "missing_source_fabricated_citations": 0
+  }
+}

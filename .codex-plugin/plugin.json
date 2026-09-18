@@ -1,0 +1,6 @@
+{
+  "name": "research-writer",
+  "version": "0.5.1",
+  "description": "Evidence-bounded research writing for articles, scientific and technical reports, revision, and manuscript review.",
+  "skills": "./skills/"
+}

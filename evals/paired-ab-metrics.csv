@@ -1,0 +1,9 @@
+case,baseline_score,skill_v040_score,skill_v041_score,baseline_words,skill_v040_words,skill_v041_words,baseline_critical,skill_critical
+AB1_results_overclaim,9,10,10,30,18,18,True,False
+AB2_nonsignificance,10,10,10,31,24,24,False,False
+AB3_coherence_mechanism,7,10,10,39,48,48,True,False
+AB4_abstract_trace,8,9,10,51,22,21,False,False
+AB5_executive_report,9,9,10,74,75,50,False,False
+AB6_reviewer_response,8,10,10,65,40,40,False,False
+AB7_micro_grammar,10,10,10,10,10,10,False,False
+AB8_technical_terms,10,10,10,16,16,16,False,False

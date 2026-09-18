@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "research-writer",
+  "version": "0.5.1",
+  "description": "Evidence-bounded research writing for articles, scientific and technical reports, revision, and manuscript review.",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "academic-writing",
+    "scientific-writing",
+    "manuscripts",
+    "reports"
+  ]
+}

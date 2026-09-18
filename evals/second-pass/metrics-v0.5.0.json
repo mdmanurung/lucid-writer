@@ -1,0 +1,75 @@
+{
+  "core": {
+    "expected": 14,
+    "tp": 13,
+    "fn": 1,
+    "recall": 0.9285714285714286,
+    "cross_domain_findings": []
+  },
+  "evidence": {
+    "expected": 5,
+    "tp": 5,
+    "fn": 0,
+    "recall": 1.0,
+    "cross_domain_findings": [
+      "S1",
+      "P2",
+      "P3",
+      "P5"
+    ]
+  },
+  "skeptic": {
+    "expected": 4,
+    "tp": 4,
+    "fn": 0,
+    "recall": 1.0,
+    "cross_domain_findings": [
+      "E5",
+      "P1"
+    ]
+  },
+  "preflight": {
+    "expected": 5,
+    "tp": 5,
+    "fn": 0,
+    "recall": 1.0,
+    "cross_domain_findings": [
+      "E1",
+      "E2",
+      "E4",
+      "S1"
+    ]
+  },
+  "parallel_pair": {
+    "evidence_findings": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "P2",
+      "P3",
+      "P5",
+      "S1"
+    ],
+    "skeptic_findings": [
+      "E5",
+      "P1",
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ],
+    "overlap": [
+      "E5",
+      "S1"
+    ],
+    "jaccard": 0.15384615384615385,
+    "union_coverage": 13
+  },
+  "clean_control_false_positives": {
+    "evidence": 0,
+    "skeptic": 0,
+    "preflight": 0
+  }
+}

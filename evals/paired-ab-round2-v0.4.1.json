@@ -1,0 +1,26 @@
+[
+  {
+    "id": "AB4_abstract_trace",
+    "skill_v041": "Using a multimodal approach, we found that higher baseline glycolytic activity was associated with delayed parasitemia (HR 0.74, 95% CI 0.58–0.95).",
+    "scores": {
+      "evidence": 2,
+      "inference": 2,
+      "focus": 2,
+      "coherence": 2,
+      "prose": 2
+    },
+    "finding": "The method descriptor is retained while generic framing and unsupported significance language remain removed."
+  },
+  {
+    "id": "AB5_executive_report",
+    "skill_v041": "The primary effect estimate changed little in the QC sensitivity analysis (β=0.31 primary; β=0.29 when the six low-cell-count samples were included). Of 96 samples, 88 passed prespecified QC. Batch 3 had an 18% lower median library size, but batch was not associated with PC1 or PC2 after normalization.",
+    "scores": {
+      "evidence": 2,
+      "inference": 2,
+      "focus": 2,
+      "coherence": 2,
+      "prose": 2
+    },
+    "finding": "The answer-first structure is retained without replacing the measured quantity 'library size' with the broader term 'yield'."
+  }
+]

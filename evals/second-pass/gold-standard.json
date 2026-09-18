@@ -1,0 +1,58 @@
+{
+  "E1": {
+    "domain": "evidence",
+    "desc": "Primary model n is 112, not 120."
+  },
+  "E2": {
+    "domain": "evidence",
+    "desc": "Abstract HR/CI is stale: 0.72 (0.55\u20130.95) vs current 0.78 (0.64\u20130.96)."
+  },
+  "E3": {
+    "domain": "evidence",
+    "desc": "'reduced risk by 22%' misstates a hazard ratio and implies causal/risk interpretation."
+  },
+  "E4": {
+    "domain": "evidence",
+    "desc": "Independent replication is claimed but no replication cohort exists."
+  },
+  "E5": {
+    "domain": "evidence",
+    "desc": "'normalization eliminated batch effects' exceeds evidence limited to no association with PC1/PC2."
+  },
+  "S1": {
+    "domain": "skeptic",
+    "desc": "Mediation/protective mechanism is not established by observational association."
+  },
+  "S2": {
+    "domain": "skeptic",
+    "desc": "IFN-gamma mechanism was not tested."
+  },
+  "S3": {
+    "domain": "skeptic",
+    "desc": "Age/sex adjustment does not rule out prior malaria exposure; exposure was unmeasured."
+  },
+  "S4": {
+    "domain": "skeptic",
+    "desc": "Tanzania cohort does not establish generality across African populations."
+  },
+  "P1": {
+    "domain": "preflight",
+    "desc": "Title uses causal/protective wording stronger than Results."
+  },
+  "P2": {
+    "domain": "preflight",
+    "desc": "Abstract n and HR/CI are stale relative to current Results/source."
+  },
+  "P3": {
+    "domain": "preflight",
+    "desc": "Supplementary primary-model n=120 conflicts with Results/caption/source n=112."
+  },
+  "P4": {
+    "domain": "preflight",
+    "desc": "Reviewer response says Methods updated to FDR, but Methods still says nominal p-values."
+  },
+  "P5": {
+    "domain": "preflight",
+    "desc": "Abstract claims independent replication absent from source materials."
+  }
+}
