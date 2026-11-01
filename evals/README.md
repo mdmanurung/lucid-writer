@@ -1,12 +1,12 @@
 # Evaluation cases
 
-`cases.jsonl` is a provider-agnostic behavioral evaluation set for Research Writer. It is intentionally separate from the repository-integrity tests.
+`cases.jsonl` is a provider-agnostic behavioral evaluation set for Lucid Writer. It is intentionally separate from the repository-integrity tests.
 
 Each case contains:
 
 - `id` — stable case name;
 - `prompt` — representative user request;
-- `should_trigger` — whether Research Writer should be selected;
+- `should_trigger` — whether Lucid Writer should be selected;
 - `expect` — high-level behaviors that a grader should look for.
 
 The cases cover routing, evidence preservation, citation discipline, causal language, right-sized workflow, report structure, review-only behavior, and reporting-guideline routing.
@@ -15,7 +15,7 @@ The cases cover routing, evidence preservation, citation discipline, causal lang
 
 For each supported host/model:
 
-1. start a fresh session with Research Writer installed;
+1. start a fresh session with Lucid Writer installed;
 2. run each prompt with the minimum fixture material needed for that case;
 3. score skill selection separately from output quality;
 4. treat any invented citation, number, method, or result as a hard failure;
