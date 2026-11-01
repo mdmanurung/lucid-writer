@@ -1,4 +1,16 @@
 __pycache__/
+dist/
 *.py[cod]
 .pytest_cache/
+.venv/
 .DS_Store
+
+# Acumen benchmark artifacts. The inputs are tracked (bench/config.yaml, bench/tasks.yaml,
+# bench/skills/v*/); the evidence a pass produces is not, because it is large, regenerable,
+# and specific to one machine's provider pricing. Run results belong in an artifact store
+# or a report attachment, not in git.
+bench/runs/
+bench/logs/
+bench/tasks/
+bench/report.html
+bench/*.html

@@ -1,7 +1,0 @@
-interface:
-  display_name: "Research Writer"
-  short_description: "Evidence-bounded research writing and review"
-  default_prompt: "Use Research Writer to improve this research article or report while preserving claim strength, evidence, and scientific uncertainty."
-
-policy:
-  allow_implicit_invocation: true

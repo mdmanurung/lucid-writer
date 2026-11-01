@@ -39,7 +39,7 @@ Contribution used here: write for the reader rather than from the writer's priva
 
 Minto, B. (2009 edition and earlier editions). *The Pyramid Principle: Logic in Writing and Thinking*. Pearson/Financial Times Prentice Hall.
 
-Contribution used here: answer-first reasoning where appropriate, question–answer hierarchy, and logically grouped support. Research Writer does not force consulting conventions onto research-paper genres.
+Contribution used here: answer-first reasoning where appropriate, question–answer hierarchy, and logically grouped support. Lucid Writer does not force consulting conventions onto research-paper genres.
 
 
 
@@ -48,7 +48,7 @@ Contribution used here: answer-first reasoning where appropriate, question–ans
 Kobak, D., González-Márquez, R., Horvát, E.-Á., & Lause, J. (2025). Delving into LLM-assisted writing in biomedical publications through excess vocabulary. *Science Advances*. PubMed PMID: 40601754.  
 https://pubmed.ncbi.nlm.nih.gov/40601754/
 
-Contribution used here: corpus-level evidence that the post-ChatGPT biomedical literature shows abrupt excess use of style vocabulary. Research Writer uses these observations only as review cues; it does not infer authorship from individual words or documents.
+Contribution used here: corpus-level evidence that the post-ChatGPT biomedical literature shows abrupt excess use of style vocabulary. Lucid Writer uses these observations only as review cues; it does not infer authorship from individual words or documents.
 
 ### Cheng et al. — corpus comparison of AI and human academic prose
 
@@ -118,7 +118,7 @@ Design principles used here:
 
 ## Public implementation inspirations
 
-The following open repositories influenced the architectural comparison that led to this synthesis. Research Writer uses original wording and workflow design rather than copying their text.
+The following open repositories influenced the architectural comparison that led to this synthesis. Lucid Writer uses original wording and workflow design rather than copying their text.
 
 ### WenyuChiou/academic-writing-skills
 https://github.com/WenyuChiou/academic-writing-skills
@@ -147,6 +147,16 @@ Notable ideas considered: diagnose-first coherence editing; separate checks for 
 https://github.com/sdi2200262/elements-of-style-for-agents
 
 Notable ideas considered: a compact plain-English default layer and fuller guidance loaded only for substantial prose.
+
+### seandavi/scriptorium
+https://github.com/seandavi/scriptorium
+
+License: MIT (code), CC BY 4.0 (documentation and knowledge notes).
+
+Ideas adopted, in original wording: fixed accuracy guards separated from author-overridable defaults; manuscript text treated as data; "metadata only" versus full-text citation verdicts on a four-level scale; no in-context recomputation of test statistics; figure–text pattern flags (orphan, phantom, panel, axis/unit, direction); a mandatory "not checked" list; acknowledged weaknesses as reviewer context; four reviewer lenses. Primary evidence behind two of them:
+
+- Greenberg, S. A. (2009). How citation distortions create unfounded authority: analysis of a citation network. *BMJ, 339*, b2680. https://doi.org/10.1136/bmj.b2680. Used for the graded citation verdict.
+- Cobo, E., et al. (2007). Statistical reviewers improve reporting in biomedical articles: a randomized trial. *PLoS ONE, 2*(3), e332. https://doi.org/10.1371/journal.pone.0000332. Used for the dedicated statistical lens; the same trial found no effect from handing reviewers a checklist.
 
 ## Licensing note
 

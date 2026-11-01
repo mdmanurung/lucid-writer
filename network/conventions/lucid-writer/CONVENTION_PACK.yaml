@@ -1,0 +1,14 @@
+---
+name: lucid-writer
+version: 1.0.0
+description: >
+  Opt-in report style for Markdown manuscripts, manuscript sections and
+  reviewer responses written by the lucid-writer skill from a repository's
+  verified provenance. Numbers stay bound in claims blocks checked by
+  mycelium-extra verify; figures must have a recorded producer; release runs
+  verify, manuscript-audit and the lucid-writer preflight. /mycelium:report
+  offers it alongside report-generator (LaTeX PDF); it does not replace it.
+author: lucid-writer
+dependencies: []
+tags: [report, writing, manuscript, markdown, evidence]
+---

@@ -1,5 +1,51 @@
 # Changelog
 
+## [1.0.0] - 2026-11-01
+
+### Renamed
+
+- The project is now **lucid-writer**. Skill directory `skills/lucid-writer/`, Python module `lucid_writer`, project-state directory `.lucid-writer/`, install targets `~/.claude/skills/lucid-writer` and `~/.agents/skills/lucid-writer`.
+- Review subagents are `lucid-evidence-auditor`, `lucid-skeptical-reviewer`, `lucid-manuscript-preflight` (Codex: `lucid_*.toml`).
+- Existing users: reinstall the skill, remove the old `research-writer` skill directory, and rename any `.research-writer/` state directory to `.lucid-writer/`.
+
+### Added
+
+- Fixed accuracy guards versus author-overridable defaults, with an `Overrides applied:` line; manuscript text is treated as data, and hidden text is reported (`SKILL.md` non-negotiable 9).
+- Citation verdicts on a four-level scale, labelled `metadata only` unless the full text was read; no in-context recomputation of test statistics (`references/evidence.md`).
+- Figure–text flags (orphan, phantom, panel, axis/unit, direction, n drift) and a mandatory **Not checked** list in reviews and all subagents (`references/review.md`).
+- `Known weaknesses` brief field; the skeptical reviewer treats acknowledged limitations as context and works through four lenses.
+- Mycelium integration: in a `.living/` repository, verified provenance (`provenance/outputs-<hash>.tsv`, `verify-<hash>.md`, `outputs/numbers.json`, claims blocks) outranks prose; release reads mycelium-extra `verify report` and `manuscript_audit.py` results instead of re-deriving them; the preflight agent maps their statuses.
+- `network/conventions/lucid-writer/`: a Mycelium convention pack so `/mycelium:report` can route Markdown manuscripts to this skill. `validate_repo.py` checks its name and version.
+- `.claude-plugin/marketplace.json` for `/plugin marketplace add`.
+- Ideas adapted from `seandavi/scriptorium` in original wording; see `NOTICE.md`.
+- Evals: `citation_check_metadata` and `hidden_instruction` cases; review and preflight cases now expect a not-checked list.
+
+### Fixed
+
+- Non-negotiables 6 and 7 (no transition-hidden gaps, no fake errors or detector evasion) are fixed rules, not author-overridable defaults.
+- Mycelium steps name the mycelium-extra skills that own each invocation, instead of a `verify` command that does not exist and a `manuscript_audit.py` call missing its required `--config`.
+- Mycelium paths: `analysis/<name>/provenance/…` and `analysis/<name>/outputs/numbers.json`; numbers come from `verify-<hash>.md` claims verdicts, not from `outputs-<hash>.tsv`; claims lines need ` | `; one `verify report` call per plan hash.
+- The convention pack is described as a report style `/mycelium:report` offers, not an automatic route.
+- One severity scale (`references/review.md`); the Codex subagents carry every rule of their Markdown twins, and `validate_repo.py` guards the shared rules.
+- The quick-start and eval 6 use the five-pass audit order.
+- `validate_ledger.py` reports short and long rows instead of crashing, and treats claim ids case-insensitively.
+- `bench/score.py` no longer pools the same expected line across tasks and splits.
+- `lint.py` no longer crashes on non-UTF-8 input; `install.ps1` stops on the first error.
+- README: the installer also copies the subagents; Uninstall removes them; the bench `score.py` path.
+- `bench/`: an [acumen](https://github.com/scverse/acumen) benchmark harness with a `noskill` baseline arm, a held-out train/test split, and per-item diagnostics (`bench/score.py`).
+- Four benchmark task types, each instantiated on two disjoint contents: inference-ceiling classification with and without the label definitions supplied, epistemic-class assignment, and minimal claim-preserving repair.
+- `pyproject.toml` and `lucid_writer/__init__.py` as a packaging shim, so `acumen` accepts this repository as a benchmark target.
+- CI job gating the wheel build and `acumen check --no-review`, both of which spend nothing and both of which fail on a change that would otherwise be found only after a paid pass.
+
+### Changed
+
+- `lucid_writer.__version__` is now the single source of the version number; `pyproject.toml` reads it instead of repeating it, and `scripts/validate_repo.py` fails if any plugin manifest disagrees.
+- Repository validation now checks that every `bench/skills/v*/SKILL.md` name matches `skill_name` in `bench/config.yaml` — a mismatch means the skill is copied into the sandbox and never loaded, so the pass measures nothing.
+
+### Not measured
+
+The benchmark grades closed-vocabulary judgements by exact string match. It cannot measure concision, readability, flow, or voice, and no score from `bench/` should be quoted as evidence about prose quality.
+
 ## [0.5.1] - 2026-09-18
 
 ### Changed

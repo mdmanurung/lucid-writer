@@ -4,8 +4,11 @@ param(
     [switch]$SkillOnly
 )
 
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
 $Root = Split-Path -Parent $PSScriptRoot
-$SkillSource = Join-Path $Root "skills\research-writer"
+$SkillSource = Join-Path $Root "skills\lucid-writer"
 
 function Install-Skill([string]$Destination) {
     $Parent = Split-Path -Parent $Destination
@@ -27,14 +30,14 @@ function Install-AgentFiles([string]$SourceDirectory, [string]$DestinationDirect
 }
 
 function Install-Codex {
-    Install-Skill (Join-Path $HOME ".agents\skills\research-writer")
+    Install-Skill (Join-Path $HOME ".agents\skills\lucid-writer")
     if (-not $SkillOnly) {
         Install-AgentFiles (Join-Path $Root ".codex\agents") (Join-Path $HOME ".codex\agents") "*.toml"
     }
 }
 
 function Install-Claude {
-    Install-Skill (Join-Path $HOME ".claude\skills\research-writer")
+    Install-Skill (Join-Path $HOME ".claude\skills\lucid-writer")
     if (-not $SkillOnly) {
         Install-AgentFiles (Join-Path $Root "agents") (Join-Path $HOME ".claude\agents") "*.md"
     }

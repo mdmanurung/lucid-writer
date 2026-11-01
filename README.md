@@ -1,8 +1,8 @@
-# Research Writer
+# Lucid Writer
 
-Research Writer remains a lean everyday skill, with **optional isolated subagents** for evidence audit, adversarial review, and final preflight.
+Lucid Writer remains a lean everyday skill, with **optional isolated subagents** for evidence audit, adversarial review, and final preflight.
 
-**Research Writer** is a focused Agent Skill for everyday research writing: articles, reports, abstracts, reviewer responses, and manuscript review.
+**Lucid Writer** is a focused Agent Skill for everyday research writing: articles, reports, abstracts, reviewer responses, and manuscript review.
 
 > **Make the writing clearer without making the evidence stronger than it is.**
 
@@ -62,22 +62,22 @@ For individual use, install the **skill** directly. Plugin manifests are include
 ### macOS / Linux
 
 ```bash
-git clone <YOUR-GITHUB-REPO-URL> research-writer
-cd research-writer
-bash scripts/install.sh both  # skill + optional review subagents  # skill + optional review subagents
+git clone <YOUR-GITHUB-REPO-URL> lucid-writer
+cd lucid-writer
+bash scripts/install.sh both  # skill + optional review subagents
 ```
 
 ### Windows PowerShell
 
 ```powershell
-git clone <YOUR-GITHUB-REPO-URL> research-writer
-cd research-writer
-.\scripts\install.ps1 both  # skill + optional review subagents  # skill + optional review subagents
+git clone <YOUR-GITHUB-REPO-URL> lucid-writer
+cd lucid-writer
+.\scripts\install.ps1 both  # skill + optional review subagents
 ```
 
 Use `codex` or `claude` instead of `both` to install only one target.
 
-The installer copies only `skills/research-writer/`. It has no external dependencies and makes no network requests beyond the `git clone` you run yourself.
+The installer copies `skills/lucid-writer/` and, by default, the three review subagents (`~/.claude/agents/lucid-*.md`, `~/.codex/agents/lucid_*.toml`). Pass `--skill-only` (PowerShell: `-SkillOnly`) to skip the subagents. It replaces any existing installed copy, has no external dependencies, and makes no network requests beyond the `git clone` you run yourself.
 
 ## Codex
 
@@ -91,14 +91,14 @@ Manual install:
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R skills/research-writer ~/.agents/skills/research-writer
+cp -R skills/lucid-writer ~/.agents/skills/lucid-writer
 ```
 
 For a repository-scoped skill:
 
 ```bash
 mkdir -p .agents/skills
-cp -R /path/to/research-writer/skills/research-writer .agents/skills/research-writer
+cp -R /path/to/lucid-writer/skills/lucid-writer .agents/skills/lucid-writer
 ```
 
 Codex scans `.agents/skills` from the current working directory up to the repository root and also reads user-level skills from `$HOME/.agents/skills`.
@@ -111,7 +111,7 @@ For a personal skill:
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -R skills/research-writer ~/.claude/skills/research-writer
+cp -R skills/lucid-writer ~/.claude/skills/lucid-writer
 ```
 
 For plugin development/testing, the repository also includes `.claude-plugin/plugin.json`. Claude Code supports local plugin loading and marketplace-based distribution.
@@ -122,13 +122,13 @@ Official examples and skill specification: [Anthropic Agent Skills](https://gith
 
 1. On GitHub, choose **Code → Download ZIP**.
 2. Extract the repository.
-3. Copy `skills/research-writer/` to the appropriate skill directory above.
+3. Copy `skills/lucid-writer/` to the appropriate skill directory above.
 4. Start a new agent session and run the verification prompt below.
 
 ## Verify
 
 ```text
-Use research-writer to tighten this paragraph without changing claim strength:
+Use lucid-writer to tighten this paragraph without changing claim strength:
 [paste a research paragraph]
 ```
 
@@ -159,13 +159,15 @@ git pull
 Codex:
 
 ```bash
-rm -rf ~/.agents/skills/research-writer
+rm -rf ~/.agents/skills/lucid-writer
+rm -f ~/.codex/agents/lucid_*.toml
 ```
 
 Claude Code:
 
 ```bash
-rm -rf ~/.claude/skills/research-writer
+rm -rf ~/.claude/skills/lucid-writer
+rm -f ~/.claude/agents/lucid-*.md
 ```
 
 ---
@@ -221,7 +223,7 @@ Do **not** use subagents for grammar fixes, ordinary paragraph edits, or short s
 Recommended workflow:
 
 ```text
-draft / revise with Research Writer
+draft / revise with Lucid Writer
         ↓
 evidence auditor ─────┐
                       ├─ parallel, read-only
@@ -243,13 +245,13 @@ See [`docs/subagents.md`](docs/subagents.md) for architecture, platform location
 For a substantial ongoing manuscript/report:
 
 ```bash
-python skills/research-writer/scripts/init_project.py .
+python3 skills/lucid-writer/scripts/init_project.py .
 ```
 
 This creates:
 
 ```text
-.research-writer/
+.lucid-writer/
 ├── brief.md
 ├── claims.csv
 ├── outline.md
@@ -257,28 +259,52 @@ This creates:
 └── review.md
 ```
 
-Optionally copy `skills/research-writer/assets/voice-profile.md` to `.research-writer/voice.md` for stable author/team style preferences. Voice never overrides evidence or reporting requirements.
+Optionally copy `skills/lucid-writer/assets/voice-profile.md` to `.lucid-writer/voice.md` for stable author/team style preferences. Voice never overrides evidence or reporting requirements.
+
+## Mycelium integration
+
+Lucid Writer works without Mycelium. In a Mycelium repository (`.living/` exists), it treats verified provenance as the source of truth and leaves every deterministic check to mycelium-extra:
+
+| Check | Owner |
+|---|---|
+| number in prose matches an output cell (`<!-- claims -->`), one call per plan hash | `/mycelium-extra:verify` `report` |
+| figure freshness after input changes | `/mycelium-extra:verify` `stale` |
+| declared figure contract (`config/manuscript_checks.json`: files, columns, keys) | `/mycelium-extra:manuscript-audit` |
+| DOI/PMID/arXiv exists | `/mycelium-extra:verify` `report --resolve-citations` |
+| citation supports the exact claim; inference ceiling; causal and scope language | Lucid Writer |
+| cross-artifact consistency, figure–text flags, placeholders | Lucid Writer preflight + `lint.py` |
+
+Lucid Writer runs these through the mycelium-extra skills, which own the invocation. The preflight subagent is read-only: it reads the results the main agent produced and maps `block` to Blocker.
+
+To make Lucid Writer a report style that `/mycelium:report` offers, install the convention pack into the Mycelium repository. The router still follows `report-generator` (LaTeX) by default and lists other installed packs as choices:
+
+```bash
+python "$(cat .mycelium/plugin-root)/skills/core/scripts/install_convention.py" \
+  --name lucid-writer --network-dir /path/to/lucid-writer/network/conventions
+```
+
+Re-run it after upgrading Lucid Writer; the pack's `version:` tracks `lucid_writer.__version__`.
 
 ## Mechanical checks
 
-The Python helpers use only the standard library.
+The skill helpers need **Python 3.11 or newer** and use only the standard library. On a system where `python` is not on `PATH` — common on Linux and HPC clusters — invoke them as `python3`.
 
 ```bash
 # conservative release/style cues
-python skills/research-writer/scripts/lint.py manuscript.md
+python3 skills/lucid-writer/scripts/lint.py manuscript.md
 
 # validate a claim ledger
-python skills/research-writer/scripts/validate_ledger.py .research-writer/claims.csv
+python3 skills/lucid-writer/scripts/validate_ledger.py .lucid-writer/claims.csv
 
 # validate repository structure
-python scripts/validate_repo.py
+python3 scripts/validate_repo.py
 ```
 
 The linter is **not an AI detector** and does not decide scientific validity.
 
 ## Safeguards
 
-Research Writer explicitly guards against:
+Lucid Writer explicitly guards against:
 
 - citation, data, method, or statistic fabrication;
 - association → causation drift;
@@ -299,31 +325,58 @@ The repository contains both routine and adversarial evaluation material:
 - [`evals/rubric.md`](evals/rubric.md) — scoring rubric and critical-fail conditions;
 - [`evals/before-after-review.md`](evals/before-after-review.md) — controlled output comparison;
 - [`evals/adversarial-results.md`](evals/adversarial-results.md) — in-session safeguard smoke test;
-- [`evals/refactor-review.md`](evals/refactor-review.md) — v0.3 → v0.4 bloat/focus review.
+- [`evals/refactor-review.md`](evals/refactor-review.md) — v0.3 → v0.4 bloat/focus review;
+- [`bench/`](bench/README.md) — an [acumen](https://github.com/scverse/acumen) pass with a
+  no-skill baseline arm and a held-out train/test split.
 
 Repository validation checks files and scripts; it does **not** substitute for model-level evaluation. Run the behavioral cases on each target host/model before making performance claims.
+
+### Quantitative benchmark
+
+Everything under `evals/` was produced in-session, by one model, with no held-out split — which is why each file above states its own limitation. [`bench/`](bench/README.md) closes that gap with a real control: a `noskill` arm and a `skill_v1` arm that differ in exactly one respect, sandbox isolation that removes the operator's own settings and memories, and a test split that `improve` never sees.
+
+```bash
+cd bench
+acumen check --no-review   # free: validates the target and task set, spends nothing
+acumen bench --no-skill    # baseline arm
+acumen bench --skill v1    # skill arm
+acumen report              # report.html
+uv run --with pyyaml score.py   # per-item diagnostics
+```
+
+Because grading is exact string match, every benchmark task is a closed-vocabulary judgement — epistemic class, inference ceiling, or which repair preserves claim strength — never prose quality. The harness deliberately cannot measure concision or readability; see [`bench/README.md`](bench/README.md) for what that excludes.
 
 ## Repository layout
 
 ```text
-research-writer/
+lucid-writer/
 ├── plugin.json
-├── .claude-plugin/plugin.json
+├── pyproject.toml          # packaging shim; see "Packaging" below
+├── lucid_writer/           # packaging shim; single source of __version__
+├── .claude-plugin/         # plugin.json + marketplace.json
 ├── .codex-plugin/plugin.json
-├── skills/research-writer/
+├── skills/lucid-writer/
 │   ├── SKILL.md
 │   ├── references/
 │   ├── assets/
 │   └── scripts/
+├── network/conventions/lucid-writer/   # Mycelium convention pack
+├── bench/                  # acumen benchmark harness
 ├── evals/
 ├── examples/
 ├── docs/
 └── scripts/
 ```
 
+## Packaging
+
+`pyproject.toml` and `lucid_writer/__init__.py` exist only so `acumen` can use this repository as a benchmark target: the harness refuses a checkout with no installable Python package, and then requires that package to actually import. Neither file is part of the skill. The helpers in `skills/lucid-writer/scripts/` stay standalone command-line programs invoked by path, and installing this repository imports no skill code.
+
+`lucid_writer.__version__` is the single source of the version number; `pyproject.toml` reads it, and `scripts/validate_repo.py` fails if `plugin.json` or either plugin manifest disagrees.
+
 ## Design provenance
 
-Research Writer is an original synthesis. Its design draws on Gopen & Swan, Mensh & Kording, Swales, Sword, Pinker, Minto, current reporting-guideline ecosystems, and public Agent Skill implementations including `ericmjl/skills/coherent-writing`.
+Lucid Writer is an original synthesis. Its design draws on Gopen & Swan, Mensh & Kording, Swales, Sword, Pinker, Minto, current reporting-guideline ecosystems, and public Agent Skill implementations including `ericmjl/skills/coherent-writing`.
 
 Full references and licensing/provenance notes are in [`docs/methodology.md`](docs/methodology.md) and [`NOTICE.md`](NOTICE.md).
 
@@ -346,7 +399,7 @@ The repository includes an auditable same-model A/B smoke test comparing generic
 
 See [`evals/paired-ab-test-2026-09-18.md`](evals/paired-ab-test-2026-09-18.md) for the exact prompts, outputs, scores, limitations, and retests.
 
-This is not presented as an independent benchmark. The next recommended evaluation is fresh-session, multi-model, blinded scoring using the frozen cases.
+This is not presented as an independent benchmark. The next recommended evaluation is fresh-session, multi-model, blinded scoring using the frozen cases — which is what the [`bench/`](bench/README.md) harness now provides, and why the two are complementary rather than competing.
 
 
 
@@ -356,19 +409,19 @@ This is not presented as an independent benchmark. The next recommended evaluati
 For **Claude Code**:
 
 ```text
-~/.claude/skills/research-writer/
-~/.claude/agents/research-evidence-auditor.md
-~/.claude/agents/research-skeptical-reviewer.md
-~/.claude/agents/research-manuscript-preflight.md
+~/.claude/skills/lucid-writer/
+~/.claude/agents/lucid-evidence-auditor.md
+~/.claude/agents/lucid-skeptical-reviewer.md
+~/.claude/agents/lucid-manuscript-preflight.md
 ```
 
 For **Codex**:
 
 ```text
-~/.agents/skills/research-writer/
-~/.codex/agents/research_evidence_auditor.toml
-~/.codex/agents/research_skeptical_reviewer.toml
-~/.codex/agents/research_manuscript_preflight.toml
+~/.agents/skills/lucid-writer/
+~/.codex/agents/lucid_evidence_auditor.toml
+~/.codex/agents/lucid_skeptical_reviewer.toml
+~/.codex/agents/lucid_manuscript_preflight.toml
 ```
 
 The custom agents are optional. Current Codex supports project-local `.codex/agents/` and user-level `~/.codex/agents/`; Claude Code supports custom subagents and plugin-bundled agents. The core skill does not depend on them.

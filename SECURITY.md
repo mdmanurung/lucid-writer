@@ -2,7 +2,7 @@
 
 Agent Skills may contain executable scripts. Audit the repository before installing or running code from an untrusted fork.
 
-Research Writer's bundled scripts:
+Lucid Writer's bundled scripts:
 
 - use only the Python standard library;
 - make no network requests;

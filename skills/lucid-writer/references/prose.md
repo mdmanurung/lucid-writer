@@ -86,7 +86,7 @@ Do not optimize for AI-detector scores, promise "undetectability", insert fake e
 
 ## 5. Voice
 
-If `.research-writer/voice.md` exists, use observed author/team habits as positive style evidence.
+If `.lucid-writer/voice.md` exists, use observed author/team habits as positive style evidence.
 
 Voice never overrides:
 

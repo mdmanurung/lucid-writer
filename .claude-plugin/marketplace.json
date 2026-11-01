@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "lucid-writer",
+  "description": "Evidence-bounded research writing for articles, reports, revision, and manuscript review.",
+  "owner": {
+    "name": "mdmanurung",
+    "url": "https://github.com/mdmanurung"
+  },
+  "plugins": [
+    {
+      "name": "lucid-writer",
+      "description": "Evidence-bounded research writing for articles, scientific and technical reports, revision, and manuscript review.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

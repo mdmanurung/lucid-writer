@@ -1,6 +1,6 @@
 # Architecture rationale
 
-Research Writer is designed around five failure modes of agentic research writing.
+Lucid Writer is designed around five failure modes of agentic research writing.
 
 ## 1. Prose outruns evidence
 

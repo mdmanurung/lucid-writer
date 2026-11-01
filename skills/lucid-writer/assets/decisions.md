@@ -1,4 +1,4 @@
-# Research Writer — Decision log
+# Lucid Writer — Decision log
 
 Record only material decisions likely to matter again.
 

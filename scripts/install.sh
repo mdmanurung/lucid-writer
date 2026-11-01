@@ -4,7 +4,7 @@ set -euo pipefail
 TARGET="${1:-both}"
 MODE="${2:-with-agents}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILL_SRC="$ROOT/skills/research-writer"
+SKILL_SRC="$ROOT/skills/lucid-writer"
 
 if [[ "$MODE" != "with-agents" && "$MODE" != "--skill-only" ]]; then
   echo "Usage: $0 [codex|claude|both] [--skill-only]" >&2
@@ -35,14 +35,14 @@ install_agent_files() {
 }
 
 install_codex() {
-  install_skill "${HOME}/.agents/skills/research-writer"
+  install_skill "${HOME}/.agents/skills/lucid-writer"
   if [[ "$MODE" != "--skill-only" ]]; then
     install_agent_files "$ROOT/.codex/agents" "${HOME}/.codex/agents" "*.toml"
   fi
 }
 
 install_claude() {
-  install_skill "${HOME}/.claude/skills/research-writer"
+  install_skill "${HOME}/.claude/skills/lucid-writer"
   if [[ "$MODE" != "--skill-only" ]]; then
     install_agent_files "$ROOT/agents" "${HOME}/.claude/agents" "*.md"
   fi

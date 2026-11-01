@@ -1,6 +1,6 @@
 # Optional subagents
 
-Research Writer remains one everyday skill. Three narrow, read-only subagents are included for high-stakes work where independent context improves review.
+Lucid Writer remains one everyday skill. Three narrow, read-only subagents are included for high-stakes work where independent context improves review.
 
 | Agent | Use when | Avoid for |
 |---|---|---|
@@ -57,7 +57,7 @@ The included Codex agents use `sandbox_mode = "read-only"` and inherit compatibl
 ## Example
 
 ```text
-Use Research Writer to revise this Discussion. Then delegate an independent
+Use Lucid Writer to revise this Discussion. Then delegate an independent
 evidence audit and skeptical review. Wait for both and reconcile only
 evidence-backed findings before making the final revision.
 ```

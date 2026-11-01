@@ -13,6 +13,38 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/validate_repo.py
-      - run: python skills/research-writer/scripts/lint.py --self-test
-      - run: python skills/research-writer/scripts/validate_ledger.py skills/research-writer/assets/claim-evidence-ledger.csv
+      - run: python skills/lucid-writer/scripts/lint.py --self-test
+      - run: python skills/lucid-writer/scripts/validate_ledger.py skills/lucid-writer/assets/claim-evidence-ledger.csv
       - run: bash -n scripts/install.sh
+
+  # Packaging and benchmark-input gates. Both are free and both fail loudly on a change that
+  # would otherwise be discovered only after spending money: a broken wheel means `acumen`
+  # cannot prepare a target, and a malformed tasks.yaml means every future pass is invalid.
+  packaging-and-bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # pyproject.toml and lucid_writer/__init__.py exist so acumen accepts this repo as
+      # a benchmark target. That only works if the wheel builds and the version resolves
+      # from __init__.py, which is now the single source of the version number.
+      - name: Build the wheel and check the resolved version
+        run: |
+          uv build --wheel --out-dir /tmp/dist
+          uv run --quiet --no-project --with /tmp/dist/lucid_writer-*.whl -- python -c \
+            "import lucid_writer; print('version', lucid_writer.__version__)"
+
+      # Installed from git, not PyPI: the published acumen 0.0.1.dev0 has no `check`
+      # subcommand. Contacts PyPI and github.com only — no provider, no credentials, no
+      # spend. This is the gate to run before any pass that does spend.
+      # Pinned: dfedfe05d is the last commit that accepts train/test-only tasks; from
+      # beae7bf6d on, every task needs a `valid` split too. Unpin after adding one.
+      - name: Install acumen from git
+        run: uv tool install --force 'acumen[claude] @ git+https://github.com/scverse/acumen@dfedfe05dc6a2da64155ce87597e0cbb60457f10'
+      - name: Validate benchmark target and task set (no provider calls)
+        working-directory: bench
+        run: acumen check --no-review

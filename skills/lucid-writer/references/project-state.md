@@ -1,9 +1,9 @@
 # Project state
 
-Use `.research-writer/` only for substantial ongoing work.
+Use `.lucid-writer/` only for substantial ongoing work.
 
 ```text
-.research-writer/
+.lucid-writer/
 ├── brief.md
 ├── claims.csv
 ├── outline.md
@@ -14,7 +14,7 @@ Use `.research-writer/` only for substantial ongoing work.
 
 ## Files
 
-**brief.md** — question, current answer, contribution, scope, nonclaims, terminology, source artifacts.
+**brief.md** — the fields of `assets/project-brief.md`: question, current answer, contribution, evidence and its boundaries, nonclaims, known weaknesses, terminology, fixed decisions, source artifacts, priority.
 
 **claims.csv** — material claim ↔ evidence ↔ scope ↔ inference ceiling ↔ status ↔ location.
 

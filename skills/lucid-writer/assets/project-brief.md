@@ -1,4 +1,4 @@
-# Research Writer — Project brief
+# Lucid Writer — Project brief
 
 ## Artifact
 - Working title:
@@ -24,6 +24,9 @@
 
 ## Explicit nonclaims
 -
+
+## Known weaknesses
+- Limitations the authors already acknowledge; reviewers treat these as context, not new findings.
 
 ## Key terminology
 -

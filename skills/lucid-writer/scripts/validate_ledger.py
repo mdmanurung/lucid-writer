@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Research Writer claim-evidence CSV schema."""
+"""Validate the Lucid Writer claim-evidence CSV schema."""
 
 from __future__ import annotations
 
@@ -35,12 +35,17 @@ def validate(path: Path) -> list[str]:
 
         seen = set()
         for line_no, row in enumerate(reader, start=2):
+            if None in row:
+                errors.append(f"line {line_no}: more fields than the header")
+            if None in row.values():
+                errors.append(f"line {line_no}: fewer fields than the header")
+            row = {key: value or "" for key, value in row.items() if key is not None}
             cid = row["claim_id"].strip()
             if not cid:
                 errors.append(f"line {line_no}: missing claim_id")
-            elif cid in seen:
+            elif cid.upper() in seen:
                 errors.append(f"line {line_no}: duplicate claim_id {cid}")
-            seen.add(cid)
+            seen.add(cid.upper())
 
             klass = row["class"].strip().upper()
             if klass and klass not in CLASSES:

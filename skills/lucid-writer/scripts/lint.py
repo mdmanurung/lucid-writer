@@ -58,7 +58,7 @@ def main() -> int:
     a = p.parse_args()
     if a.self_test: return self_test()
     if a.file is None: p.error("file is required unless --self-test is used")
-    issues = lint(a.file.read_text(encoding="utf-8"), a.file.suffix)
+    issues = lint(a.file.read_text(encoding="utf-8", errors="replace"), a.file.suffix)
     if a.json:
         print(json.dumps(issues, indent=2))
     elif not issues:
