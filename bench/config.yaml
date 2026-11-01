@@ -1,0 +1,51 @@
+# acumen config for the lucid-writer repository.
+#
+# The target is this repository. It ships no importable Python code, only Markdown and
+# stdlib helper scripts, so `repo` points at the local working tree and the root
+# `pyproject.toml` exists solely to satisfy `acumen.env.prepare_target`, which refuses a
+# checkout without one and then requires `[project].name` to resolve inside the venv.
+#
+# A local path (rather than the GitHub URL) is deliberate: `improve` writes a new skill
+# version, and the point of this harness is to iterate on the live tree.
+#
+# Every task in tasks.yaml sets `needs_script: false`. There is no analysis to reproduce —
+# the graded artifact is a judgement about claim strength, not a computed value — so the
+# `acumen check` reproducer column reads `n/a` for every cell. `acumen check` is still
+# worth running: its review phase is what audits that each prompt actually asks for the
+# answer recorded beside it.
+
+repo: ..
+ref: main
+extras: []
+dependency_groups: []
+pip_packages: []
+python: "3.12"
+env_passthrough: []
+
+# Smoke pass. One model, two replicates: enough to see whether the skill arm separates
+# from the no-skill arm at all, and cheap enough to iterate on. Before quoting any number
+# as a result, raise n_replicates to 3+ and add a second model — a single-model,
+# single-replicate delta is not evidence.
+#
+# A quality spread is the more informative axis than a capability ladder here: a skill
+# that only helps the weak model is a different product from one that helps the strong
+# model, and both are plausible. So when this scales up, add
+# `claude-haiku-4-5-20251001` alongside `claude-sonnet-5` rather than reaching for opus.
+models:
+  - claude-sonnet-5
+n_replicates: 2
+max_concurrency: 4
+
+# Tasks are short closed-vocabulary judgements, so a run should finish well inside this.
+# A run that hits the cap is recorded as `max_turns`, which is a harness failure rather
+# than a wrong answer, so keep the cap low enough that a stuck run is visibly stuck.
+max_turns: 20
+max_usd: 1.0
+
+# `improve` is the quality-critical step and runs rarely, so it gets the stronger model.
+meta_model: claude-opus-5
+
+# Must equal the `name` in skills/*/SKILL.md frontmatter. `skills/v1/` is a verbatim copy
+# of `skills/lucid-writer/`; `acumen improve` then writes `skills/v2/`, and only after
+# v2 beats v1 on the held-out test split is anything copied back over the real skill.
+skill_name: lucid-writer

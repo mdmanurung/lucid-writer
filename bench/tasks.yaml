@@ -1,0 +1,275 @@
+# acumen tasks for lucid-writer.
+#
+# ## Why every task here is a closed-vocabulary judgement
+#
+# `acumen.grade.grade_answer` compares `answer.md` to the answer below by exact string
+# match after `strip()`, case-sensitive, with nothing normalised. Prose cannot be graded
+# that way: no two runs produce byte-identical paragraphs, so every prose task would score
+# `wrong_answer` regardless of quality and the harness would measure nothing.
+#
+# So the graded artifact here is never "is this prose good". It is always a decision the
+# skill claims to control: which epistemic class a statement belongs to, which inference
+# ceiling its evidence permits, or which repair preserves claim strength. Those have closed
+# vocabularies, defensible answers, and they are the skill's actual invariants
+# (SKILL.md:70, references/evidence.md).
+#
+# What this benchmark therefore does NOT measure: concision, readability, flow, voice,
+# whether a paragraph reads better. Those need a rubric judge, which acumen does not have.
+# Do not quote a score from this file as evidence about prose quality.
+#
+# ## Why some tasks supply the label definitions and some do not
+#
+# `ceiling-open` hands over the five labels but not their definitions.
+# `ceiling-defined` hands over both. The difference is the interesting measurement:
+# references/evidence.md:20-24 lists the ceilings without saying where the boundaries lie,
+# so if `ceiling-open` scores well below `ceiling-defined` for the skill arm, the finding is
+# that the skill's ceiling vocabulary is under-specified. That is a real, cheap fix to the
+# skill, and it is the kind of thing a same-session eyeball check cannot surface.
+#
+# ## train/test discipline
+#
+# Each task is one task *type* run twice. The two halves are the same judgement on different
+# content, in a different scientific domain, with different failure modes — not paraphrases.
+# Nothing may be copied between the halves of a task, and no answer may be reachable from
+# the other half. Only train results reach `acumen improve`.
+#
+# All tasks set `needs_script: false`: there is no analysis to reproduce, so the
+# `acumen check` reproducer column reads `n/a`. Run `acumen check` anyway — its review
+# phase reads prompt, answer and script together and flags a prompt that does not ask for
+# the answer recorded beside it, which is the main way a hand-written ground truth goes
+# wrong.
+
+tasks:
+  - id: ceiling-open
+    needs_script: false
+    train:
+      prompt: |
+        Five claims from a cell-biology study are listed below. Each is followed by the
+        evidence that is actually available for it.
+
+        C1. "Mean nuclear volume was 4.1 um3 (SD 0.6) in the treatment arm and 5.0 um3 (SD 0.7) in control, across 42 samples."
+        Evidence: group means and standard deviations computed over the 42 samples.
+
+        C2. "Lower nuclear volume co-occurred with lower SOX2 occupancy at the same loci."
+        Evidence: cross-sectional correlation between volume and SOX2 occupancy within the same 42 samples. No intervention was performed and no other factor was controlled.
+
+        C3. "In a held-out cohort of 18 samples, a volume threshold of 4.5 um3 classified treatment assignment with AUROC 0.79."
+        Evidence: AUROC computed on a held-out cohort that was not used to set the threshold. No biological mechanism was measured.
+
+        C4. "Reducing SOX2 occupancy with a degron reduced nuclear volume in vitro."
+        Evidence: in vitro perturbation of SOX2 with matched controls, nuclear volume measured after knockdown. No downstream pathway was measured.
+
+        C5. "SOX2 acts upstream of a PI3K/AKT pathway that controls nuclear volume."
+        Evidence: inferred from published SOX2 target lists. No pathway perturbation and no pathway measurement was performed in this study.
+
+        For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
+        of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
+
+        Output exactly five lines, ordered C1 through C5, and nothing else.
+      answer: |
+        C1=DESCRIPTIVE
+        C2=ASSOCIATIVE
+        C3=PREDICTIVE
+        C4=CAUSAL
+        C5=ASSOCIATIVE
+    test:
+      prompt: |
+        Five claims from a machine-learning benchmark study are listed below. Each is
+        followed by the evidence that is actually available for it.
+
+        C1. "The proposed model reached a mean F1 of 0.71 across the 30 evaluation datasets."
+        Evidence: mean and per-dataset F1 over 30 datasets.
+
+        C2. "Models using the augmentation were more accurate on datasets with fewer than 500 training examples."
+        Evidence: observational comparison across the 30 evaluation datasets. No augmentation was withheld to test necessity.
+
+        C3. "Applied to the three held-out sites the augmentation reduced out-of-distribution error by 18 percent relative to the baseline."
+        Evidence: measured on three sites excluded from all training and tuning. No mechanism was investigated.
+
+        C4. "Removing the augmentation increased out-of-distribution error on the held-out sites."
+        Evidence: ablation in which the augmentation was disabled, with all other settings fixed.
+
+        C5. "The augmentation generalises by forcing the encoder to attend to shape rather than texture."
+        Evidence: an intervention that blocked shape attention while leaving texture attention intact removed the out-of-distribution gain and left in-distribution accuracy unchanged.
+
+        For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
+        of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
+
+        Output exactly five lines, ordered C1 through C5, and nothing else.
+      answer: |
+        C1=DESCRIPTIVE
+        C2=ASSOCIATIVE
+        C3=PREDICTIVE
+        C4=CAUSAL
+        C5=MECHANISTIC
+
+  - id: ceiling-defined
+    needs_script: false
+    train:
+      prompt: |
+        Use these definitions, in this order of strength:
+
+        DESCRIPTIVE — reports what was measured, with no relation asserted between variables.
+        ASSOCIATIVE — asserts that two variables covary, with no direction of effect established.
+        PREDICTIVE — supports prediction on data not used to fit the relationship, with no mechanism.
+        CAUSAL — supports that changing one variable changes another.
+        MECHANISTIC — supports a specific intervening pathway or intermediate.
+
+        Five claims from an agricultural field study are listed below. Each is followed by
+        the evidence that is actually available for it.
+
+        C1. "Mean soil moisture was 0.31 (SD 0.09) across the 24 plots."
+        Evidence: plot-level means and standard deviations.
+
+        C2. "Plot moisture was negatively associated with nitrate leaching (Spearman rho = -0.47, p = 0.02)."
+        Evidence: observational correlation across 24 plots. No manipulation of moisture.
+
+        C3. "A regression fitted on 16 plots predicted nitrate leaching on the 8 held-out plots (R² = 0.41)."
+        Evidence: out-of-sample prediction on plots not used to fit the model. No field manipulation.
+
+        C4. "Drying the soil by 20 percent increased nitrate leaching in lysimeters."
+        Evidence: lysimeter experiment with moisture reduced under control and leaching measured.
+
+        C5. "Moisture lowers leaching by stimulating denitrifying bacteria, whose activity rises as pore space fills with water."
+        Evidence: denitrifier activity measured by tracer, and moisture manipulated independently of the microbial pathway.
+
+        For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
+        of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
+
+        Output exactly five lines, ordered C1 through C5, and nothing else.
+      answer: |
+        C1=DESCRIPTIVE
+        C2=ASSOCIATIVE
+        C3=PREDICTIVE
+        C4=CAUSAL
+        C5=MECHANISTIC
+    test:
+      prompt: |
+        Use these definitions, in this order of strength:
+
+        DESCRIPTIVE — reports what was measured, with no relation asserted between variables.
+        ASSOCIATIVE — asserts that two variables covary, with no direction of effect established.
+        PREDICTIVE — supports prediction on data not used to fit the relationship, with no mechanism.
+        CAUSAL — supports that changing one variable changes another.
+        MECHANISTIC — supports a specific intervening pathway or intermediate.
+
+        Five claims from a clinical cohort study are listed below. Each is followed by the
+        evidence that is actually available for it.
+
+        C1. "Baseline HbA1c was associated with 12-month adherence (Spearman rho = -0.38, p = 0.03)."
+        Evidence: observational correlation in a single arm with no adherence intervention.
+
+        C2. "A baseline HbA1c above 8 percent predicted non-adherence by 12 months with an AUROC of 0.71."
+        Evidence: AUROC on a cohort not used to fit the threshold.
+
+        C3. "Intensive glycaemic control lowered HbA1c relative to standard care at 12 months."
+        Evidence: randomised allocation to two arms with HbA1c measured at 12 months.
+
+        C4. "Intensive control lowered HbA1c by reducing hepatic gluconeogenesis, with fasting insulin falling alongside it."
+        Evidence: fasting insulin measured in both arms as an intermediate between the intervention and the HbA1c change.
+
+        C5. "Mean HbA1c was 7.4 percent (SD 1.1) in the intervention arm at 12 months."
+        Evidence: arm mean and standard deviation at 12 months.
+
+        For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
+        of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
+
+        Output exactly five lines, ordered C1 through C5, and nothing else.
+      answer: |
+        C1=ASSOCIATIVE
+        C2=PREDICTIVE
+        C3=CAUSAL
+        C4=MECHANISTIC
+        C5=DESCRIPTIVE
+
+  - id: claim-class
+    needs_script: false
+    train:
+      prompt: |
+        Classify each statement by what supports it.
+
+        OBSERVED — directly supported by the current study's own analysis or measurement.
+        LITERATURE — supported by a cited external source rather than by this study.
+        INFERENCE — an interpretation drawn from this study's results and/or the literature.
+        HYPOTHESIS — a plausible extension that the available evidence does not establish.
+
+        S1. "Across the 42 samples, mean nuclear volume was 4.1 um3 (SD 0.6) in treatment and 5.0 um3 (SD 0.7) in control."
+        S2. "SOX2 is an established pioneer factor that binds nucleosomal DNA (Meyer et al., 2019)."
+        S3. "The volume difference we observed is consistent with a model in which SOX2 occupancy limits nuclear volume."
+        S4. "Reduced SOX2 occupancy may increase susceptibility to the compound in an in vivo model."
+
+        Output one line per statement in the form S1=LABEL, using exactly one of:
+        OBSERVED, LITERATURE, INFERENCE, HYPOTHESIS
+
+        Output exactly four lines, ordered S1 through S4, and nothing else.
+      answer: |
+        S1=OBSERVED
+        S2=LITERATURE
+        S3=INFERENCE
+        S4=HYPOTHESIS
+    test:
+      prompt: |
+        A reviewer has asked whether a claim is established. Classify each statement by
+        what supports it.
+
+        OBSERVED — directly supported by the current study's own analysis or measurement.
+        LITERATURE — supported by a cited external source rather than by this study.
+        INFERENCE — an interpretation drawn from this study's results and/or the literature.
+        HYPOTHESIS — a plausible extension that the available evidence does not establish.
+
+        S1. "Readmission after heart failure is common and costly (Clarke et al., 2021)."
+        S2. "The absence of a detected difference is compatible with the trial being underpowered for readmission, given 240 participants."
+        S3. "A larger trial powered specifically for readmission would settle whether the intervention affects it."
+        S4. "We observed no difference in 30-day readmission between arms (p = 0.42)."
+
+        Output one line per statement in the form S1=LABEL, using exactly one of:
+        OBSERVED, LITERATURE, INFERENCE, HYPOTHESIS
+
+        Output exactly four lines, ordered S1 through S4, and nothing else.
+      answer: |
+        S1=LITERATURE
+        S2=INFERENCE
+        S3=HYPOTHESIS
+        S4=OBSERVED
+
+  - id: minimal-repair
+    needs_script: false
+    train:
+      prompt: |
+        In an observational cohort of 1,200 patients, with no randomization and no
+        adjustment for confounding beyond age and stage, the sentence below states more
+        than the design supports.
+
+        Original: "High PD-L1 expression was associated with longer survival and demonstrates that PD-L1 drives immune escape."
+
+        Repair it using this priority order: evidence integrity first, then argument, then
+        concision. Where two repairs are both consistent with the evidence, prefer the one
+        that makes the boundary of the evidence explicit over the one that is merely
+        shorter.
+
+        a) "High PD-L1 expression was associated with longer survival, demonstrating that PD-L1 drives immune escape."
+        b) "High PD-L1 expression was associated with longer survival, which is consistent with a role for PD-L1 in immune escape but does not establish that PD-L1 causes it."
+        c) "High PD-L1 expression may be associated with longer survival."
+        d) "High PD-L1 expression was associated with longer survival."
+
+        Output exactly one line: the single letter of the best repair, with no other text.
+      answer: b
+    test:
+      prompt: |
+        The sentence below is being tightened for concision. It reports a single
+        underpowered comparison in a pilot cohort of 12 participants.
+
+        Original: "The trend in the pilot cohort, though not statistically significant, suggests that the intervention may reduce relapse, but this cannot be considered conclusive given n=12."
+
+        Repair it using this priority order: evidence integrity first, then argument, then
+        concision. Where two repairs are both consistent with the evidence, prefer the one
+        that makes the boundary of the evidence explicit over the one that is merely
+        shorter.
+
+        a) "The pilot cohort suggests the intervention reduces relapse."
+        b) "The pilot cohort may reduce relapse."
+        c) "In a small pilot (n=12), relapse was lower in the intervention arm, but the comparison is underpowered and inconclusive."
+        d) "The pilot suggests the intervention reduces relapse, though not conclusively."
+
+        Output exactly one line: the single letter of the best repair, with no other text.
+      answer: c
