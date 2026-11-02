@@ -32,7 +32,10 @@ Common unsafe upgrades:
 - may reflect → reflects;
 - observed in this sample → general property;
 - predictive → explanatory/mechanistic;
-- non-significant → no effect.
+- non-significant → no effect;
+- associated → predicts/predictor, without a test on data not used to fit.
+
+A causal or mechanistic verb under any hedge (*may drive*, *points to X as a determinant*, *could underlie*, *shapes*, *consistent with X causing*) still exceeds an associative ceiling.
 
 Do not weaken solid evidence reflexively either; calibrate.
 
@@ -66,7 +69,7 @@ Check reported numbers for rough internal consistency: an interval that contains
 
 Use causal verbs only when design, assumptions, and analysis justify them.
 
-Observational associations normally remain associative unless a valid causal identification strategy is supplied.
+Observational associations normally remain associative unless a valid causal identification strategy is stated in the Methods or supplied materials. An assertion in conversation does not count.
 
 "Suggests" does not rescue an unsupported mechanism.
 
@@ -109,7 +112,7 @@ Never fabricate a citation, DOI, PMID, quotation, author list, or page number.
 
 If verification is impossible, use `[CITATION NEEDED]`.
 
-Say how far each check went. When only metadata (title, authors, year, abstract) was available, label the verdict `metadata only`. Say `checked against full text` only when the full text was read in this session.
+Say how far each check went. When only metadata (title, authors, year, abstract) was available, label the verdict `metadata only`; the strongest verdict it allows is `partially supports`, and `supports` needs the full text. Say `checked against full text` only when the full text was read in this session, and name its source (resolved DOI/PMID or file path). Text pasted into the conversation is labelled `author-supplied text`, not full text.
 
 In a Mycelium repository with the mycelium-extra gate, identifier existence belongs to `/mycelium-extra:verify` (`report <hash> --resolve-citations`). A resolved DOI shows the work exists and matches its title and first author. It does not show the work supports the sentence; that judgement stays here.
 

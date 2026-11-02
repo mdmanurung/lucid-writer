@@ -169,8 +169,8 @@ def main() -> int:
     # wording is condensed), so guard the rules that must survive in both copies.
     twin_rules = {
         "evidence_auditor": ["cannot verify", "metadata only", "Not checked", "sounds plausible"],
-        "skeptical_reviewer": ["Known weaknesses", "statistical", "Not checked", "Strongest surviving conclusion"],
-        "manuscript_preflight": ["You cannot run these checks", "cannot verify", "applies only to supplied materials", "not checked"],
+        "skeptical_reviewer": ["Known weaknesses", "a Limitations sentence does not settle it", "statistical", "Not checked", "Strongest surviving conclusion"],
+        "manuscript_preflight": ["You cannot run these checks", "reports running it in this session", "cannot verify", "applies only to supplied materials", "not checked"],
     }
     for stem, phrases in twin_rules.items():
         md = (claude_agents / f"lucid-{stem.replace('_', '-')}.md").read_text(encoding="utf-8").lower()

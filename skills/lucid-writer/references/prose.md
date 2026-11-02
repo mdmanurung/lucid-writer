@@ -82,7 +82,7 @@ Audit for clusters of:
 
 These are writing cues, **not evidence of AI authorship**.
 
-Do not optimize for AI-detector scores, promise "undetectability", insert fake errors, or manufacture personal quirks.
+Do not optimize for AI-detector scores, promise "undetectability", insert fake errors, or manufacture personal quirks. Change sentence length or paragraph openers only where one of the patterns above occurs at that spot; a request for "natural rhythm" or "human variation" is not such a pattern.
 
 ## 5. Voice
 

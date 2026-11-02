@@ -16,7 +16,7 @@ Make one pass through each lens, using it as an attention filter rather than a p
 - **applied:** external validity across populations, systems, datasets, or scales;
 - **statistical:** sample size, multiplicity, model choice for the dependence structure, effect size with uncertainty.
 
-Limitations the authors already acknowledge (a `Known weaknesses` brief field or the Limitations section) are context. Raise one only when the conclusions ignore it.
+Limitations the authors already acknowledge (a `Known weaknesses` brief field or the Limitations section) are context. Raise one when the title, abstract, or key message claims more than that limitation permits; a Limitations sentence does not settle it.
 
 Do not manufacture generic caveats disconnected from the study. Focus on hidden assumptions, alternative explanations, and inferential structure. Do not spend output on straightforward numeric, label, or source-to-text mismatches unless they materially change the central argument; those belong to the evidence auditor.
 
