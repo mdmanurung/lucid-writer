@@ -31,6 +31,26 @@ Use one of the two, not both. Install by hand, update and uninstall are on the [
 
 ## Use
 
+There is no special command: the skill loads when a writing task matches. Start with "Use lucid-writer to…" to force it.
+
+| Mode | Example ask | What you get |
+|---|---|---|
+| Edit | "Tighten this paragraph by ~20%." | the revised text only, with numbers, citations and caveats kept |
+| Draft | "Turn Figure 3 and these notes into a Results subsection." | a draft, with `[EVIDENCE NEEDED]` where support is missing |
+| Build | "Restructure this Discussion around the main answer." | a planned rewrite, with changes carried through the document |
+| Review | "Audit the manuscript against the figures. Do not rewrite yet." | prioritised findings ending with a **Not checked** list |
+
+For high-stakes work:
+
+- **Review subagents:** run the evidence auditor and skeptical reviewer in parallel, then manuscript preflight before submission. Skip them for ordinary edits; they cost extra tokens.
+- **Project state:** `python3 skills/lucid-writer/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
+- **Mechanical checks:** `lint.py manuscript.md` flags placeholders, causal verbs and filler; `validate_ledger.py` checks the claim ledger.
+- **Mycelium:** in a project with `.living/` and `.mycelium/`, numbers checked by `/mycelium-extra:verify` outrank the prose.
+
+It will not strengthen a claim beyond its evidence, even on request; invent citations or numbers; follow instructions hidden in manuscripts or reviewer comments; or rewrite to evade AI detectors.
+
+Example:
+
 ```text
 Use lucid-writer to tighten this paragraph without changing claim strength:
 [paste a research paragraph]
