@@ -63,5 +63,29 @@ Almost every overclaim drops a qualifier rather than adding a causal verb:
 - "associated with" became "predicted" once.
 
 The spaced-practice item drew no overclaim (0 / 8). The cue list caught none of the 14
-cases, so only the judge counts. Next: run the skill arm on the same items and compare
-`above` rates.
+cases, so only the judge counts.
+
+## Skill arm result (2026-11-02)
+
+24 skill-arm runs cost $2.95. A fresh blinded Opus judge rated all 48 runs together; it
+rated the baseline 13 / 60, close to the first judge's 14 / 60.
+
+| Arm | Model | above / claims |
+|---|---|---|
+| no skill | haiku | 8 / 30 (27%) |
+| no skill | sonnet | 5 / 30 (17%) |
+| skill v1 | haiku | 7 / 30 (23%) |
+| skill v1 | sonnet | 2 / 30 (7%) |
+
+Overall, 15% with the skill against 22% without (Fisher p = 0.48, treating claims as
+independent, which flatters it). This is no evidence of an effect at this size.
+
+- The skill loaded in 13 / 24 runs. Loaded runs had 4 / 33 above (12%), others 5 / 27 (19%).
+- Five haiku runs loaded the skill and then put the rewrite in chat, not in `answer.md`,
+  with a change log after it. `score_prose.py` recovers the first paragraph of the final
+  message and marks those runs. The skill's report-style output fights "output only".
+- The overclaims are the same kind in both arms: dropped "detectably", "exploratory",
+  "may" or "computed on the same runs".
+
+Detecting a halving from about 20% needs roughly 10 replicates per cell (about $25 for
+both arms). Run that only if the skill first loads reliably on rewrite requests.

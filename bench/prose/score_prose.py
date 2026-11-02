@@ -60,15 +60,30 @@ def score_run(answer: str, original: str, gold: dict) -> dict:
     }
 
 
+def chat_answer(transcript: Path) -> str | None:
+    """A run that put its rewrite in chat instead of answer.md: the final message's first paragraph."""
+    if not transcript.is_file():
+        return None
+    last = None
+    for line in transcript.read_text(encoding="utf-8").splitlines():
+        msg = json.loads(line)
+        if msg.get("type") == "assistant":
+            texts = [c["text"] for c in msg["message"]["content"] if c.get("type") == "text"]
+            last = texts[-1] if texts else last
+    return last.strip().split("\n\n")[0].strip() if last else None
+
+
 def collect(runs: Path) -> list[dict]:
     out = []
     for result_path in sorted(runs.glob("*/*/*/*/rep_*/result.json")):
         arm, split, model, task, rep = result_path.parts[-6:-1]
         answer = result_path.with_name("answer.md")
         data = json.loads(result_path.read_text(encoding="utf-8"))
+        text = answer.read_text(encoding="utf-8").strip() if answer.is_file() else None
+        recovered = text is None and (text := chat_answer(result_path.with_name("transcript.jsonl"))) is not None
         out.append({
             "arm": arm, "split": split, "model": model, "task": task, "rep": rep,
-            "answer": answer.read_text(encoding="utf-8").strip() if answer.is_file() else None,
+            "answer": text, "recovered": recovered,
             "skill_loaded": data.get("skill_loaded"),
         })
     return out
@@ -86,6 +101,12 @@ def self_test() -> int:
     s = score_run("GENE2 had no effect; GENE1 cut colonies by 38%.", "a b c d e f g h i j", gold)
     assert s["missing"] == ["9"] and s["cue_hits"] == ["no effect"], s
     assert original_paragraph("Tighten this.\n\nPara one.") == "Para one."
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        tr = Path(d) / "transcript.jsonl"
+        msg = {"type": "assistant", "message": {"content": [{"type": "text", "text": "Rewrite.\n\n**Changes:** x"}]}}
+        tr.write_text(json.dumps(msg) + "\n", encoding="utf-8")
+        assert chat_answer(tr) == "Rewrite.", chat_answer(tr)
     print("score_prose self-test OK")
     return 0
 
@@ -118,7 +139,7 @@ def main() -> int:
             continue
         s = score_run(run["answer"], originals[item], gold[item])
         flags = (f"missing {s['missing']}" if s["missing"] else "") + (f" cues {s['cue_hits']}" if s["cue_hits"] else "")
-        print(f"{run['arm']:9s} {run['model']:18s} {item:24s} {run['rep']:5s} {str(run['skill_loaded']):6s} {s['reduction_pct']:>4d}  {flags or 'ok'}")
+        print(f"{run['arm']:9s} {run['model']:18s} {item:24s} {run['rep']:5s} {str(run['skill_loaded']):6s} {s['reduction_pct']:>4d}  {flags or 'ok'}{' (recovered from chat)' if run['recovered'] else ''}")
         packets.append({"item": item, "original": originals[item], "claims": gold[item]["claims"], "rewrite": run["answer"]})
         key.append({k: run[k] for k in ("arm", "model", "task", "split", "rep")})
 
