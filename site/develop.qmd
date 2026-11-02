@@ -1,0 +1,68 @@
+---
+title: "Develop"
+---
+
+## Repository layout
+
+```text
+lucid-writer/
+├── skills/lucid-writer/        # the skill: SKILL.md, references/, assets/, scripts/
+├── agents/                     # Claude Code review subagents (lucid-*.md)
+├── .codex/agents/              # Codex twins of the subagents (lucid_*.toml)
+├── network/conventions/lucid-writer/   # Mycelium convention pack
+├── .claude-plugin/             # plugin.json, marketplace.json
+├── .codex-plugin/plugin.json
+├── plugin.json                 # portable manifest
+├── pyproject.toml, lucid_writer/       # packaging shim for acumen
+├── bench/                      # acumen benchmark
+├── evals/                      # cases, rubric, case studies
+├── docs/                       # architecture, methodology, subagents
+├── site/                       # this website
+└── scripts/                    # installers, validate_repo.py
+```
+
+## Validation
+
+```bash
+python3 scripts/validate_repo.py
+```
+
+This checks, among other things:
+
+- the skill's frontmatter, reference files and assets;
+- that both sets of subagents exist, are read-only, and that each Codex twin keeps the key rules of its Markdown source;
+- that `lucid_writer.__version__`, the three plugin manifests and the convention pack carry one version;
+- that every bench skill snapshot matches `skill_name` in `bench/config.yaml`;
+- that every repository link on this site points at a file that exists.
+
+CI runs it with the linter self-test, the ledger check, a wheel build and `acumen check --no-review`.
+
+## Packaging
+
+`pyproject.toml` and `lucid_writer/__init__.py` exist only so acumen can target the repository: it refuses a checkout with no installable Python package, then requires the package to import. Neither is part of the skill. `lucid_writer.__version__` is the single source of the version number.
+
+## Benchmark workflow
+
+Edit `skills/lucid-writer/`, re-copy it to `bench/skills/v1`, commit, then run acumen from `bench/`. Acumen benchmarks the committed `main`, not the working tree. The commands and caveats are in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
+
+## Contributing
+
+Changes should fix a demonstrated failure rather than add prompt text. Add or update an eval case for every material behaviour change. See [`CONTRIBUTING.md`](https://github.com/mdmanurung/lucid-writer/blob/main/CONTRIBUTING.md).
+
+## Security
+
+Audit any fork before installing executable skills. The bundled helpers use only the Python standard library, make no network requests, and write project files only when `init_project.py` runs. See [`SECURITY.md`](https://github.com/mdmanurung/lucid-writer/blob/main/SECURITY.md).
+
+## Design provenance
+
+lucid-writer is an original synthesis. Sources and licences are in [`docs/methodology.md`](https://github.com/mdmanurung/lucid-writer/blob/main/docs/methodology.md) and [`NOTICE.md`](https://github.com/mdmanurung/lucid-writer/blob/main/NOTICE.md); ideas adapted from scriptorium are re-expressed in original wording.
+
+## This site
+
+The site is hand-written Quarto in `site/`. Preview it with:
+
+```bash
+quarto preview site
+```
+
+Pushing to `main` with changes under `site/` renders it and deploys it to GitHub Pages through `.github/workflows/docs.yml`. Pages must be enabled once: in the repository's **Settings → Pages**, set **Source** to **GitHub Actions**.

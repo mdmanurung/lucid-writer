@@ -1,0 +1,92 @@
+---
+title: "lucid-writer"
+subtitle: "Make research writing clearer without making the evidence stronger than it is"
+toc: false
+---
+
+lucid-writer is an Agent Skill for Claude Code and Codex. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses. It scales from a two-sentence copyedit to a full manuscript audit.
+
+Generic rewriting tends to turn an association into a cause while it polishes the prose. lucid-writer checks every material claim against its evidence before it changes the wording:
+
+```text
+claim → evidence → scope → uncertainty → inference ceiling → wording
+```
+
+Its priorities run in this order, and a lower one never wins at the cost of a higher one:
+
+1. Evidence integrity
+2. Argument
+3. Reader comprehension
+4. Concision
+5. Surface polish
+
+## Before and after
+
+Input:
+
+> Interestingly, participants with higher baseline CD161+ CD4 T-cell frequencies showed a significantly delayed time to parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018). Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
+
+lucid-writer:
+
+> Higher baseline CD161+ CD4 T-cell frequencies were associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95; p=0.018). This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
+
+The numbers survive; the causal claim the data cannot carry does not. More cases are on the [Evaluation](evaluation.qmd) page.
+
+## Install
+
+### Claude Code plugin
+
+The plugin loads the skill and the three review subagents:
+
+```text
+/plugin marketplace add mdmanurung/lucid-writer
+/plugin install lucid-writer@lucid-writer
+```
+
+### Installer script
+
+```bash
+git clone https://github.com/mdmanurung/lucid-writer
+cd lucid-writer
+bash scripts/install.sh both        # Claude Code and Codex
+```
+
+On Windows, run `.\scripts\install.ps1 both`. Use `claude` or `codex` instead of `both` for one target. The installer copies `skills/lucid-writer/` and the three review subagents. Add `--skill-only` after the target to skip the subagents (PowerShell: `-SkillOnly`). It replaces any installed copy and makes no network requests.
+
+Use the plugin or the installer, not both: together they load two copies of the skill.
+
+### By hand
+
+Copy `skills/lucid-writer/` to `~/.claude/skills/lucid-writer` (Claude Code) or `~/.agents/skills/lucid-writer` (Codex). For a skill scoped to one repository, copy it to `.agents/skills/` there. The Codex plugin manifest ships the skill only; `install.sh codex` adds the subagents. Without Git, use **Code → Download ZIP** on GitHub and copy the same folder.
+
+### Verify
+
+Start a new session and paste:
+
+```text
+Use lucid-writer to tighten this paragraph without changing claim strength:
+[paste a research paragraph]
+```
+
+Then check that it triggers on its own:
+
+```text
+Review this Discussion for overclaiming, missing alternatives, and unnecessary repetition.
+```
+
+### Update and uninstall
+
+To update, run `git pull`, then rerun the installer. To uninstall:
+
+```bash
+rm -rf ~/.claude/skills/lucid-writer ~/.agents/skills/lucid-writer
+rm -f ~/.claude/agents/lucid-*.md ~/.codex/agents/lucid_*.toml
+```
+
+## Where next
+
+- [How it works](how-it-works.qmd): the rules and how they load.
+- [Use](use.qmd): prompts for daily work, the review subagents, project state.
+- [Mycelium](mycelium.qmd): writing from verified provenance in a Mycelium repository.
+- [Evaluation](evaluation.qmd): what has been tested, and what has not.
+- [Develop](develop.qmd): repository layout, validation, contributing.

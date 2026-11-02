@@ -14,3 +14,7 @@ bench/logs/
 bench/tasks/
 bench/report.html
 bench/*.html
+
+# Quarto site build output
+site/_site/
+site/.quarto/

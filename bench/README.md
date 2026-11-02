@@ -4,11 +4,12 @@ An [acumen](https://github.com/scverse/acumen) pass over this repository's skill
 "does the skill help?" becomes a number with a held-out split behind it instead of an
 eyeball comparison.
 
-This exists because the evals already in `evals/` say so themselves. `README.md` calls the
-paired A/B "not presented as an independent benchmark", calls the second-pass fixture a
-"development smoke test", and every result in the repository was produced in-session, by one
-model, with no held-out split and no baseline arm held in isolation. Those are honest
-caveats and they are also the exact gaps a benchmark closes.
+This exists because the evals already in `evals/` say so themselves. The paired A/B and the
+second-pass fixture are labelled as same-session smoke tests, not independent benchmarks
+(see the [Evaluation](https://mdmanurung.github.io/lucid-writer/evaluation.html) page), and
+every result in the repository was produced in-session, by one model, with no held-out split
+and no baseline arm held in isolation. Those are honest caveats and they are also the exact
+gaps a benchmark closes.
 
 ## What it measures, and what it does not
 

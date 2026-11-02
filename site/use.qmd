@@ -1,0 +1,93 @@
+---
+title: "Use"
+---
+
+No special command is needed: the host selects the skill when a task matches. Name it ("Use lucid-writer to…") to force it.
+
+## Prompts for daily work
+
+Tighten prose:
+
+```text
+Tighten this paragraph by ~20%. Preserve scientific meaning, numbers, citations, and caveats.
+```
+
+Draft Results:
+
+```text
+Turn Figure 3, this model table, and these notes into a concise Results subsection. Do not add literature or causal interpretation.
+```
+
+Revise a Discussion:
+
+```text
+Restructure this Discussion around the main answer. Separate observation, interpretation, alternatives, limitations, and implications.
+```
+
+Review a full manuscript:
+
+```text
+Audit the manuscript against the figures, tables, and supplement. Prioritize evidence and argument problems before prose. Do not rewrite yet.
+```
+
+Remove generic prose:
+
+```text
+Remove generic AI/LLM-sounding prose. Preserve technical terminology, claim strength, uncertainty, numbers, and citations. Do not optimize for AI detectors.
+```
+
+More examples are in [`examples/quick-start.md`](https://github.com/mdmanurung/lucid-writer/blob/main/examples/quick-start.md).
+
+A review ends with a **Not checked** list: what the review could not see, test or chose to skip, such as figure images or sources that were not supplied.
+
+## Review subagents
+
+Three read-only reviewers ship with the skill for high-stakes work. They return findings; the main agent reconciles them and owns every edit.
+
+| Reviewer | Checks | Use it for |
+|---|---|---|
+| Evidence auditor | claims against analyses, figures, tables, protocols and sources | a substantial draft or claim audit |
+| Skeptical reviewer | the central argument, alternatives, scope, inferential gaps, through methodological, domain, applied and statistical lenses | a Discussion, major revision or pre-submission review |
+| Manuscript preflight | title, abstract, body, figures, tables and supplement for stale or contradictory content | the step just before release |
+
+Skip them for grammar fixes and ordinary edits: they cost extra tokens and help mainly when a fresh context reduces anchoring, or when many files need review.
+
+```text
+draft or revise with lucid-writer
+        ↓
+evidence auditor ─────┐
+                      ├─ in parallel, read-only
+skeptical reviewer ──┘
+        ↓
+main agent reconciles and revises
+        ↓
+manuscript preflight
+```
+
+The installer places them in `~/.claude/agents/` (`lucid-*.md`) and `~/.codex/agents/` (`lucid_*.toml`); the Claude Code plugin loads them on its own. The skill works without them. Platform details are in [`docs/subagents.md`](https://github.com/mdmanurung/lucid-writer/blob/main/docs/subagents.md).
+
+## Project state
+
+For a long-running manuscript, keep a brief, a claim ledger and a decision log in the project:
+
+```bash
+python3 skills/lucid-writer/scripts/init_project.py .
+```
+
+This creates `.lucid-writer/` with `brief.md`, `claims.csv`, `outline.md`, `decisions.md` and `review.md`. The brief has a *Known weaknesses* field: limitations the authors already acknowledge, which reviewers treat as context unless the title or abstract claims more than they permit.
+
+For stable author or team style, copy `skills/lucid-writer/assets/voice-profile.md` to `.lucid-writer/voice.md`. Voice never overrides evidence or reporting requirements.
+
+## Mechanical checks
+
+The helpers need Python 3.11 or newer and only the standard library. On Linux and HPC systems without `python` on `PATH`, call them with `python3`.
+
+```bash
+# release and style cues: placeholders, causal verbs, filler
+python3 skills/lucid-writer/scripts/lint.py manuscript.md
+
+# claim ledger: header, labels, supported claims with evidence
+python3 skills/lucid-writer/scripts/validate_ledger.py .lucid-writer/claims.csv
+```
+
+The linter is not an AI detector and does not judge scientific validity.

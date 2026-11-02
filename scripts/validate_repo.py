@@ -233,6 +233,16 @@ def main() -> int:
     if count < 8:
         fail("eval set is too small")
 
+    # The site links skill files by GitHub URL rather than copying them, and Quarto does not
+    # check absolute URLs, so a renamed or deleted file would leave a dead link unnoticed.
+    site_links = 0
+    for page in sorted((ROOT / "site").glob("*.qmd")):
+        text = page.read_text(encoding="utf-8")
+        for rel in re.findall(r"github\.com/mdmanurung/lucid-writer/(?:blob|tree)/main/([^)\s#\"]+)", text):
+            site_links += 1
+            if not (ROOT / rel).exists():
+                fail(f"site/{page.name} links to missing repository path: {rel}")
+
     print(
         f"Repository OK: v{version}; {count} eval cases; "
         f"{len(py_files)} Python scripts parsed; "

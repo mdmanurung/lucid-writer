@@ -1,0 +1,69 @@
+---
+title: "Evaluation"
+---
+
+Every evaluation below has a stated limit, and the limits matter more than the scores. The two case studies were run in-session by one model, before version 1.0; the benchmark is built but has no results yet.
+
+## Case study 1: what it does to prose
+
+[`evals/before-after-review.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/before-after-review.md) compares an unconstrained polish with the skill (then v0.4) on four inputs. In Case 1, the input reads:
+
+> Interestingly, participants with higher baseline CD161+ CD4 T-cell frequencies showed a significantly delayed time to parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018). Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
+
+An unconstrained polish keeps the overclaim and tidies the words:
+
+> Notably, higher baseline CD161+ CD4 T-cell frequencies were significantly associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018), underscoring the crucial protective role of these cells in malaria infection.
+
+The skill keeps the numbers and drops the causal claim:
+
+> Higher baseline CD161+ CD4 T-cell frequencies were associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95; p=0.018). This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
+
+| Criterion | Unconstrained | Skill |
+|---|---|---|
+| Numbers kept | pass | pass |
+| Association kept associative | partial: still implies protection | pass |
+| Generic framing removed | fail | pass |
+| Caveat explicit | fail | pass |
+
+The difference is epistemic, not cosmetic. **Limit:** the same model produced and judged both outputs; this is a qualitative comparison, not a blinded one.
+
+A second same-model test, [`evals/paired-ab-test-2026-09-18.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/paired-ab-test-2026-09-18.md), scored eight fixed cases. A strict audit found two minor meaning-compression errors in v0.4.0; both were fixed and retested in v0.4.1.
+
+## Case study 2: what the reviewers catch
+
+[`evals/second-pass/`](https://github.com/mdmanurung/lucid-writer/tree/main/evals/second-pass) tests whether the review subagents add signal beyond the core skill. A synthetic manuscript carries 14 seeded issues across evidence fidelity, inferential reasoning and cross-artifact consistency, plus clean controls.
+
+- The core skill alone found 13 of 14 issues.
+- In the v0.5.1 retest, each subagent found all seeded issues in its own domain, with no false positives on the clean controls.
+- Overlap between the evidence auditor and the skeptical reviewer was 7.7%.
+
+That is why the subagents stay optional. **Limits**, from the [report](https://github.com/mdmanurung/lucid-writer/blob/main/evals/second-pass/second-pass-report.md): the same model and session produced and scored the outputs; the fixture is synthetic; seeded issues are crisp and may overstate recall; no cost or latency was measured.
+
+## Regression cases
+
+[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 24 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
+
+## Benchmark
+
+[`bench/`](https://github.com/mdmanurung/lucid-writer/tree/main/bench) runs the skill through [acumen](https://github.com/scverse/acumen): a no-skill arm and a skill arm that differ only in whether the skill is installed, in a sandbox that strips the operator's settings and memories.
+
+**No benchmark results yet.** The task set passes `acumen check`; no paid pass has run. This page will report results once one exists.
+
+What it measures: grading is exact string match, so every task is a closed-vocabulary judgement, never prose quality.
+
+| Task | Judgement | Rules supplied in the prompt? |
+|---|---|---|
+| `ceiling-open` | inference ceiling of five claims | labels only |
+| `ceiling-defined` | the same, with definitions | yes: the control |
+| `claim-class` | observed, literature, inference or hypothesis | labels only |
+| `minimal-repair` | which repair keeps claim strength | options only |
+
+Each task has train, valid and test splits on different content. Answer order is shuffled in every split.
+
+What it cannot show yet:
+
+- **Power.** At one model and two replicates, each arm gets 8 binary outcomes per split, so only a large effect is detectable.
+- **Isolation.** The repository is public, and acumen blocks no repository for a local target, so a baseline agent with web access could fetch the skill.
+- **Attribution.** A skill-arm run where the skill never loaded measures the baseline; `bench/score.py` lists those runs.
+
+The full design, commands and caveats are in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).

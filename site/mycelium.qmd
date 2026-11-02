@@ -1,0 +1,44 @@
+---
+title: "Mycelium"
+---
+
+lucid-writer works without Mycelium. In a [Mycelium](https://github.com/arjunrajlaboratory/mycelium) repository, it writes from verified provenance and leaves every deterministic check to mycelium-extra. It detects such a repository by `.living/` and `.mycelium/` together.
+
+## Source of truth
+
+The skill ranks what is on disk:
+
+1. `<analysis>/provenance/`: `verify-<hash>.md` holds the claims verdicts (numbers); `outputs-<hash>.tsv` records which run wrote each file (figures). This counts as verified only when the hash is listed in `PROVENANCE.md` and `/mycelium-extra:verify` ran in the current session.
+2. `<analysis>/outputs/numbers.json` and `<!-- claims -->` blocks: registered values whose producer is not established.
+3. `.living/findings/` entries: project notes, never evidence for an observed claim.
+4. Existing manuscript prose.
+
+A lower tier never silently replaces prose: a disagreement is flagged for the author. Analysis files are read-only; the manuscript's own `<!-- claims -->` block is the skill's to write.
+
+## Who checks what
+
+| Check | Owner |
+|---|---|
+| a number in prose matches an output cell, one call per plan hash | `/mycelium-extra:verify` `report` |
+| figure freshness after inputs change | `/mycelium-extra:verify` `stale` |
+| the declared figure contract (`config/manuscript_checks.json`) | `/mycelium-extra:manuscript-audit` |
+| a DOI, PMID or arXiv ID exists | `/mycelium-extra:verify` `report --resolve-citations` |
+| a citation supports the exact claim; inference ceiling; causal and scope language | lucid-writer |
+| cross-artifact consistency, figure–text flags, placeholders | lucid-writer preflight and `lint.py` |
+
+lucid-writer calls the mycelium-extra checks through their own skills and reads the results. The preflight subagent is read-only: it accepts a result only when the main agent reports running it in the session, and maps a `block` status to a release blocker.
+
+Claim-ledger rows use the same cell grammar as a verify claims block, so a ledger row becomes a claims line by adding its value: `<value> | <file> <column> [<row>]`.
+
+## Convention pack
+
+To offer lucid-writer as a report style in `/mycelium:report`, install its convention pack into the Mycelium repository:
+
+```bash
+python3 "$(cat .mycelium/plugin-root)/skills/core/scripts/install_convention.py" \
+  --name lucid-writer --network-dir /path/to/lucid-writer/network/conventions
+```
+
+The router still follows `report-generator` (LaTeX PDF) by default and lists other installed packs as choices. `/mycelium-extra:analysis-report` keeps Quarto analysis reports; the lucid-writer pack covers manuscripts. Rerun the install after upgrading, because the pack's `version:` tracks the skill's.
+
+The pack is three files in [`network/conventions/lucid-writer/`](https://github.com/mdmanurung/lucid-writer/tree/main/network/conventions/lucid-writer): the pack manifest, the routing steps, and a QC checklist.

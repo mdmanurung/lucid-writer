@@ -2,6 +2,17 @@
 
 All notable changes to Lucid Writer are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Documentation site in `site/` (Quarto), published to <https://mdmanurung.github.io/lucid-writer/> by `.github/workflows/docs.yml`: Home, How it works, Use, Mycelium, Evaluation, Develop.
+- `validate_repo.py` fails when a site page links to a repository path that does not exist.
+
+### Changed
+
+- README cut from 445 to 70 lines: what it is, install, one example, links to the site. Every removed section now lives on one site page.
+
 ## [1.0.0] - 2026-11-01
 
 ### Renamed
