@@ -89,3 +89,21 @@ independent, which flatters it). This is no evidence of an effect at this size.
 
 Detecting a halving from about 20% needs roughly 10 replicates per cell (about $25 for
 both arms). Run that only if the skill first loads reliably on rewrite requests.
+
+## Output-only probe (2026-11-02)
+
+The skill arm's chat answers and change logs led to a rule in `SKILL.md` item 8: deliver
+only the requested artifact, with no change log, and reread the original request for form.
+Each probe was 12 haiku runs (about $0.90), counting only runs where the skill loaded.
+
+| Skill text | loaded | chat-only, no `answer.md` | change log |
+|---|---|---|---|
+| v1 (before) | 7 | 5 | 4 |
+| rule under Output rules only | 7 | 5 | 4 |
+| rule in item 8 (kept) | 5 | 5 | 1 |
+
+Moving the rule to item 8 cut change logs; the counts are small. No wording stopped haiku
+from answering in chat after loading the skill: it passes the Skill tool a paraphrase that
+drops the harness's "write answer.md". That is a bench artefact, not a user-facing one, so
+`score_prose.py` recovers those answers and marks them. The probe copies were deleted so a
+default `acumen bench` runs only v1.

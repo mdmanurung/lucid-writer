@@ -11,10 +11,12 @@ All notable changes to Lucid Writer are documented here.
 - The skill description names claim-level judgements (inference ceiling, epistemic class). Without it, the skill was offered and skipped in 24 of 24 benchmark runs; with it, claude-sonnet-5 loaded it in 2 of 2 probe runs.
 - `bench/`: harder items whose evidence reads like Methods text rather than announcing its design (`ceiling-open` train, valid and test; `ceiling-defined` train); a manuscript-task opening line on every prompt; `claude-haiku-4-5` as a second model; `score.py` reports format-only failures.
 - First benchmark results in `bench/README.md` and on the site's Evaluation page: both models at ceiling without the skill on unambiguous items; the paid loop is stopped.
+- `bench/prose/`: a prose-rewrite pilot that judges, blinded, whether a "tighten this paragraph" rewrite claims more than its evidence allows. First result: 9/60 claims above ceiling with the skill, 13/60 without (no detectable effect).
 
 ### Changed
 
 - README cut from 445 to 70 lines: what it is, install, one example, links to the site. Every removed section now lives on one site page.
+- Non-negotiable 8 now says deliver only the requested artifact, in the form and place asked, with no change log or word count, and reread the original request for form; "output only the text" drops Flags but keeps inline markers. In a 12-run haiku probe, change logs fell from 4 of 7 to 1 of 5 loaded runs.
 
 ## [1.0.0] - 2026-11-01
 
