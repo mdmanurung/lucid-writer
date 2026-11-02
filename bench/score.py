@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -56,14 +57,31 @@ def collect(runs_dir: Path) -> list[dict]:
     return runs
 
 
+def answer_items(answer: str | None, n: int) -> tuple[list[str], bool]:
+    """Split an answer into graded items, and say whether its shape matched.
+
+    The grader wants one item per line. A run that writes the right items on one line
+    (``S1=A, S2=B``) fails exact match on format, not on judgement, so it is split on
+    commas, semicolons and whitespace instead and reported as a format error rather
+    than as item misses. Returns (items, shape_ok).
+    """
+    lines = (answer or "").strip().splitlines()
+    if len(lines) == n:
+        return lines, True
+    tokens = [x for x in re.split(r"[,;\s]+", (answer or "").strip()) if x]
+    if len(tokens) == n:
+        return tokens, False
+    return lines, False
+
+
 def item_accuracy(run: dict, expected: list[str]) -> tuple[int, int, list[str]]:
     """Compare a run's answer to the expected one item by item.
 
-    Returns (correct, total, misses). Both sides are split into lines so an item counts
-    only when the run produced exactly the expected number of lines; a run with the wrong
-    shape scores zero correct rather than silently scoring its overlapping prefix.
+    Returns (correct, total, misses). An item counts only when the answer splits into
+    exactly the expected number of items; a run with the wrong shape scores zero correct
+    rather than silently scoring its overlapping prefix.
     """
-    got = (run["_answer"] or "").strip().splitlines()
+    got, _ = answer_items(run["_answer"], len(expected))
     if len(got) != len(expected):
         return 0, len(expected), [f"{e!r} (no comparable line: got {len(got)} of {len(expected)})" for e in expected]
     correct = 0
@@ -108,6 +126,25 @@ def main() -> int:
         cells[key][0] += bool(run.get("success"))
     for (arm, split, model), (ok, total) in sorted(cells.items()):
         print(f"  {arm:10s} {split:5s} {model:22s} {ok:3d}/{total:<3d} {100 * ok / total:5.1f}%")
+
+    # Right labels in the wrong layout fail exact match; say so, rather than leaving the
+    # reader to infer a judgement error from the headline.
+    format_only = []
+    for run in runs:
+        want = expected.get((run["task_id"], run["split"]))
+        if not run.get("valid", True) or want is None or run.get("success"):
+            continue
+        got, shape_ok = answer_items(run["_answer"], len(want))
+        if not shape_ok and [g.strip() for g in got] == [w.strip() for w in want]:
+            format_only.append(run)
+    print()
+    print("=" * 72)
+    print("FORMAT-ONLY FAILURES (every label right, layout wrong; graded as a miss)")
+    print("=" * 72)
+    for run in format_only:
+        print(f"  {run['arm']:10s} {run['task_id']}/{run['split']} {run['model']}")
+    if not format_only:
+        print("  none")
 
     # A skill-arm run whose skill never fired measures the baseline, not the skill.
     print()
@@ -163,7 +200,7 @@ def main() -> int:
         want = expected.get((run["task_id"], run["split"]))
         if want is None:
             continue
-        got = (run["_answer"] or "").strip().splitlines()
+        got, _ = answer_items(run["_answer"], len(want))
         comparable = len(got) == len(want)
         # Key on task, split and position: the same expected line can recur across
         # tasks (e.g. `C1=DESCRIPTIVE`) and must not be pooled into one row.

@@ -10,6 +10,7 @@ dist/
 # and specific to one machine's provider pricing. Run results belong in an artifact store
 # or a report attachment, not in git.
 bench/runs/
+bench/runs-archive/
 bench/logs/
 bench/tasks/
 bench/report.html

@@ -117,8 +117,13 @@ version that only wins on train has learned the task set.
 ## Cost
 
 A pass is `models x tasks x replicates x splits x arms`. The committed config is
-1 model x 4 tasks x 2 replicates x 2 splits (train, valid) x 2 arms = **32 runs**, which is a
-smoke pass; `--split test` adds 16 more.
+2 models x 4 tasks x 2 replicates x 2 splits (train, valid) x 2 arms = **64 runs**, which is
+a smoke pass; `--split test` adds 32 more. The first sonnet-only pass cost $2.68 at API rates
+(about $0.08 a run).
+
+Completed runs are skipped by path, not by prompt. After editing `tasks.yaml`, move `runs/`
+aside (for example to `runs-archive/<date>-<label>/`, which is gitignored) or the next pass
+reuses answers to the old prompts.
 Check `acumen prices` for current rates before scaling up; every run's cost is derived from
 its own token counts and frozen into `result.json`, so a pass stays individually
 attributable even after provider prices move.

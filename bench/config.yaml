@@ -30,9 +30,10 @@ env_passthrough: []
 # A quality spread is the more informative axis than a capability ladder here: a skill
 # that only helps the weak model is a different product from one that helps the strong
 # model, and both are plausible. So when this scales up, add
-# `claude-haiku-4-5-20251001` alongside `claude-sonnet-5` rather than reaching for opus.
+# `claude-haiku-4-5` alongside `claude-sonnet-5` rather than reaching for opus.
 models:
   - claude-sonnet-5
+  - claude-haiku-4-5     # weaker model: the first pass put sonnet at ceiling (16/16 without the skill)
 n_replicates: 2
 max_concurrency: 4
 

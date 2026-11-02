@@ -52,6 +52,8 @@ tasks:
     needs_script: false
     train:
       prompt: |
+        I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
+
         Five claims from a cell-biology study are listed below. Each is followed by the
         evidence that is actually available for it.
 
@@ -85,6 +87,8 @@ tasks:
         C5=ASSOCIATIVE
     valid:
       prompt: |
+        I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
+
         Five claims from a freshwater-ecology study are listed below. Each is followed by
         the evidence that is actually available for it.
 
@@ -118,6 +122,8 @@ tasks:
         C5=CAUSAL
     test:
       prompt: |
+        I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
+
         Five claims from a machine-learning benchmark study are listed below. Each is
         followed by the evidence that is actually available for it.
 
@@ -154,6 +160,8 @@ tasks:
     needs_script: false
     train:
       prompt: |
+        I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
+
         Use these definitions, in this order of strength:
 
         DESCRIPTIVE — reports what was measured, with no relation asserted between variables.
@@ -195,6 +203,8 @@ tasks:
         C5=PREDICTIVE
     valid:
       prompt: |
+        I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
+
         Use these definitions, in this order of strength:
 
         DESCRIPTIVE — reports what was measured, with no relation asserted between variables.
@@ -236,6 +246,8 @@ tasks:
         C5=PREDICTIVE
     test:
       prompt: |
+        I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
+
         Use these definitions, in this order of strength:
 
         DESCRIPTIVE — reports what was measured, with no relation asserted between variables.
@@ -280,6 +292,8 @@ tasks:
     needs_script: false
     train:
       prompt: |
+        I'm revising the Discussion of a research manuscript and need to separate observation from interpretation before I edit it.
+
         Classify each statement by what supports it.
 
         S1. "The volume difference we observed is consistent with a model in which SOX2 occupancy limits nuclear volume."
@@ -298,6 +312,8 @@ tasks:
         S4=LITERATURE
     valid:
       prompt: |
+        I'm revising the Discussion of a research manuscript and need to separate observation from interpretation before I edit it.
+
         Classify each statement by what supports it.
 
         S1. "Debris cover may slow melt on the north-facing glaciers that this survey did not reach."
@@ -316,6 +332,8 @@ tasks:
         S4=INFERENCE
     test:
       prompt: |
+        I'm revising the Discussion of a research manuscript and need to separate observation from interpretation before I edit it.
+
         A reviewer has asked whether a claim is established. Classify each statement by
         what supports it.
 
@@ -338,6 +356,8 @@ tasks:
     needs_script: false
     train:
       prompt: |
+        I'm revising a research manuscript and need to fix a sentence that overstates the evidence.
+
         In an observational cohort of 1,200 patients, with no randomization and no
         adjustment for confounding beyond age and stage, the sentence below states more
         than the design supports.
@@ -356,6 +376,8 @@ tasks:
       answer: b
     valid:
       prompt: |
+        I'm revising a research manuscript and need to fix a sentence that overstates the evidence.
+
         A randomised study assigned 60 undergraduates at one university to spaced or massed
         practice and found higher final-exam scores with spaced practice. No other learners,
         subjects or institutions were studied. The sentence below states more than the
@@ -375,6 +397,8 @@ tasks:
       answer: d
     test:
       prompt: |
+        I'm revising a research manuscript and need to fix a sentence that overstates the evidence.
+
         The sentence below is being tightened for concision. It reports a single
         underpowered comparison in a pilot cohort of 12 participants.
 
