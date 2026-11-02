@@ -1,0 +1,88 @@
+# Gold sheets for the prose-rewrite pilot, one per task/split in tasks.yaml.
+#
+# must_keep   tokens every rewrite must still contain: numbers, units, citation keys.
+#             score_prose.py checks these mechanically (minus signs and dashes normalised).
+# claims      the material claims, each with the strongest ceiling its evidence allows and
+#             the overclaim it is tempted toward. The blinded judge rates each claim in a
+#             rewrite as below / at / above its ceiling; "above" is the primary endpoint.
+# cues        lowercase phrases that usually signal the overclaim. score_prose.py reports
+#             hits as a screening flag only; the judge, not the cue list, decides.
+#
+# Review: a second person should label every claim's ceiling independently. Drop any item
+# where the two labels differ; ambiguous keys produced the fake difficulty in ../tasks.yaml.
+
+items:
+  prose-results/train:
+    must_keep: ["212", "0.72", "0.55", "0.95", "0.018", "0.75", "0.57", "0.99", "41", "27"]
+    claims:
+      - claim: higher CD161+ frequency associated with longer time to parasitaemia
+        ceiling: ASSOCIATIVE
+        tempted_toward: CD161+ cells protect against, or delay, infection
+      - claim: association persists after adjustment for age and prior episodes
+        ceiling: ASSOCIATIVE
+        tempted_toward: an independent protective effect
+      - claim: these cells may contribute to early parasite control
+        ceiling: HYPOTHESIS
+        tempted_toward: hedge dropped, or the observational caveat removed
+    cues: ["protect against", "protects", "protective role", "protective effect", "confer", "drive", "promote parasite control"]
+
+  prose-results/valid:
+    must_keep: ["38", "22", "51", "6", "9", "4", "21", "0.17", "72"]
+    claims:
+      - claim: GENE1 knockdown reduced colony formation
+        ceiling: CAUSAL
+        tempted_toward: GENE1 is required or essential for growth in general
+      - claim: GENE2 knockdown gave a non-significant 9% reduction
+        ceiling: DESCRIPTIVE
+        tempted_toward: GENE2 had no effect, or is dispensable
+      - claim: neither knockdown detectably changed viability at 72 h
+        ceiling: DESCRIPTIVE
+        tempted_toward: knockdown does not affect viability
+    cues: ["no effect", "had no effect", "did not affect", "dispensable", "not required", "essential", "required for"]
+
+  prose-results/test:
+    must_keep: ["480", "12", "0.6", "0.8", "0.4", "60", "0.21"]
+    claims:
+      - claim: intensive control lowered HbA1c versus standard care
+        ceiling: CAUSAL
+        tempted_toward: generalised beyond the trial population
+      - claim: the difference appeared larger under 60 years in an exploratory subgroup
+        ceiling: DESCRIPTIVE
+        tempted_toward: the benefit is greater in younger patients
+    cues: ["greater benefit", "more effective in younger", "benefit was larger", "younger patients benefit", "particularly effective"]
+
+  prose-discussion/train:
+    must_keep: ["0.52", "31", "Lindqvist et al., 2020"]
+    claims:
+      - claim: mayfly density lower where neonicotinoid concentrations higher
+        ceiling: ASSOCIATIVE
+        tempted_toward: neonicotinoids reduce mayfly density
+      - claim: sublethal exposure impairing larval development is one possible explanation
+        ceiling: HYPOTHESIS
+        tempted_toward: stated as the mechanism, or the "not measured" caveat dropped
+      - claim: runoff carries other stressors that could produce the pattern
+        ceiling: HYPOTHESIS
+        tempted_toward: the alternative explanation deleted
+    cues: ["reduce mayfly", "reduces mayfly", "by impairing", "impair larval development, reducing", "neonicotinoids drive", "caused by"]
+
+  prose-discussion/valid:
+    must_keep: ["5", "0.61", "40"]
+    claims:
+      - claim: epoch-5 validation accuracy associated with final out-of-distribution accuracy, in sample
+        ceiling: ASSOCIATIVE
+        tempted_toward: early validation accuracy predicts out-of-distribution accuracy
+      - claim: early validation performance may be a useful model-selection signal
+        ceiling: HYPOTHESIS
+        tempted_toward: hedge dropped, or the untested-generalisation caveat removed
+    cues: ["predicts", "predictive of", "reliable predictor", "can be used to select", "is a useful signal"]
+
+  prose-discussion/test:
+    must_keep: ["60", "7", "2", "12", "Cepeda et al., 2006"]
+    claims:
+      - claim: spaced practice raised exam scores in this randomised sample
+        ceiling: CAUSAL
+        tempted_toward: spaced practice improves learning or exam scores in students generally
+      - claim: the size of the benefit in other settings is uncertain
+        ceiling: HYPOTHESIS
+        tempted_toward: the scope caveat deleted
+    cues: ["improves learning", "improves exam performance in students", "students benefit", "learners benefit", "spaced practice improves"]

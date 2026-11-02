@@ -21,3 +21,7 @@ bench/report.csv
 site/_site/
 site/.quarto/
 site/site_libs/
+bench/prose/runs/
+bench/prose/judge_packets.jsonl
+bench/prose/judge_key.jsonl
+bench/prose/judgements.jsonl
