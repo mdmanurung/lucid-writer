@@ -7,6 +7,9 @@ import argparse
 import csv
 from pathlib import Path
 
+# Long claim or notes cells are legitimate; the stdlib default of 128 KB is not a ledger rule.
+csv.field_size_limit(10_000_000)
+
 REQUIRED = [
     "claim_id",
     "claim",

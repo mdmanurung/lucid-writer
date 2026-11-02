@@ -19,19 +19,27 @@
 #
 # ## Why some tasks supply the label definitions and some do not
 #
-# `ceiling-open` hands over the five labels but not their definitions.
-# `ceiling-defined` hands over both. The difference is the interesting measurement:
-# references/evidence.md:20-24 lists the ceilings without saying where the boundaries lie,
-# so if `ceiling-open` scores well below `ceiling-defined` for the skill arm, the finding is
-# that the skill's ceiling vocabulary is under-specified. That is a real, cheap fix to the
-# skill, and it is the kind of thing a same-session eyeball check cannot surface.
+# `ceiling-defined` is the one task that hands both arms the rules (the five definitions).
+# It is the control: it measures prompt-following, so the skill should add little there.
+# `ceiling-open`, `claim-class` and `minimal-repair` give labels or options only, so the
+# skill's own rules are what separates the arms. If `ceiling-open` scores well below
+# `ceiling-defined` for the skill arm, the skill's ceiling vocabulary is under-specified.
 #
-# ## train/test discipline
+# Every ceiling prompt fixes one labelling rule: LABEL is the strongest ceiling that the
+# evidence *this study produced* supports for the claim. A mechanism borrowed from the
+# literature therefore caps at whatever the study itself showed. Keys follow that rule;
+# check any new item against it.
 #
-# Each task is one task *type* run twice. The two halves are the same judgement on different
-# content, in a different scientific domain, with different failure modes — not paraphrases.
-# Nothing may be copied between the halves of a task, and no answer may be reachable from
-# the other half. Only train results reach `acumen improve`.
+# Answer order is shuffled in every split, so no split is solvable by echoing the order
+# the prompt lists its labels in.
+#
+# ## train/valid/test discipline
+#
+# Each task is one task *type* run three times. The three splits are the same judgement on
+# different content, in a different scientific domain, with different failure modes — not
+# paraphrases. Nothing may be copied between splits of a task, and no answer may be
+# reachable from another split. Only train results reach `acumen improve`; valid selects
+# and stops improvement; test is the final comparison.
 #
 # All tasks set `needs_script: false`: there is no analysis to reproduce, so the
 # `acumen check` reproducer column reads `n/a`. Run `acumen check` anyway — its review
@@ -47,61 +55,100 @@ tasks:
         Five claims from a cell-biology study are listed below. Each is followed by the
         evidence that is actually available for it.
 
-        C1. "Mean nuclear volume was 4.1 um3 (SD 0.6) in the treatment arm and 5.0 um3 (SD 0.7) in control, across 42 samples."
-        Evidence: group means and standard deviations computed over the 42 samples.
-
-        C2. "Lower nuclear volume co-occurred with lower SOX2 occupancy at the same loci."
-        Evidence: cross-sectional correlation between volume and SOX2 occupancy within the same 42 samples. No intervention was performed and no other factor was controlled.
-
-        C3. "In a held-out cohort of 18 samples, a volume threshold of 4.5 um3 classified treatment assignment with AUROC 0.79."
-        Evidence: AUROC computed on a held-out cohort that was not used to set the threshold. No biological mechanism was measured.
-
-        C4. "Reducing SOX2 occupancy with a degron reduced nuclear volume in vitro."
+        C1. "Reducing SOX2 occupancy with a degron reduced nuclear volume in vitro."
         Evidence: in vitro perturbation of SOX2 with matched controls, nuclear volume measured after knockdown. No downstream pathway was measured.
 
-        C5. "SOX2 acts upstream of a PI3K/AKT pathway that controls nuclear volume."
-        Evidence: inferred from published SOX2 target lists. No pathway perturbation and no pathway measurement was performed in this study.
+        C2. "Mean nuclear volume was 4.1 um3 (SD 0.6) in the treatment arm and 5.0 um3 (SD 0.7) in control, across 42 samples."
+        Evidence: group means and standard deviations computed over the 42 samples.
+
+        C3. "SOX2 acts upstream of a PI3K/AKT pathway that controls nuclear volume."
+        Evidence: SOX2 occupancy correlated with phospho-AKT levels across the same 42 samples. No pathway perturbation was performed.
+
+        C4. "In a held-out cohort of 18 samples, a volume threshold of 4.5 um3 classified treatment assignment with AUROC 0.79."
+        Evidence: AUROC computed on a held-out cohort that was not used to set the threshold. No biological mechanism was measured.
+
+        C5. "Lower nuclear volume co-occurred with lower SOX2 occupancy at the same loci."
+        Evidence: cross-sectional correlation between volume and SOX2 occupancy within the same 42 samples. No intervention was performed and no other factor was controlled.
+
+        LABEL is the strongest ceiling that the evidence this study produced supports for
+        the claim.
 
         For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
         of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
 
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
-        C1=DESCRIPTIVE
-        C2=ASSOCIATIVE
-        C3=PREDICTIVE
-        C4=CAUSAL
+        C1=CAUSAL
+        C2=DESCRIPTIVE
+        C3=ASSOCIATIVE
+        C4=PREDICTIVE
         C5=ASSOCIATIVE
+    valid:
+      prompt: |
+        Five claims from a freshwater-ecology study are listed below. Each is followed by
+        the evidence that is actually available for it.
+
+        C1. "Streams with higher neonicotinoid concentrations had fewer mayfly larvae (Spearman rho = -0.52, 31 streams)."
+        Evidence: a single survey of 31 streams. Concentrations were not manipulated and no other factor was controlled.
+
+        C2. "Mean mayfly density was 212 larvae per m2 (SD 64) across the 31 streams."
+        Evidence: stream-level means and standard deviations from the same survey.
+
+        C3. "Adding imidacloprid to stream mesocosms reduced mayfly emergence relative to untreated mesocosms."
+        Evidence: mesocosms randomly assigned to dosed or untreated, with emergence counted. No physiological measurement was made.
+
+        C4. "A concentration model fitted to the 2024 survey predicted mayfly density in 15 different streams surveyed in 2025 (R2 = 0.38)."
+        Evidence: predictions on streams and a year not used to fit the model. No mechanism was measured.
+
+        C5. "Imidacloprid reduces mayfly emergence by blocking nicotinic acetylcholine receptors in the larvae."
+        Evidence: the mesocosm experiment in C3. Receptor binding was not measured in this study; the receptor pathway is taken from studies of other insect orders.
+
+        LABEL is the strongest ceiling that the evidence this study produced supports for
+        the claim.
+
+        For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
+        of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
+
+        Output exactly five lines, ordered C1 through C5, and nothing else.
+      answer: |
+        C1=ASSOCIATIVE
+        C2=DESCRIPTIVE
+        C3=CAUSAL
+        C4=PREDICTIVE
+        C5=CAUSAL
     test:
       prompt: |
         Five claims from a machine-learning benchmark study are listed below. Each is
         followed by the evidence that is actually available for it.
 
-        C1. "The proposed model reached a mean F1 of 0.71 across the 30 evaluation datasets."
+        C1. "Removing the augmentation increased out-of-distribution error on the held-out sites."
+        Evidence: ablation in which the augmentation was disabled, with all other settings fixed, evaluated on three sites excluded from all training and tuning.
+
+        C2. "A regressor fitted on 20 of the datasets predicted the proposed model's F1 on the 10 remaining datasets (mean absolute error 0.04)."
+        Evidence: the 10 datasets were not used to fit the regressor. No component of the model was changed.
+
+        C3. "The augmentation generalises by forcing the encoder to attend to shape rather than texture."
+        Evidence: an intervention that blocked shape attention while leaving texture attention intact removed the out-of-distribution gain and left in-distribution accuracy unchanged.
+
+        C4. "The proposed model reached a mean F1 of 0.71 across the 30 evaluation datasets."
         Evidence: mean and per-dataset F1 over 30 datasets.
 
-        C2. "Models using the augmentation were more accurate on datasets with fewer than 500 training examples."
+        C5. "Models using the augmentation were more accurate on datasets with fewer than 500 training examples."
         Evidence: observational comparison across the 30 evaluation datasets. No augmentation was withheld to test necessity.
 
-        C3. "Applied to the three held-out sites the augmentation reduced out-of-distribution error by 18 percent relative to the baseline."
-        Evidence: measured on three sites excluded from all training and tuning. No mechanism was investigated.
-
-        C4. "Removing the augmentation increased out-of-distribution error on the held-out sites."
-        Evidence: ablation in which the augmentation was disabled, with all other settings fixed.
-
-        C5. "The augmentation generalises by forcing the encoder to attend to shape rather than texture."
-        Evidence: an intervention that blocked shape attention while leaving texture attention intact removed the out-of-distribution gain and left in-distribution accuracy unchanged.
+        LABEL is the strongest ceiling that the evidence this study produced supports for
+        the claim.
 
         For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
         of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
 
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
-        C1=DESCRIPTIVE
-        C2=ASSOCIATIVE
-        C3=PREDICTIVE
-        C4=CAUSAL
-        C5=MECHANISTIC
+        C1=CAUSAL
+        C2=PREDICTIVE
+        C3=MECHANISTIC
+        C4=DESCRIPTIVE
+        C5=ASSOCIATIVE
 
   - id: ceiling-defined
     needs_script: false
@@ -118,31 +165,75 @@ tasks:
         Five claims from an agricultural field study are listed below. Each is followed by
         the evidence that is actually available for it.
 
-        C1. "Mean soil moisture was 0.31 (SD 0.09) across the 24 plots."
-        Evidence: plot-level means and standard deviations.
-
-        C2. "Plot moisture was negatively associated with nitrate leaching (Spearman rho = -0.47, p = 0.02)."
-        Evidence: observational correlation across 24 plots. No manipulation of moisture.
-
-        C3. "A regression fitted on 16 plots predicted nitrate leaching on the 8 held-out plots (R² = 0.41)."
-        Evidence: out-of-sample prediction on plots not used to fit the model. No field manipulation.
-
-        C4. "Drying the soil by 20 percent increased nitrate leaching in lysimeters."
+        C1. "Drying the soil by 20 percent increased nitrate leaching in lysimeters."
         Evidence: lysimeter experiment with moisture reduced under control and leaching measured.
 
-        C5. "Moisture lowers leaching by stimulating denitrifying bacteria, whose activity rises as pore space fills with water."
+        C2. "Mean soil moisture was 0.31 (SD 0.09) across the 24 plots."
+        Evidence: plot-level means and standard deviations.
+
+        C3. "Moisture lowers leaching by stimulating denitrifying bacteria, whose activity rises as pore space fills with water."
         Evidence: denitrifier activity measured by tracer, and moisture manipulated independently of the microbial pathway.
+
+        C4. "Plot moisture was negatively associated with nitrate leaching (Spearman rho = -0.47, p = 0.02)."
+        Evidence: observational correlation across 24 plots. No manipulation of moisture.
+
+        C5. "A regression fitted on 16 plots predicted nitrate leaching on the 8 held-out plots (R² = 0.41)."
+        Evidence: out-of-sample prediction on plots not used to fit the model. No field manipulation.
+
+        LABEL is the strongest ceiling that the evidence this study produced supports for
+        the claim.
 
         For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
         of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
 
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
-        C1=DESCRIPTIVE
-        C2=ASSOCIATIVE
-        C3=PREDICTIVE
-        C4=CAUSAL
-        C5=MECHANISTIC
+        C1=CAUSAL
+        C2=DESCRIPTIVE
+        C3=MECHANISTIC
+        C4=ASSOCIATIVE
+        C5=PREDICTIVE
+    valid:
+      prompt: |
+        Use these definitions, in this order of strength:
+
+        DESCRIPTIVE — reports what was measured, with no relation asserted between variables.
+        ASSOCIATIVE — asserts that two variables covary, with no direction of effect established.
+        PREDICTIVE — supports prediction on data not used to fit the relationship, with no mechanism.
+        CAUSAL — supports that changing one variable changes another.
+        MECHANISTIC — supports a specific intervening pathway or intermediate.
+
+        Five claims from a battery-materials study are listed below. Each is followed by the
+        evidence that is actually available for it.
+
+        C1. "Cells with thicker cathode coatings lost more capacity over 500 cycles (Pearson r = 0.61, 40 cells)."
+        Evidence: 40 cells from one production batch; coating thickness varied by manufacturing variation and was not assigned.
+
+        C2. "Coating cells to 120 um instead of 80 um increased capacity loss after 500 cycles."
+        Evidence: thickness assigned at random within a second batch of cells, with capacity measured after 500 cycles.
+
+        C3. "Mean capacity retention after 500 cycles was 86 percent (SD 4) across the 40 cells."
+        Evidence: cell-level retention, summarised as a mean and standard deviation.
+
+        C4. "Thicker coatings lose capacity because lithium plating builds up at the separator side."
+        Evidence: X-ray tomography showed plating growing with thickness, and a charging protocol that prevented plating, with thickness held fixed, removed the extra capacity loss.
+
+        C5. "A model fitted on cells from batch A predicted the capacity loss of cells from batch B (mean absolute error 1.9 percent)."
+        Evidence: batch B was not used to fit the model. No mechanism was measured.
+
+        LABEL is the strongest ceiling that the evidence this study produced supports for
+        the claim.
+
+        For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
+        of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
+
+        Output exactly five lines, ordered C1 through C5, and nothing else.
+      answer: |
+        C1=ASSOCIATIVE
+        C2=CAUSAL
+        C3=DESCRIPTIVE
+        C4=MECHANISTIC
+        C5=PREDICTIVE
     test:
       prompt: |
         Use these definitions, in this order of strength:
@@ -165,11 +256,14 @@ tasks:
         C3. "Intensive glycaemic control lowered HbA1c relative to standard care at 12 months."
         Evidence: randomised allocation to two arms with HbA1c measured at 12 months.
 
-        C4. "Intensive control lowered HbA1c by reducing hepatic gluconeogenesis, with fasting insulin falling alongside it."
-        Evidence: fasting insulin measured in both arms as an intermediate between the intervention and the HbA1c change.
+        C4. "Intensive control lowered HbA1c by reducing hepatic gluconeogenesis."
+        Evidence: hepatic gluconeogenesis measured by tracer in both arms; in a sub-study that clamped gluconeogenesis while keeping the intervention unchanged, the HbA1c difference between arms disappeared.
 
         C5. "Mean HbA1c was 7.4 percent (SD 1.1) in the intervention arm at 12 months."
         Evidence: arm mean and standard deviation at 12 months.
+
+        LABEL is the strongest ceiling that the evidence this study produced supports for
+        the claim.
 
         For each claim, output one line in the form C1=LABEL, where LABEL is exactly one
         of: DESCRIPTIVE, ASSOCIATIVE, PREDICTIVE, CAUSAL, MECHANISTIC
@@ -188,34 +282,42 @@ tasks:
       prompt: |
         Classify each statement by what supports it.
 
-        OBSERVED — directly supported by the current study's own analysis or measurement.
-        LITERATURE — supported by a cited external source rather than by this study.
-        INFERENCE — an interpretation drawn from this study's results and/or the literature.
-        HYPOTHESIS — a plausible extension that the available evidence does not establish.
-
-        S1. "Across the 42 samples, mean nuclear volume was 4.1 um3 (SD 0.6) in treatment and 5.0 um3 (SD 0.7) in control."
-        S2. "SOX2 is an established pioneer factor that binds nucleosomal DNA (Meyer et al., 2019)."
-        S3. "The volume difference we observed is consistent with a model in which SOX2 occupancy limits nuclear volume."
-        S4. "Reduced SOX2 occupancy may increase susceptibility to the compound in an in vivo model."
+        S1. "The volume difference we observed is consistent with a model in which SOX2 occupancy limits nuclear volume."
+        S2. "Across the 42 samples, mean nuclear volume was 4.1 um3 (SD 0.6) in treatment and 5.0 um3 (SD 0.7) in control."
+        S3. "Reduced SOX2 occupancy may increase susceptibility to the compound in an in vivo model."
+        S4. "SOX2 is an established pioneer factor that binds nucleosomal DNA (Meyer et al., 2019)."
 
         Output one line per statement in the form S1=LABEL, using exactly one of:
         OBSERVED, LITERATURE, INFERENCE, HYPOTHESIS
 
         Output exactly four lines, ordered S1 through S4, and nothing else.
       answer: |
-        S1=OBSERVED
-        S2=LITERATURE
-        S3=INFERENCE
-        S4=HYPOTHESIS
+        S1=INFERENCE
+        S2=OBSERVED
+        S3=HYPOTHESIS
+        S4=LITERATURE
+    valid:
+      prompt: |
+        Classify each statement by what supports it.
+
+        S1. "Debris cover may slow melt on the north-facing glaciers that this survey did not reach."
+        S2. "Our 14 ablation stakes recorded a mean surface lowering of 2.3 m (SD 0.4) over the 2025 melt season."
+        S3. "Regional glacier mass balance has been negative in every year since 1990 (Lindqvist et al., 2020)."
+        S4. "The lowering we measured exceeds the regional trend, which suggests that local albedo loss added to atmospheric warming at this site."
+
+        Output one line per statement in the form S1=LABEL, using exactly one of:
+        OBSERVED, LITERATURE, INFERENCE, HYPOTHESIS
+
+        Output exactly four lines, ordered S1 through S4, and nothing else.
+      answer: |
+        S1=HYPOTHESIS
+        S2=OBSERVED
+        S3=LITERATURE
+        S4=INFERENCE
     test:
       prompt: |
         A reviewer has asked whether a claim is established. Classify each statement by
         what supports it.
-
-        OBSERVED — directly supported by the current study's own analysis or measurement.
-        LITERATURE — supported by a cited external source rather than by this study.
-        INFERENCE — an interpretation drawn from this study's results and/or the literature.
-        HYPOTHESIS — a plausible extension that the available evidence does not establish.
 
         S1. "Readmission after heart failure is common and costly (Clarke et al., 2021)."
         S2. "The absence of a detected difference is compatible with the trial being underpowered for readmission, given 240 participants."
@@ -243,17 +345,34 @@ tasks:
         Original: "High PD-L1 expression was associated with longer survival and demonstrates that PD-L1 drives immune escape."
 
         Repair it using this priority order: evidence integrity first, then argument, then
-        concision. Where two repairs are both consistent with the evidence, prefer the one
-        that makes the boundary of the evidence explicit over the one that is merely
-        shorter.
+        concision.
 
         a) "High PD-L1 expression was associated with longer survival, demonstrating that PD-L1 drives immune escape."
-        b) "High PD-L1 expression was associated with longer survival, which is consistent with a role for PD-L1 in immune escape but does not establish that PD-L1 causes it."
+        b) "High PD-L1 expression was associated with longer survival in this cohort; the design cannot show whether PD-L1 affects immune escape."
         c) "High PD-L1 expression may be associated with longer survival."
-        d) "High PD-L1 expression was associated with longer survival."
+        d) "High PD-L1 expression was associated with longer survival, so PD-L1 is a favourable prognostic marker."
 
         Output exactly one line: the single letter of the best repair, with no other text.
       answer: b
+    valid:
+      prompt: |
+        A randomised study assigned 60 undergraduates at one university to spaced or massed
+        practice and found higher final-exam scores with spaced practice. No other learners,
+        subjects or institutions were studied. The sentence below states more than the
+        design supports.
+
+        Original: "Spaced practice improves learning."
+
+        Repair it using this priority order: evidence integrity first, then argument, then
+        concision.
+
+        a) "Spaced practice improves learning in students."
+        b) "Spaced practice may improve learning."
+        c) "Spaced practice improves exam scores in university students."
+        d) "In one randomised study of 60 undergraduates at a single university, spaced practice raised final-exam scores; whether this holds for other learners or settings was not tested."
+
+        Output exactly one line: the single letter of the best repair, with no other text.
+      answer: d
     test:
       prompt: |
         The sentence below is being tightened for concision. It reports a single
@@ -262,14 +381,12 @@ tasks:
         Original: "The trend in the pilot cohort, though not statistically significant, suggests that the intervention may reduce relapse, but this cannot be considered conclusive given n=12."
 
         Repair it using this priority order: evidence integrity first, then argument, then
-        concision. Where two repairs are both consistent with the evidence, prefer the one
-        that makes the boundary of the evidence explicit over the one that is merely
-        shorter.
+        concision.
 
         a) "The pilot cohort suggests the intervention reduces relapse."
         b) "The pilot cohort may reduce relapse."
         c) "In a small pilot (n=12), relapse was lower in the intervention arm, but the comparison is underpowered and inconclusive."
-        d) "The pilot suggests the intervention reduces relapse, though not conclusively."
+        d) "The pilot shows the intervention reduces relapse, though larger trials should confirm the size of the effect."
 
         Output exactly one line: the single letter of the best repair, with no other text.
       answer: c

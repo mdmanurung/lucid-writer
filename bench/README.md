@@ -27,35 +27,34 @@ Those need a rubric judge, which acumen does not have. Do not quote a score from
 directory as evidence about prose quality. If that is the question, it needs a different
 harness.
 
-The task set is deliberately small (4 task types, 8 train/test splits). It is a smoke pass
+The task set is deliberately small (4 task types, 12 train/valid/test splits). It is a smoke pass
 that proves the plumbing and produces a first delta — not a benchmark to publish.
 
-## The one task family that probes a real gap
+## Which tasks can show a skill effect
 
-`ceiling-open` hands over the five inference-ceiling labels but not their definitions.
-`ceiling-defined` hands over both. `references/evidence.md:20-24` lists the ceilings without
-saying where the boundaries lie, so if the skill arm scores materially lower on
-`ceiling-open` than on `ceiling-defined`, the finding is that **the skill's ceiling
-vocabulary is under-specified** — a real, cheap fix to the skill that no same-session
-eyeball check would surface.
+`ceiling-defined` hands both arms the five ceiling definitions. It is the **control**: it
+measures prompt-following, so a skill delta there is noise or a harness artifact.
 
-By contrast `claim-class` tests the epistemic classes, for which the skill *does* supply
-operational definitions (`references/evidence.md:9-12`). That is the family where the skill
-should show its largest gain, and it is the control for whether the harness detects gain at
-all.
+`ceiling-open`, `claim-class` and `minimal-repair` give only labels or options. The rules
+that decide them (ceiling boundaries, the O/L/I/H classes, the evidence-first repair
+priority) live in the skill, not the prompt, so these three are where a real effect can
+appear. If the skill arm scores well below on `ceiling-open` than on `ceiling-defined`, the
+skill's ceiling vocabulary is under-specified.
 
 ## Setup
 
 Requires Python 3.12+ and [`uv`](https://github.com/astral/uv). Acumen is not vendored:
 
 ```bash
-uv tool install --force 'acumen[claude] @ git+https://github.com/scverse/acumen@dfedfe05dc6a2da64155ce87597e0cbb60457f10'
+uv tool install --force 'acumen[claude] @ git+https://github.com/scverse/acumen@c6acb9f9553aea41251cf9f0b3d6e0a93aecd94f'
 ```
 
 Install from git rather than PyPI. The published `acumen` is `0.0.1.dev0` and its CLI has
-no `check` and no `prices`. Pin commit `dfedfe05d` (2026-09-04): it is the last one that
-accepts this file's train/test splits. From `beae7bf6d` on, acumen requires a `valid` split
-in every task; unpin after adding one. CI uses the same pin.
+no `check` and no `prices`. The pin (`c6acb9f9`, 2026-10-26) is the commit this task set
+was checked with; CI uses the same one. Older commits fail here: before `8c8a81ccd` acumen
+cannot parse OpenAI's pricing page and `acumen bench` refuses to run, and before `beae7bf6d`
+it rejects the `valid` split. Bump the pin deliberately, after `acumen check --no-review`
+passes on the new commit.
 
 Acumen benchmarks the committed `ref:` in `config.yaml` (`main`), not the working tree.
 Commit the skill and packaging changes before a pass, or it measures the last commit.
@@ -76,13 +75,15 @@ acumen check --no-review
 
 # Costs money. The same, plus one agent per split that reads prompt, answer and script
 # together and flags a prompt that does not ask for the answer recorded beside it.
-# This is the safeguard on hand-written ground truth: run it once before trusting results.
+# It checks that prompt and answer agree, not that the answer is scientifically right:
+# review new items by hand too. Run it once per task-set change before trusting results.
 acumen check
 
-acumen bench --no-skill       # baseline arm
-acumen bench --skill v1       # skill arm
-acumen bench                  # both
+acumen bench --no-skill       # baseline arm, train + valid
+acumen bench --skill v1       # skill arm, train + valid
+acumen bench                  # both arms
 acumen improve                # v1 -> v2, from TRAIN results only
+acumen bench --split test     # final comparison; bench skips test by default
 acumen report                 # report.html
 ```
 
@@ -97,6 +98,7 @@ skills/v1  = frozen copy of skills/lucid-writer/
      +-- acumen improve               reads TRAIN results only -> skills/v2
      +-- acumen bench --skill v2      arm: skill_v2
      |
+     +-- acumen bench --split test    v1 vs v2 on held-out TEST
      +-- v2 beats v1 on TEST -> copy skills/v2 over skills/lucid-writer/
 ```
 
@@ -114,7 +116,8 @@ version that only wins on train has learned the task set.
 ## Cost
 
 A pass is `models x tasks x replicates x splits x arms`. The committed config is
-1 model x 4 tasks x 2 replicates x 2 splits x 2 arms = **32 runs**, which is a smoke pass.
+1 model x 4 tasks x 2 replicates x 2 splits (train, valid) x 2 arms = **32 runs**, which is a
+smoke pass; `--split test` adds 16 more.
 Check `acumen prices` for current rates before scaling up; every run's cost is derived from
 its own token counts and frozen into `result.json`, so a pass stays individually
 attributable even after provider prices move.
@@ -126,15 +129,26 @@ a different product from one that helps the strong model, and both are plausible
 
 ## Reading the results
 
-`acumen report` gives success rate per arm, train and test, coloured by model. Two things to
+`acumen report` gives success rate per arm and split, coloured by model. Two things to
 check before believing it:
 
 - **A widening train/test gap means the skill is overfitting the task set**, not that it
   works. This is the failure mode a same-session eval cannot show.
-- **All-or-nothing per task is coarse.** A 5-item task scored exact-match is 0 or 1, so
-  8 splits x 2 replicates gives 16 binary outcomes per arm — about 6 percentage points of
-  resolution. For per-item diagnostics, read the retained `answer.md` files under `runs/`
-  and compare them line by line against `tasks.yaml`.
+- **The committed config cannot detect a modest effect.** Each task is scored 0 or 1, so
+  4 tasks x 2 replicates is 8 binary outcomes per arm per split. At 8 vs 8, only about 8/8
+  vs 3/8 or wider is a two-sided p < 0.05 (Fisher). The `ceiling-open` vs `ceiling-defined`
+  comparison is one task each, so 2 vs 2 outcomes: unreadable until `n_replicates` is 5 or
+  more. Replicates of one prompt on one model are not independent draws, so the real
+  sample size is closer to the task count.
+- **Check `skill_loaded` before reading an arm delta.** `score.py` lists skill-arm runs where
+  acumen saw no sign the skill fired; those runs measure the baseline. The skill triggers on
+  manuscript work, and a five-line labelling quiz may not trigger it.
+- **The baseline is not sealed from the skill.** For a local target acumen blocks no
+  repository, and this repo is public: a baseline agent with web access could fetch
+  `SKILL.md` from GitHub. Search the noskill transcripts for `lucid-writer` before trusting
+  a small baseline-to-skill gap.
+- For per-item diagnostics, run `score.py`, or read the retained `answer.md` files under
+  `runs/` against `tasks.yaml`.
 
 Runs land in `runs/{arm}/{split}/{model}/{task_id}/rep_{n}/`, each with `answer.md`, the
 transcript, and a `result.json` carrying tokens, cost, grade reason and skill hash. The run

@@ -35,7 +35,7 @@ def load_expected(tasks_path: Path) -> dict[tuple[str, str], list[str]]:
     data = yaml.safe_load(tasks_path.read_text(encoding="utf-8"))
     out: dict[tuple[str, str], list[str]] = {}
     for task in data["tasks"]:
-        for split in ("train", "test"):
+        for split in ("train", "valid", "test"):
             out[(task["id"], split)] = task[split]["answer"].strip().splitlines()
     return out
 
@@ -108,6 +108,28 @@ def main() -> int:
         cells[key][0] += bool(run.get("success"))
     for (arm, split, model), (ok, total) in sorted(cells.items()):
         print(f"  {arm:10s} {split:5s} {model:22s} {ok:3d}/{total:<3d} {100 * ok / total:5.1f}%")
+
+    # A skill-arm run whose skill never fired measures the baseline, not the skill.
+    print()
+    print("=" * 72)
+    print("SKILL LOADED (acumen's skill_loaded; None means it could not tell)")
+    print("=" * 72)
+    loaded = defaultdict(lambda: defaultdict(int))
+    unattributed = []
+    for run in runs:
+        if not run.get("valid", True) or run["arm"] == "noskill":
+            continue
+        state = run.get("skill_loaded")
+        loaded[run["arm"]][state] += 1
+        if state is not True:
+            unattributed.append(run)
+    for arm, counts in sorted(loaded.items()):
+        total = sum(counts.values())
+        print(f"  {arm:10s} loaded {counts[True]}/{total}  not loaded {counts[False]}  unknown {counts[None]}")
+    for run in unattributed:
+        print(f"    unattributed: {run['task_id']}/{run['split']} {run['arm']} skill_loaded={run.get('skill_loaded')}")
+    if not loaded:
+        print("  no skill-arm runs")
 
     # Diagnostic: per-item accuracy, which is where the resolution actually is.
     print()
