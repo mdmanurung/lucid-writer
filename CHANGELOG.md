@@ -8,6 +8,8 @@ All notable changes to Lucid Writer are documented here.
 
 - Documentation site in `site/` (Quarto), published to <https://mdmanurung.github.io/lucid-writer/> by `.github/workflows/docs.yml`: Home, How it works, Use, Mycelium, Evaluation, Develop.
 - `validate_repo.py` fails when a site page links to a repository path that does not exist.
+- The skill description names claim-level judgements (inference ceiling, epistemic class). Without it, the skill was offered and skipped in 24 of 24 benchmark runs; with it, claude-sonnet-5 loaded it in 2 of 2 probe runs.
+- `bench/`: harder `ceiling-open` train items whose evidence reads like Methods text rather than announcing its design; a manuscript-task opening line on every prompt; `claude-haiku-4-5` as a second model; `score.py` reports format-only failures.
 
 ### Changed
 

@@ -1,6 +1,6 @@
 ---
 name: lucid-writer
-description: This skill should be used when the user asks to draft, revise, tighten, restructure, or review a research article, scientific or technical report, abstract, manuscript section, reviewer response, or submission material; asks to turn figures, tables, analyses, or notes into scholarly prose; asks to check claim–evidence alignment, causal language, citations, reporting completeness, coherence, or generic AI/LLM-sounding academic prose. Do not use for casual, creative, marketing, or personal writing.
+description: This skill should be used when the user asks to draft, revise, tighten, restructure, or review a research article, scientific or technical report, abstract, manuscript section, reviewer response, or submission material; asks to turn figures, tables, analyses, or notes into scholarly prose; asks to check claim–evidence alignment, causal language, citations, reporting completeness, coherence, or generic AI/LLM-sounding academic prose; or asks to judge whether evidence supports a descriptive, associative, predictive, causal, or mechanistic claim, or whether a statement is an observation, literature fact, inference, or hypothesis. Do not use for casual, creative, marketing, or personal writing.
 ---
 
 # Lucid Writer

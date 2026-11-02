@@ -57,20 +57,20 @@ tasks:
         Five claims from a cell-biology study are listed below. Each is followed by the
         evidence that is actually available for it.
 
-        C1. "Reducing SOX2 occupancy with a degron reduced nuclear volume in vitro."
-        Evidence: in vitro perturbation of SOX2 with matched controls, nuclear volume measured after knockdown. No downstream pathway was measured.
+        C1. "Higher SOX2 occupancy caused smaller nuclei, an effect that held after adjusting for cell-cycle phase, passage number and donor."
+        Evidence: CUT&RUN occupancy and confocal nuclear volume in 42 donor-derived samples; multivariable linear regression adjusting for cell-cycle phase, passage number and donor (beta = -0.41, p = 0.002).
 
-        C2. "Mean nuclear volume was 4.1 um3 (SD 0.6) in the treatment arm and 5.0 um3 (SD 0.7) in control, across 42 samples."
-        Evidence: group means and standard deviations computed over the 42 samples.
+        C2. "Nuclear volume fell in a dose-dependent manner across the four SOX2 occupancy quartiles."
+        Evidence: the same 42 samples binned into occupancy quartiles; test for linear trend across quartiles, p = 0.003.
 
-        C3. "SOX2 acts upstream of a PI3K/AKT pathway that controls nuclear volume."
-        Evidence: SOX2 occupancy correlated with phospho-AKT levels across the same 42 samples. No pathway perturbation was performed.
+        C3. "SOX2 occupancy measured on day 0 predicted nuclear volume on day 7 (R² = 0.52)."
+        Evidence: day-0 occupancy and day-7 volume in the same 42 samples; R² from a linear model fitted to those samples.
 
-        C4. "In a held-out cohort of 18 samples, a volume threshold of 4.5 um3 classified treatment assignment with AUROC 0.79."
-        Evidence: AUROC computed on a held-out cohort that was not used to set the threshold. No biological mechanism was measured.
+        C4. "A SOX2 degron reduced nuclear volume by 18 percent relative to an inert degron control."
+        Evidence: wells randomly assigned to the active or the inert degron; volume imaged by an analyst blind to assignment.
 
-        C5. "Lower nuclear volume co-occurred with lower SOX2 occupancy at the same loci."
-        Evidence: cross-sectional correlation between volume and SOX2 occupancy within the same 42 samples. No intervention was performed and no other factor was controlled.
+        C5. "A volume threshold fixed in the first cohort classified treatment in an independent cohort of 30 samples from another laboratory (AUROC 0.77)."
+        Evidence: threshold set on the first cohort's 42 samples, then applied unchanged to the second cohort.
 
         LABEL is the strongest ceiling that the evidence this study produced supports for
         the claim.
@@ -80,11 +80,11 @@ tasks:
 
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
-        C1=CAUSAL
-        C2=DESCRIPTIVE
+        C1=ASSOCIATIVE
+        C2=ASSOCIATIVE
         C3=ASSOCIATIVE
-        C4=PREDICTIVE
-        C5=ASSOCIATIVE
+        C4=CAUSAL
+        C5=PREDICTIVE
     valid:
       prompt: |
         I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
