@@ -19,3 +19,4 @@ bench/*.html
 # Quarto site build output
 site/_site/
 site/.quarto/
+site/site_libs/
