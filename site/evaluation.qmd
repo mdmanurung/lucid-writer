@@ -2,7 +2,7 @@
 title: "Evaluation"
 ---
 
-Every evaluation below has a stated limit, and the limits matter more than the scores. The two case studies were run in-session by one model, before version 1.0; the benchmark is built but has no results yet.
+Every evaluation below has a stated limit, and the limits matter more than the scores. The two case studies were run in-session by one model, before version 1.0; the benchmark has run, and shows the baseline already at ceiling.
 
 ## Case study 1: what it does to prose
 
@@ -47,7 +47,13 @@ That is why the subagents stay optional. **Limits**, from the [report](https://g
 
 [`bench/`](https://github.com/mdmanurung/lucid-writer/tree/main/bench) runs the skill through [acumen](https://github.com/scverse/acumen): a no-skill arm and a skill arm that differ only in whether the skill is installed, in a sandbox that strips the operator's settings and memories.
 
-**No benchmark results yet.** The task set passes `acumen check`; no paid pass has run. This page will report results once one exists.
+**First results (2026-11-02): the bench cannot show a skill effect yet, because there is almost nothing for the skill to fix.** Six rounds, about $3.50 at API rates, gave three findings:
+
+- `claude-sonnet-5` and `claude-haiku-4-5` score at or near 100% without the skill on unambiguous claim-strength judgements. Items that tripped them turned out to have two defensible answers, and fixing that removed the errors.
+- One trap discriminates: an in-sample regression across a time lag described as "predicted". Three of four baseline runs called it predictive.
+- The skill was offered and skipped in every run until its description named the judgement itself. After that change, `claude-sonnet-5` loaded it in both probe runs and caught the trap in both; `claude-haiku-4-5` never loaded it.
+
+The round-by-round table is in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
 
 What it measures: grading is exact string match, so every task is a closed-vocabulary judgement, never prose quality.
 

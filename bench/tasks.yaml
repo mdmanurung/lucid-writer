@@ -92,20 +92,20 @@ tasks:
         Five claims from a freshwater-ecology study are listed below. Each is followed by
         the evidence that is actually available for it.
 
-        C1. "Streams with higher neonicotinoid concentrations had fewer mayfly larvae (Spearman rho = -0.52, 31 streams)."
-        Evidence: a single survey of 31 streams. Concentrations were not manipulated and no other factor was controlled.
+        C1. "Streams with higher neonicotinoid concentrations had fewer mayfly larvae, and this held after adjusting for stream temperature, canopy cover and nitrate."
+        Evidence: kick-net samples and grab-sample concentrations from 31 streams in one 2024 survey; negative binomial regression with the three covariates (rate ratio 0.71 per log unit, p = 0.004).
 
-        C2. "Mean mayfly density was 212 larvae per m2 (SD 64) across the 31 streams."
-        Evidence: stream-level means and standard deviations from the same survey.
+        C2. "The association replicated in a second survey: streams with more neonicotinoid again had fewer mayfly larvae (Spearman rho = -0.48)."
+        Evidence: the same sampling protocol applied to 15 different streams in 2025; the rank correlation was computed afresh in those 15 streams.
 
         C3. "Adding imidacloprid to stream mesocosms reduced mayfly emergence relative to untreated mesocosms."
-        Evidence: mesocosms randomly assigned to dosed or untreated, with emergence counted. No physiological measurement was made.
+        Evidence: 24 mesocosms randomly assigned to 1 ug/L imidacloprid or untreated water; emergence traps emptied daily for 28 days by a technician blind to treatment.
 
-        C4. "A concentration model fitted to the 2024 survey predicted mayfly density in 15 different streams surveyed in 2025 (R2 = 0.38)."
-        Evidence: predictions on streams and a year not used to fit the model. No mechanism was measured.
+        C4. "Imidacloprid reduces mayfly emergence by blocking nicotinic acetylcholine receptors in the larvae."
+        Evidence: across the 31 surveyed streams, larval acetylcholinesterase activity was lower where neonicotinoid concentrations were higher (rho = -0.52).
 
-        C5. "Imidacloprid reduces mayfly emergence by blocking nicotinic acetylcholine receptors in the larvae."
-        Evidence: the mesocosm experiment in C3. Receptor binding was not measured in this study; the receptor pathway is taken from studies of other insect orders.
+        C5. "Mean mayfly density was 212 larvae per m2 (SD 64) across the 31 streams."
+        Evidence: stream-level densities from the 2024 survey, summarised as a mean and standard deviation.
 
         LABEL is the strongest ceiling that the evidence this study produced supports for
         the claim.
@@ -116,10 +116,10 @@ tasks:
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
         C1=ASSOCIATIVE
-        C2=DESCRIPTIVE
+        C2=ASSOCIATIVE
         C3=CAUSAL
-        C4=PREDICTIVE
-        C5=CAUSAL
+        C4=ASSOCIATIVE
+        C5=DESCRIPTIVE
     test:
       prompt: |
         I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.
@@ -127,20 +127,20 @@ tasks:
         Five claims from a machine-learning benchmark study are listed below. Each is
         followed by the evidence that is actually available for it.
 
-        C1. "Removing the augmentation increased out-of-distribution error on the held-out sites."
-        Evidence: ablation in which the augmentation was disabled, with all other settings fixed, evaluated on three sites excluded from all training and tuning.
+        C1. "Training loss at epoch 5 predicted final out-of-distribution accuracy across the 40 training runs (R² = 0.61)."
+        Evidence: 40 training runs with different seeds and learning rates; R² of a linear fit computed on the same 40 runs it was fitted to.
 
-        C2. "A regressor fitted on 20 of the datasets predicted the proposed model's F1 on the 10 remaining datasets (mean absolute error 0.04)."
-        Evidence: the 10 datasets were not used to fit the regressor. No component of the model was changed.
+        C2. "Removing the augmentation increased out-of-distribution error on the held-out sites."
+        Evidence: ablation with the augmentation disabled and every other setting fixed, 5 seeds per arm, evaluated on three sites excluded from all training and tuning.
 
-        C3. "The augmentation generalises by forcing the encoder to attend to shape rather than texture."
-        Evidence: an intervention that blocked shape attention while leaving texture attention intact removed the out-of-distribution gain and left in-distribution accuracy unchanged.
+        C3. "The augmentation helps by making the encoder rely on shape rather than texture."
+        Evidence: across the 40 training runs, runs with a higher shape-versus-texture bias score had lower out-of-distribution error (rho = -0.58).
 
-        C4. "The proposed model reached a mean F1 of 0.71 across the 30 evaluation datasets."
+        C4. "A regressor fitted on 20 of the datasets predicted the proposed model's F1 on the 10 remaining datasets (mean absolute error 0.04)."
+        Evidence: regressor fitted on 20 datasets, then applied unchanged to the other 10.
+
+        C5. "The proposed model reached a mean F1 of 0.71 across the 30 evaluation datasets."
         Evidence: mean and per-dataset F1 over 30 datasets.
-
-        C5. "Models using the augmentation were more accurate on datasets with fewer than 500 training examples."
-        Evidence: observational comparison across the 30 evaluation datasets. No augmentation was withheld to test necessity.
 
         LABEL is the strongest ceiling that the evidence this study produced supports for
         the claim.
@@ -150,12 +150,11 @@ tasks:
 
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
-        C1=CAUSAL
-        C2=PREDICTIVE
-        C3=MECHANISTIC
-        C4=DESCRIPTIVE
-        C5=ASSOCIATIVE
-
+        C1=ASSOCIATIVE
+        C2=CAUSAL
+        C3=ASSOCIATIVE
+        C4=PREDICTIVE
+        C5=DESCRIPTIVE
   - id: ceiling-defined
     needs_script: false
     train:
@@ -174,19 +173,19 @@ tasks:
         the evidence that is actually available for it.
 
         C1. "Drying the soil by 20 percent increased nitrate leaching in lysimeters."
-        Evidence: lysimeter experiment with moisture reduced under control and leaching measured.
+        Evidence: 12 lysimeters randomly assigned to a control or a 20 percent drier irrigation regime; leachate collected weekly for one season.
 
-        C2. "Mean soil moisture was 0.31 (SD 0.09) across the 24 plots."
-        Evidence: plot-level means and standard deviations.
+        C2. "Spring soil moisture predicted autumn nitrate leaching across the 24 plots (R² = 0.44)."
+        Evidence: spring moisture and autumn leachate in 24 plots; R² from a linear model fitted to those 24 plots.
 
-        C3. "Moisture lowers leaching by stimulating denitrifying bacteria, whose activity rises as pore space fills with water."
-        Evidence: denitrifier activity measured by tracer, and moisture manipulated independently of the microbial pathway.
+        C3. "Moisture lowers leaching by stimulating denitrification."
+        Evidence: across the 24 plots, denitrifier nirS gene copies were higher where soil moisture was higher and leaching lower (rho = 0.49).
 
-        C4. "Plot moisture was negatively associated with nitrate leaching (Spearman rho = -0.47, p = 0.02)."
-        Evidence: observational correlation across 24 plots. No manipulation of moisture.
+        C4. "A regression fitted on 16 plots predicted nitrate leaching on the 8 remaining plots (R² = 0.41)."
+        Evidence: model fitted to 16 plots, then applied unchanged to the other 8; R² computed on those 8.
 
-        C5. "A regression fitted on 16 plots predicted nitrate leaching on the 8 held-out plots (R² = 0.41)."
-        Evidence: out-of-sample prediction on plots not used to fit the model. No field manipulation.
+        C5. "Mean soil moisture was 0.31 (SD 0.09) across the 24 plots."
+        Evidence: plot-level volumetric moisture, summarised as a mean and standard deviation.
 
         LABEL is the strongest ceiling that the evidence this study produced supports for
         the claim.
@@ -197,10 +196,10 @@ tasks:
         Output exactly five lines, ordered C1 through C5, and nothing else.
       answer: |
         C1=CAUSAL
-        C2=DESCRIPTIVE
-        C3=MECHANISTIC
-        C4=ASSOCIATIVE
-        C5=PREDICTIVE
+        C2=ASSOCIATIVE
+        C3=ASSOCIATIVE
+        C4=PREDICTIVE
+        C5=DESCRIPTIVE
     valid:
       prompt: |
         I'm revising the Results of a research manuscript and need to check that no claim is stronger than its evidence before I edit the text.

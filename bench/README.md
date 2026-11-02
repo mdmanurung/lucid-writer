@@ -133,6 +133,40 @@ model. The informative axis is a quality spread — a skill that helps only the 
 a different product from one that helps the strong model, and both are plausible — so add
 `claude-haiku-4-5-20251001` next to `claude-sonnet-5` rather than reaching for opus.
 
+## First results (2026-11-02)
+
+Six rounds, about $3.50 at API rates in total, all on train and valid except one test probe.
+Every round's runs are kept under `runs-archive/<date>-<label>/` (gitignored).
+
+| Round | Change | Baseline (noskill) | Skill arm | Skill loaded |
+|---|---|---|---|---|
+| 1 | original prompts, `claude-sonnet-5` only, 32 runs | 16/16 | 15/16 (the miss is format-only) | 0/16 |
+| 2 | manuscript-task opening line; `claude-haiku-4-5` added; 4-run probe | — | 4/4 | 0/4 |
+| 3 | harder `ceiling-open` train items | 3/4 | — | — |
+| 4 | same items, evidence written as Methods text | 1/4 | 2/4 | 0/4, then 2/4 after the description change |
+| 5 | three more splits, mechanism claims with dual evidence | 3/4, 0/4, 3/4 | — | — |
+| 6 | round 5 with each mechanism claim given only its correlate | 4/4, 4/4, 3/3 | — | — |
+
+What they show:
+
+- **Both models are at ceiling on unambiguous claim-strength judgements without the skill.**
+  The round-5 misses came from items with two defensible readings; removing the second
+  reading in round 6 removed the misses. Difficulty and ambiguity were the same thing.
+- **One item reliably discriminates:** `ceiling-open` train C3, a day-0 to day-7 regression
+  fitted and evaluated on the same samples. Three of four baseline runs called it PREDICTIVE.
+  The same trap without the time lag (`ceiling-open` test C1, `ceiling-defined` train C2)
+  tripped no one.
+- **The skill was offered and skipped until its description named the judgement.** After
+  the `SKILL.md` description gained "judge whether evidence supports a descriptive,
+  associative, predictive, causal, or mechanistic claim", `claude-sonnet-5` loaded it in 2 of
+  2 runs and both caught C3. `claude-haiku-4-5` never loaded it.
+
+The bench therefore cannot show a skill effect in its present form: there is almost no
+baseline error left to fix. The paid loop is stopped. `ceiling-defined` valid and test,
+`claim-class` and `minimal-repair` still carry the earlier, easier items. Resume only with a
+trap that is both hard and unambiguous, and probe its baseline (`acumen bench --no-skill
+--task <id> --split <split>`, about $0.30) before writing a full split around it.
+
 ## Reading the results
 
 `acumen report` gives success rate per arm and split, coloured by model. Two things to
