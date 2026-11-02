@@ -41,10 +41,8 @@ jobs:
       # Installed from git, not PyPI: the published acumen 0.0.1.dev0 has no `check`
       # subcommand. Contacts PyPI and github.com only — no provider, no credentials, no
       # spend. This is the gate to run before any pass that does spend.
-      # Pinned: dfedfe05d is the last commit that accepts train/test-only tasks; from
-      # beae7bf6d on, every task needs a `valid` split too. Unpin after adding one.
       - name: Install acumen from git
-        run: uv tool install --force 'acumen[claude] @ git+https://github.com/scverse/acumen@dfedfe05dc6a2da64155ce87597e0cbb60457f10'
+        run: uv tool install --force 'acumen[claude] @ git+https://github.com/scverse/acumen@c6acb9f9553aea41251cf9f0b3d6e0a93aecd94f'
       - name: Validate benchmark target and task set (no provider calls)
         working-directory: bench
         run: acumen check --no-review

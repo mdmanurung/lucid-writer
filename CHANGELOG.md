@@ -1,5 +1,7 @@
 # Changelog
 
+All notable changes to Lucid Writer are documented here.
+
 ## [1.0.0] - 2026-11-01
 
 ### Renamed
@@ -15,10 +17,24 @@
 - Figure–text flags (orphan, phantom, panel, axis/unit, direction, n drift) and a mandatory **Not checked** list in reviews and all subagents (`references/review.md`).
 - `Known weaknesses` brief field; the skeptical reviewer treats acknowledged limitations as context and works through four lenses.
 - Mycelium integration: in a `.living/` repository, verified provenance (`provenance/outputs-<hash>.tsv`, `verify-<hash>.md`, `outputs/numbers.json`, claims blocks) outranks prose; release reads mycelium-extra `verify report` and `manuscript_audit.py` results instead of re-deriving them; the preflight agent maps their statuses.
-- `network/conventions/lucid-writer/`: a Mycelium convention pack so `/mycelium:report` can route Markdown manuscripts to this skill. `validate_repo.py` checks its name and version.
+- `network/conventions/lucid-writer/`: an opt-in Mycelium convention pack that `/mycelium:report` offers as a Markdown-manuscript report style. `validate_repo.py` checks its name and version.
 - `.claude-plugin/marketplace.json` for `/plugin marketplace add`.
 - Ideas adapted from `seandavi/scriptorium` in original wording; see `NOTICE.md`.
 - Evals: `citation_check_metadata` and `hidden_instruction` cases; review and preflight cases now expect a not-checked list.
+- `bench/`: an [acumen](https://github.com/scverse/acumen) benchmark harness with a `noskill` baseline arm, train/valid/test splits, and per-item diagnostics (`bench/score.py`), including a `skill_loaded` report per arm.
+- Four benchmark task types on disjoint contents per split: inference ceiling with definitions supplied (the control) and without, epistemic class, and minimal claim-preserving repair. Answer order is shuffled in every split.
+- `pyproject.toml` and `lucid_writer/__init__.py` as a packaging shim, so `acumen` accepts this repository as a benchmark target.
+- CI job gating the wheel build and `acumen check --no-review` against a pinned acumen commit; both spend nothing.
+
+### Security
+
+- Author corrections are claims to check, not sources of truth; one that changes a number, n, design or ceiling without an artifact gets `[EVIDENCE NEEDED]`.
+- `metadata only` caps a citation verdict at `partially supports`; `checked against full text` names its source, and pasted text is `author-supplied text`.
+- Mycelium provenance counts as verified only when its hash is in `PROVENANCE.md` and `/mycelium-extra:verify` ran this session; lower tiers never silently replace prose; Mycelium is detected by `.living/` and `.mycelium/` together.
+- Non-negotiable 5 is fixed; gap markers sit at the claim; non-negotiable 9 covers reviewer comments, response letters, `.lucid-writer/` and `.living/`, and process instructions.
+- Acknowledged weaknesses mute a finding only when title, abstract and key message stay within them.
+- Hedged causal wording and association-as-prediction are listed as unsafe upgrades; sentence-rhythm edits need a listed pattern at that spot.
+- The preflight subagent accepts mycelium-extra results only from the main agent's own run this session.
 
 ### Fixed
 
@@ -28,14 +44,10 @@
 - The convention pack is described as a report style `/mycelium:report` offers, not an automatic route.
 - One severity scale (`references/review.md`); the Codex subagents carry every rule of their Markdown twins, and `validate_repo.py` guards the shared rules.
 - The quick-start and eval 6 use the five-pass audit order.
-- `validate_ledger.py` reports short and long rows instead of crashing, and treats claim ids case-insensitively.
+- `validate_ledger.py` reports short and long rows and cells over 128 KB instead of crashing, and treats claim ids case-insensitively.
 - `bench/score.py` no longer pools the same expected line across tasks and splits.
-- `lint.py` no longer crashes on non-UTF-8 input; `install.ps1` stops on the first error.
+- `lint.py` no longer crashes on non-UTF-8 input; `install.ps1` stops on the first error and removes a symlinked or junction install as a link only.
 - README: the installer also copies the subagents; Uninstall removes them; the bench `score.py` path.
-- `bench/`: an [acumen](https://github.com/scverse/acumen) benchmark harness with a `noskill` baseline arm, a held-out train/test split, and per-item diagnostics (`bench/score.py`).
-- Four benchmark task types, each instantiated on two disjoint contents: inference-ceiling classification with and without the label definitions supplied, epistemic-class assignment, and minimal claim-preserving repair.
-- `pyproject.toml` and `lucid_writer/__init__.py` as a packaging shim, so `acumen` accepts this repository as a benchmark target.
-- CI job gating the wheel build and `acumen check --no-review`, both of which spend nothing and both of which fail on a change that would otherwise be found only after a paid pass.
 
 ### Changed
 
@@ -87,8 +99,6 @@ The benchmark grades closed-vocabulary judgements by exact string match. It cann
 - Preserved design/method context when it affects interpretation.
 - Added measurement/terminology fidelity to prevent compression such as `library size` → `yield`.
 - Retested the two detected skill failures after the narrow patch.
-
-All notable changes to Research Writer will be documented here.
 
 ## [0.4.0] - 2026-09-18
 

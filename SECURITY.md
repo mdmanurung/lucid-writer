@@ -8,7 +8,7 @@ Lucid Writer's bundled scripts:
 - make no network requests;
 - do not read credentials;
 - do not transmit manuscript content;
-- `style_trace_lint.py` performs local heuristic review only and does not classify authorship;
+- `lint.py` performs local heuristic review only and does not classify authorship;
 - write only when `init_project.py` is explicitly run.
 
 Report security issues through the repository's private security-reporting mechanism when available.

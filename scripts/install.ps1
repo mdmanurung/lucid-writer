@@ -13,7 +13,13 @@ $SkillSource = Join-Path $Root "skills\lucid-writer"
 function Install-Skill([string]$Destination) {
     $Parent = Split-Path -Parent $Destination
     New-Item -ItemType Directory -Force -Path $Parent | Out-Null
-    if (Test-Path $Destination) { Remove-Item -Recurse -Force $Destination }
+    if (Test-Path $Destination) {
+        $Item = Get-Item -Force $Destination
+        # A junction or symlink: delete the link only. Windows PowerShell 5.1's
+        # Remove-Item -Recurse would follow it and empty the target directory.
+        if ($Item.Attributes -band [IO.FileAttributes]::ReparsePoint) { $Item.Delete() }
+        else { Remove-Item -Recurse -Force $Destination }
+    }
     Copy-Item -Recurse -Force $SkillSource $Destination
     Write-Host "Installed skill -> $Destination"
 }

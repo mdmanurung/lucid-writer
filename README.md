@@ -62,7 +62,7 @@ For individual use, install the **skill** directly. Plugin manifests are include
 ### macOS / Linux
 
 ```bash
-git clone <YOUR-GITHUB-REPO-URL> lucid-writer
+git clone https://github.com/mdmanurung/lucid-writer
 cd lucid-writer
 bash scripts/install.sh both  # skill + optional review subagents
 ```
@@ -70,14 +70,14 @@ bash scripts/install.sh both  # skill + optional review subagents
 ### Windows PowerShell
 
 ```powershell
-git clone <YOUR-GITHUB-REPO-URL> lucid-writer
+git clone https://github.com/mdmanurung/lucid-writer
 cd lucid-writer
 .\scripts\install.ps1 both  # skill + optional review subagents
 ```
 
 Use `codex` or `claude` instead of `both` to install only one target.
 
-The installer copies `skills/lucid-writer/` and, by default, the three review subagents (`~/.claude/agents/lucid-*.md`, `~/.codex/agents/lucid_*.toml`). Pass `--skill-only` (PowerShell: `-SkillOnly`) to skip the subagents. It replaces any existing installed copy, has no external dependencies, and makes no network requests beyond the `git clone` you run yourself.
+The installer copies `skills/lucid-writer/` and, by default, the three review subagents (`~/.claude/agents/lucid-*.md`, `~/.codex/agents/lucid_*.toml`). Pass `--skill-only` after the target (`bash scripts/install.sh claude --skill-only`; PowerShell: `-SkillOnly`) to skip the subagents. It replaces any existing installed copy, has no external dependencies, and makes no network requests beyond the `git clone` you run yourself.
 
 ## Codex
 
@@ -105,6 +105,8 @@ Codex scans `.agents/skills` from the current working directory up to the reposi
 
 Official documentation: [OpenAI — Build skills](https://developers.openai.com/docs/build-skills)
 
+The Codex plugin manifest (`.codex-plugin/plugin.json`) ships the skill only. For the three review subagents, run `bash scripts/install.sh codex`, which copies them to `~/.codex/agents/`.
+
 ## Claude Code
 
 For a personal skill:
@@ -114,7 +116,14 @@ mkdir -p ~/.claude/skills
 cp -R skills/lucid-writer ~/.claude/skills/lucid-writer
 ```
 
-For plugin development/testing, the repository also includes `.claude-plugin/plugin.json`. Claude Code supports local plugin loading and marketplace-based distribution.
+Or install it as a plugin, which also loads the three review subagents:
+
+```text
+/plugin marketplace add mdmanurung/lucid-writer
+/plugin install lucid-writer@lucid-writer
+```
+
+Use either the installer or the plugin, not both: both together load two copies of the skill and the subagents.
 
 Official examples and skill specification: [Anthropic Agent Skills](https://github.com/anthropics/skills) and [Claude Code](https://github.com/anthropics/claude-code).
 
@@ -279,7 +288,7 @@ Lucid Writer runs these through the mycelium-extra skills, which own the invocat
 To make Lucid Writer a report style that `/mycelium:report` offers, install the convention pack into the Mycelium repository. The router still follows `report-generator` (LaTeX) by default and lists other installed packs as choices:
 
 ```bash
-python "$(cat .mycelium/plugin-root)/skills/core/scripts/install_convention.py" \
+python3 "$(cat .mycelium/plugin-root)/skills/core/scripts/install_convention.py" \
   --name lucid-writer --network-dir /path/to/lucid-writer/network/conventions
 ```
 
@@ -329,11 +338,11 @@ The repository contains both routine and adversarial evaluation material:
 - [`bench/`](bench/README.md) — an [acumen](https://github.com/scverse/acumen) pass with a
   no-skill baseline arm and a held-out train/test split.
 
-Repository validation checks files and scripts; it does **not** substitute for model-level evaluation. Run the behavioral cases on each target host/model before making performance claims.
+Repository validation checks files and scripts; it does **not** substitute for model-level evaluation. `evals/cases.jsonl` holds rubric cases for a human or model grader; there is no runner, so they are a checklist, not a test.
 
 ### Quantitative benchmark
 
-Everything under `evals/` was produced in-session, by one model, with no held-out split — which is why each file above states its own limitation. [`bench/`](bench/README.md) closes that gap with a real control: a `noskill` arm and a `skill_v1` arm that differ in exactly one respect, sandbox isolation that removes the operator's own settings and memories, and a test split that `improve` never sees.
+Everything under `evals/` was produced in-session, by one model, with no held-out split — which is why each file above states its own limitation. [`bench/`](bench/README.md) narrows that gap for one behaviour, claim-strength judgement: a `noskill` arm and a `skill_v1` arm that differ in one respect, sandbox isolation that removes the operator's own settings and memories, and a test split that `improve` never sees. It runs one model at 2 replicates, so it detects only large effects, and it does not exercise the `evals/` cases.
 
 ```bash
 cd bench
@@ -399,7 +408,7 @@ The repository includes an auditable same-model A/B smoke test comparing generic
 
 See [`evals/paired-ab-test-2026-09-18.md`](evals/paired-ab-test-2026-09-18.md) for the exact prompts, outputs, scores, limitations, and retests.
 
-This is not presented as an independent benchmark. The next recommended evaluation is fresh-session, multi-model, blinded scoring using the frozen cases — which is what the [`bench/`](bench/README.md) harness now provides, and why the two are complementary rather than competing.
+This is not presented as an independent benchmark. The next recommended evaluation is fresh-session, multi-model, blinded scoring of the frozen cases. The [`bench/`](bench/README.md) harness provides fresh sessions and a baseline arm for claim-strength judgements only; it does not run these cases.
 
 
 
