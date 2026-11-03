@@ -80,7 +80,7 @@ For stable author or team style, copy `skills/lucid-writer/assets/voice-profile.
 
 ## Mechanical checks
 
-The helpers need Python 3.11 or newer and only the standard library. On Linux and HPC systems without `python` on `PATH`, call them with `python3`.
+The helpers need Python 3.11 or newer and only the standard library. On Linux and HPC systems without `python` on `PATH`, call them with `python3`. On RHEL 8, `python3` is 3.6 and fails with `SyntaxError: future feature annotations is not defined`; call `python3.11` instead.
 
 ```bash
 # release and style cues: placeholders, causal verbs, filler
