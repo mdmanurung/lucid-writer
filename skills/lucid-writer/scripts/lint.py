@@ -18,6 +18,8 @@ RULES = [
     ("style", r"\b(?:Interestingly|Notably|Importantly|Taken together)\b", "stock emphasis/signposting; verify it adds information"),
     ("style", r"\bdue to the fact that\b|\bin order to\b", "wordy construction"),
     ("style", r"\bnot (?:only|just|merely|simply)\b[^.;]{0,80}?\bbut(?: also)?\b", "contrast against a claim no one made; state the point"),
+    ("style", r"\b(?:it'?s|it is|this is) not (?:just|only|merely|simply) (?:a|an|the)?\s?\w+(?: \w+)?[;,]\s*(?:it'?s|it is|this is)\b", "contrast against a claim no one made; state the point"),
+    ("style", r"\blet that sink in\b|\bread that again\b|\band the best part\?|\bhere'?s the (?:thing|kicker)\b", "staged emphasis; state the fact"),
     ("style", r"\b(?:serves?|serving|stands?) as (?:a|an|the)\b|\bboasts?\b", "inflated verb; try 'is' or 'has'"),
     ("style", r",\s*(?:highlighting|underscoring|emphasi[sz]ing|reflecting|showcasing)\b", "-ing rider; check it does not upgrade the claim"),
     ("review", r"\b(?:(?:previous|prior|recent|several|many|numerous) )?studies (?:have )?(?:shown|demonstrated|suggested)\b(?![^.]{0,60}(?:\[\d|\[@|\(\w[^)]*\d{4}|\\cite))|\bit is (?:well[- ]established|widely accepted|believed) that\b", "unattributed authority; cite or mark [CITATION NEEDED]"),
@@ -57,11 +59,12 @@ def self_test() -> int:
     s = ("It is important to note that this proves proves X. [CITATION NEEDED] "
          "This is not only a marker but also a target. The cohort serves as a model, "
          "IL-10 rose, highlighting its role. Previous studies have shown that X binds Y. "
-         "I hope this helps. A \u2014 B \u2014 C \u2014 D.")
+         "I hope this helps. A \u2014 B \u2014 C \u2014 D. Let that sink in.")
     msgs = {x["message"] for x in lint(s)}
     need = {"stock metadiscourse","strong causal/evidentiary verb; verify support",
             "duplicate consecutive word","unresolved evidence/citation placeholder",
             "contrast against a claim no one made; state the point",
+            "staged emphasis; state the fact",
             "inflated verb; try 'is' or 'has'",
             "-ing rider; check it does not upgrade the claim",
             "unattributed authority; cite or mark [CITATION NEEDED]",
