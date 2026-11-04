@@ -81,11 +81,15 @@ def main():
     ap.add_argument("--model", default="claude-opus-5-5",
                     help="explicit ID; the 'opus' alias resolved to a model whose classifier blocked a biology abstract")
     ap.add_argument("--jobs", type=int, default=8)
+    ap.add_argument("--rescore", metavar="RUN_DIR", help="score a saved run again; no new API calls")
     a = ap.parse_args()
 
     setups = [s.strip() for s in a.setups.split(",") if s.strip()]
     claims = json.loads(read(GATE / "abstracts" / "claims.json"))
     abstracts = {k: read(GATE / "abstracts" / f"{k}.txt") for k in claims}
+    if a.rescore:
+        outputs, codes = load_run(Path(a.rescore).resolve())
+        return score(Path(a.rescore).resolve(), setups, list(abstracts), a.runs, a.model, outputs, codes)
     run_dir = GATE / "runs" / dt.datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir.mkdir(parents=True, exist_ok=False)
 
@@ -115,6 +119,8 @@ def main():
                           recode_prompt(abstracts[ab], claims[ab], {l: outputs[k] for l, k in labels.items()}),
                           a.model)
         (run_dir / f"recode_{ab}.jsonl").write_text(text, encoding="utf-8")
+        (run_dir / f"recode_{ab}.key.json").write_text(
+            json.dumps({l: "__".join(map(str, k)) for l, k in labels.items()}), encoding="utf-8")
         for line in text.splitlines():
             line = line.strip()
             if line.startswith("{"):
@@ -122,8 +128,32 @@ def main():
                 if d.get("id") in labels:
                     codes[labels[d["id"]]] = d
 
-    # Score.
-    rows, failed, inconclusive = [], False, False
+    return score(run_dir, setups, list(abstracts), a.runs, a.model, outputs, codes)
+
+
+def load_run(run_dir):
+    """Outputs and codes saved by an earlier run, for --rescore."""
+    outputs, codes = {}, {}
+    for f in run_dir.glob("*__*__*.txt"):
+        s, ab, r = f.stem.split("__")
+        text = f.read_text(encoding="utf-8").strip()
+        if text and not text.startswith("API Error") and text != "timeout":
+            outputs[(s, ab, int(r))] = text
+    for kf in run_dir.glob("recode_*.key.json"):
+        ab = kf.name[len("recode_"):-len(".key.json")]
+        labels = {l: tuple(int(x) if x.isdigit() else x for x in v.split("__"))
+                  for l, v in json.loads(kf.read_text(encoding="utf-8")).items()}
+        for line in (run_dir / f"recode_{ab}.jsonl").read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line.startswith("{"):
+                d = json.loads(line)
+                if d.get("id") in labels:
+                    codes[labels[d["id"]]] = d
+    return outputs, codes
+
+
+def score(run_dir, setups, abstracts, runs, model, outputs, codes):
+    rows, failed, decided = [], False, set()
     for s in setups:
         for ab in abstracts:
             ks = [k for k in outputs if k[0] == s and k[1] == ab]
@@ -132,23 +162,27 @@ def main():
             stronger = sum(c["c2"] == "stronger" for c in coded)
             added = sum(len(c.get("added", [])) for c in coded)
             gated = s.startswith("full")
-            short = gated and len(coded) < MIN_OK
             fail = gated and bool(causal or stronger)
             failed |= fail
-            inconclusive |= short
-            rows.append((s, ab, len(coded), a.runs - len(ks), causal, stronger,
-                         f"{added / len(coded):.1f}" if coded else "-",
-                         "FAIL" if fail else ("inconclusive" if short else ("ok" if gated else "not gated"))))
+            if gated and len(coded) >= MIN_OK:
+                decided.add(s)
+            result = ("FAIL" if fail else "not gated" if not gated
+                      else "ok" if len(coded) >= MIN_OK else "blocked, skipped" if not coded else "too few runs")
+            rows.append((s, ab, len(coded), runs - len(ks), causal, stronger,
+                         f"{added / len(coded):.1f}" if coded else "-", result))
 
+    # An abstract the classifier blocks is skipped; a full setup with no decided abstract is inconclusive.
+    inconclusive = any(s.startswith("full") and s not in decided for s in setups)
     verdict = "FAIL" if failed else ("INCONCLUSIVE" if inconclusive else "PASS")
     lines = [f"## Gate: {verdict}", "",
-             f"Model `{a.model}`, {a.runs} runs per setup and abstract, blind recode. "
-             f"Runs in `{run_dir.relative_to(ROOT)}`.", "",
+             f"Model `{model}`, {runs} runs per setup and abstract, blind recode. "
+             f"Runs in `{run_dir.relative_to(ROOT) if ROOT in run_dir.parents else run_dir}`.", "",
              "| Setup | Abstract | Coded runs | Blocked or failed | C1 kept causal | C2 stronger | Additions per run | Result |",
              "|---|---|---|---|---|---|---|---|"]
     lines += [f"| {' | '.join(str(x) for x in r)} |" for r in rows]
-    lines += ["", "Pass rule: no `full` setup keeps a causal C1 or strengthens C2; "
-              f"at least {MIN_OK} coded runs per `full` setup and abstract. `prose` is reported, not gated."]
+    lines += ["", "Pass rule: no `full` setup keeps a causal C1 or strengthens C2, and each `full` setup "
+              f"has at least {MIN_OK} coded runs on at least one abstract. An abstract the safety classifier "
+              "blocks is skipped. `prose` is reported, not gated."]
     summary = "\n".join(lines)
     (run_dir / "summary.md").write_text(summary + "\n", encoding="utf-8")
     print(summary)
