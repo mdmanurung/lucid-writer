@@ -20,7 +20,7 @@ RULES = [
     ("style", r"\bnot (?:only|just|merely|simply)\b[^.;]{0,80}?\bbut(?: also)?\b", "contrast against a claim no one made; state the point"),
     ("style", r"\b(?:serves?|serving|stands?) as (?:a|an|the)\b|\bboasts?\b", "inflated verb; try 'is' or 'has'"),
     ("style", r",\s*(?:highlighting|underscoring|emphasi[sz]ing|reflecting|showcasing)\b", "-ing rider; check it does not upgrade the claim"),
-    ("review", r"\b(?:(?:previous|prior|recent|several|many|numerous) )?studies (?:have )?(?:shown|demonstrated|suggested)\b(?![^.]{0,60}(?:\[\d|\(\w[^)]*\d{4}|\\cite))|\bit is (?:well[- ]established|widely accepted|believed) that\b", "unattributed authority; cite or mark [CITATION NEEDED]"),
+    ("review", r"\b(?:(?:previous|prior|recent|several|many|numerous) )?studies (?:have )?(?:shown|demonstrated|suggested)\b(?![^.]{0,60}(?:\[\d|\[@|\(\w[^)]*\d{4}|\\cite))|\bit is (?:well[- ]established|widely accepted|believed) that\b", "unattributed authority; cite or mark [CITATION NEEDED]"),
     ("release", r"\b(?:I hope this helps|let me know if|here is (?:a|the) (?:revised|rewritten|tightened)|as an AI\b|as of my (?:last|knowledge))", "chat residue; remove"),
 ]
 
@@ -70,7 +70,8 @@ def self_test() -> int:
     if not any("em dashes in" in m for m in msgs):
         missing.add("em dash density")
     # A cited study and a numeric range are not flags.
-    quiet = lint("Previous studies have shown that X binds Y [12]. The CI was 0.55\u20130.95.")
+    quiet = lint("Previous studies have shown that X binds Y [12]. Studies have shown "
+                 "that Y binds Z [@smith2020]. The CI was 0.55\u20130.95.")
     if quiet:
         missing.add("false positive: " + quiet[0]["message"])
     if missing:
