@@ -4,8 +4,11 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-04
+
 ### Added
 
+- Always-on mode for Claude Code: `/lucid-writer lite|full|off|status`. SessionStart and SubagentStart hooks inject `hooks/rules/lite.md` (prose patterns) or that plus `hooks/rules/full.md` (evidence ceiling). Off by default; "stop lucid-writer" turns it off for one session. Hook design informed by `gvzdv/claudish-to-english`.
 - Documentation site in `site/` (Quarto), published to <https://mdmanurung.github.io/lucid-writer/> by `.github/workflows/docs.yml`: Home, How it works, Use, Mycelium, Evaluation, Develop.
 - `validate_repo.py` fails when a site page links to a repository path that does not exist.
 - The skill description names claim-level judgements (inference ceiling, epistemic class). Without it, the skill was offered and skipped in 24 of 24 benchmark runs; with it, claude-sonnet-5 loaded it in 2 of 2 probe runs.

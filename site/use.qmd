@@ -40,6 +40,19 @@ More examples are in [`examples/quick-start.md`](https://github.com/mdmanurung/l
 
 A review ends with a **Not checked** list: what the review could not see, test or chose to skip, such as figure images or sources that were not supplied.
 
+## Always-on mode
+
+In Claude Code, the plugin can apply its prose rules to every reply, not only to writing tasks. It is off by default.
+
+| Command | Effect |
+|---|---|
+| `/lucid-writer lite` | plain-prose rules: cut generic-model patterns, keep meaningful hedges |
+| `/lucid-writer full` (or `on`) | lite plus the evidence ceiling for any finding you state |
+| `/lucid-writer off` | turn always-on off |
+| `/lucid-writer status` | show the current mode and flag path |
+
+A change applies from the next session start or `/clear`. Saying "stop lucid-writer" turns it off for the rest of the session only. The mode lives in `~/.claude/.lucid-writer-mode` (or under `$CLAUDE_CONFIG_DIR`). The rulesets are [`hooks/rules/lite.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/lite.md) and [`hooks/rules/full.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/full.md); together they add about 2,800 characters to each session. The hooks need `node` on `PATH` and do nothing when it is missing. Codex has no equivalent.
+
 ## Review subagents
 
 Three read-only reviewers ship with the skill for high-stakes work. They return findings; the main agent reconciles them and owns every edit.
