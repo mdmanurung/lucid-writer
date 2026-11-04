@@ -158,6 +158,20 @@ Ideas adopted, in original wording: fixed accuracy guards separated from author-
 - Greenberg, S. A. (2009). How citation distortions create unfounded authority: analysis of a citation network. *BMJ, 339*, b2680. https://doi.org/10.1136/bmj.b2680. Used for the graded citation verdict.
 - Cobo, E., et al. (2007). Statistical reviewers improve reporting in biomedical articles: a randomized trial. *PLoS ONE, 2*(3), e332. https://doi.org/10.1371/journal.pone.0000332. Used for the dedicated statistical lens; the same trial found no effect from handing reviewers a checklist.
 
+### blader/humanizer
+https://github.com/blader/humanizer
+
+License: MIT. © 2025 Siqi Chen. Builds on Wikipedia's "Signs of AI writing" (WikiProject AI Cleanup).
+
+Ideas adopted, in original wording, in `references/patterns.md` and `lint.py`: patterns ranked by strength, with strong ones acted on at one sighting and weak ones only in clusters; the groups staging, rhythm, inflation, formatting and leftovers; "every kept sentence adds something new". Not adopted: cutting stacked qualifiers, naming the relationship behind "associated with", preferring active voice, banning em dashes, and returning a draft plus a pattern list. Each conflicts with evidence-bounded wording or with non-negotiable 8; `patterns.md` lists them as science overrides.
+
+### gvzdv/claudish-to-english
+https://github.com/gvzdv/claudish-to-english
+
+License: MIT. © 2026 Mike Gvozdev.
+
+Ideas adopted for the always-on hook: a flag file that survives the session, hooks that fail open, and a status line that names how to turn the mode off. Its rewrite prompts send text to a second model and were not adopted.
+
 ## Licensing note
 
 The instructions and code in this repository are original and distributed under the MIT License. Referenced books, articles, documentation, and third-party repositories retain their own copyrights and licenses.

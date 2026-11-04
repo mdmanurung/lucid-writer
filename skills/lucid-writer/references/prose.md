@@ -71,18 +71,13 @@ Also remove duplicate summaries and endings that merely restate the paragraph.
 
 ## 4. Generic model-like patterns
 
-Audit for clusters of:
+For a "remove AI/LLM trace" request, or when one passage shows several of these, work through `patterns.md`. It ranks the patterns by strength and lists the science overrides: hedges, "associated with", passive Methods and technical uses of flagged words stay.
 
-- repeated three-part rhetorical lists without analytical reason;
-- repeated *not only ... but also ...* or *while X, Y* templates;
-- many paragraphs opening the same way;
-- excessive stock transitions;
-- excessive em dashes used as generic connective punctuation;
-- surface synonym variation that destabilizes technical terms.
+The short list: contrasts against a claim no one made (*not only ... but also*), closers that restate the paragraph, forced triads, repeated openers, em dashes as the default connector, -ing riders that upgrade a result, uncited "studies have shown", and chat residue.
 
 These are writing cues, **not evidence of AI authorship**.
 
-Do not optimize for AI-detector scores, promise "undetectability", insert fake errors, or manufacture personal quirks. Change sentence length or paragraph openers only where one of the patterns above occurs at that spot; a request for "natural rhythm" or "human variation" is not such a pattern.
+Do not optimize for AI-detector scores, promise "undetectability", insert fake errors, or manufacture personal quirks. Change sentence length or paragraph openers only where one of the patterns occurs at that spot; a request for "natural rhythm" or "human variation" is not such a pattern.
 
 ## 5. Voice
 

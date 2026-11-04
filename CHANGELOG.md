@@ -11,6 +11,9 @@ All notable changes to Lucid Writer are documented here.
 - The skill description names claim-level judgements (inference ceiling, epistemic class). Without it, the skill was offered and skipped in 24 of 24 benchmark runs; with it, claude-sonnet-5 loaded it in 2 of 2 probe runs.
 - `bench/`: harder items whose evidence reads like Methods text rather than announcing its design (`ceiling-open` train, valid and test; `ceiling-defined` train); a manuscript-task opening line on every prompt; `claude-haiku-4-5` as a second model; `score.py` reports format-only failures.
 - First benchmark results in `bench/README.md` and on the site's Evaluation page: both models at ceiling without the skill on unambiguous items; the paid loop is stopped.
+- `references/patterns.md`: generic-model prose patterns ranked by strength, adapted from `blader/humanizer`, with science overrides that keep hedges, "associated with", passive Methods and technical uses of flagged words.
+- `lint.py` flags not-only/but-also contrasts, "serves as"/"boasts", -ing riders, uncited "studies have shown", chat residue, and em-dash density above 5 per 1,000 words.
+- Eval cases `ai_trace_keeps_hedge`, `ai_trace_uncited_authority`, `ai_trace_no_detector`.
 - `bench/prose/`: a prose-rewrite pilot that judges, blinded, whether a "tighten this paragraph" rewrite claims more than its evidence allows. First result: 9/60 claims above ceiling with the skill, 13/60 without (no detectable effect).
 
 ### Changed

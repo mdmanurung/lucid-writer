@@ -109,7 +109,7 @@ For substantial work, check in this order:
 4. **Prose:** cut filler and repetition; prefer concrete subjects and direct syntax; retain necessary qualification.
 5. **Delivery:** align title, abstract, body, figures/tables, captions, supplement, and response materials.
 
-For explicit coherence or "remove LLM trace" requests, use `references/prose.md`.
+For explicit coherence or "remove LLM trace" requests, use `references/prose.md` and `references/patterns.md`.
 
 For full-document review, use `references/review.md`.
 

@@ -97,7 +97,7 @@ def main() -> int:
         fail("OpenAI skill metadata should allow implicit invocation for everyday use")
 
     required_refs = [
-        "structure.md", "evidence.md", "prose.md",
+        "structure.md", "evidence.md", "prose.md", "patterns.md",
         "review.md", "reporting.md", "project-state.md"
     ]
     ref_dir = SKILL.parent / "references"
