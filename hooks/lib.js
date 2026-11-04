@@ -38,10 +38,28 @@ function readRules(name) {
   }
 }
 
-// lite is the prose rules; full adds the evidence ceiling.
-function render(mode) {
+const VOICE_MAX = 4000;
+
+// The project's voice profile, or '' when there is none. It is style evidence
+// written by the author; the full rules above it keep it from adding claims.
+function readProjectVoice(cwd) {
+  try {
+    const file = path.join(cwd, '.lucid-writer', 'voice.md');
+    const st = fs.statSync(file);
+    if (!st.isFile()) return '';
+    const text = fs.readFileSync(file, 'utf8').trim();
+    if (!text) return '';
+    const cut = text.length > VOICE_MAX ? text.slice(0, VOICE_MAX) + '\n[voice profile truncated]' : text;
+    return `### Project voice (${file})\n\n${cut}`;
+  } catch (e) {
+    return '';
+  }
+}
+
+// lite is the prose rules; full adds the evidence ceiling and a voice.
+function render(mode, cwd = process.cwd()) {
   const parts = [readRules('lite')];
-  if (mode === 'full') parts.push(readRules('full'));
+  if (mode === 'full') parts.push(readRules('full'), readProjectVoice(cwd) || readRules('voice-default'));
   const body = parts.filter(Boolean).join('\n\n');
   if (!body) return '';
   const head = `LUCID-WRITER ACTIVE (${mode}). "stop lucid-writer" turns it off for this session; ` +

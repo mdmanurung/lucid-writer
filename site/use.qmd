@@ -51,7 +51,7 @@ In Claude Code, the plugin can apply its prose rules to every reply, not only to
 | `/lucid-writer off` | turn always-on off |
 | `/lucid-writer status` | show the current mode and flag path |
 
-A change applies from the next session start or `/clear`. Saying "stop lucid-writer" turns it off for the rest of the session only. The mode lives in `~/.claude/.lucid-writer-mode` (or under `$CLAUDE_CONFIG_DIR`). The rulesets are [`hooks/rules/lite.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/lite.md) and [`hooks/rules/full.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/full.md); together they add about 2,800 characters to each session. The hooks need `node` on `PATH` and do nothing when it is missing. Codex has no equivalent.
+A change applies from the next session start or `/clear`. Saying "stop lucid-writer" turns it off for the rest of the session only. The mode lives in `~/.claude/.lucid-writer-mode` (or under `$CLAUDE_CONFIG_DIR`). The rulesets are [`hooks/rules/lite.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/lite.md) and [`hooks/rules/full.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/full.md); together they add about 3,700 characters to each session. In `full` mode the hook also loads a voice: `.lucid-writer/voice.md` in the project (up to 4,000 characters) or the plain [`hooks/rules/voice-default.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/voice-default.md). The voice sets rhythm and wording only; it cannot add claims or remove hedges. The hooks need `node` on `PATH` and do nothing when it is missing. Codex has no equivalent.
 
 ## Review subagents
 

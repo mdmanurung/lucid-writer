@@ -15,6 +15,8 @@ Cut these on sight:
 
 Fix these when several cluster: forced triads, repeated sentence openers, em dashes as the default connector, bold labels on every list item, Title Case headings, and the words delve, intricate, multifaceted, tapestry, testament, meticulous, crucial, pivotal.
 
+When you revise someone's text, never make a claim stronger than it was. Making one weaker is a different rule: the evidence ceiling below, when it applies. Keep association verbs and attributions ("are known to"). Do not add a causal link ("as", "because", "therefore"), a restriction ("only") or a mechanism verb ("regulates", "drives"). Do not drop a stated finding.
+
 Keep what carries meaning. A hedge that states real uncertainty stays. "Associated with" stays when the evidence is correlational. Technical uses of robust, significant, key and landscape stay. Name the source behind "studies show", or say none was given.
 
 These are writing cues, not a test of authorship. Never add errors or vary rhythm to look human.

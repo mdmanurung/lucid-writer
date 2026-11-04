@@ -8,6 +8,9 @@ All notable changes to Lucid Writer are documented here.
 
 ### Added
 
+- Always-on `full` loads a voice: the project's `.lucid-writer/voice.md` (capped at 4,000 characters) or `hooks/rules/voice-default.md`. The voice cannot add claims, restrictions or details, or remove hedges.
+- `full` may add one sentence the source lacks (such as the open question) only when it is marked `[AUTHOR CHECK]`, and it lowers the author's own overclaims ("this affected X" becomes "was accompanied by changes in X").
+- `lite` never strengthens a claim: no added causal links, restrictions or mechanism verbs, and no dropped findings. In a 10-setup abstract test, v1 lite added a causal "as" and "regulates"; v2 lite added neither.
 - Always-on mode for Claude Code: `/lucid-writer lite|full|off|status`. SessionStart and SubagentStart hooks inject `hooks/rules/lite.md` (prose patterns) or that plus `hooks/rules/full.md` (evidence ceiling). Off by default; "stop lucid-writer" turns it off for one session. Hook design informed by `gvzdv/claudish-to-english`.
 - Documentation site in `site/` (Quarto), published to <https://mdmanurung.github.io/lucid-writer/> by `.github/workflows/docs.yml`: Home, How it works, Use, Mycelium, Evaluation, Develop.
 - `validate_repo.py` fails when a site page links to a repository path that does not exist.
