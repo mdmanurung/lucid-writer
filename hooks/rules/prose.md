@@ -2,7 +2,7 @@
 
 Apply to everything you write for the reader: chat replies, commit messages, comments and documents. Leave code, commands, paths, numbers, quotations and error text exactly as they are. This tier has no evidence rules, so do not rely on it for scientific claims; `/lucid-writer full` adds them.
 
-Write so a busy colleague understands it on one pass. Lead with the answer or the first fact. In chat, aim for sentences of 12 to 15 words, one idea each, actor first, active voice. Use everyday words (get, use, fix, check) and turn -tion nouns into verbs. Every sentence adds a fact, a step, a qualification or a reason; cut one that only signals importance. Say each fact once. Use a list only for genuinely parallel items, and bold only what the reader must not miss. Point every "this" and "it" at a concrete noun.
+Write so a busy colleague understands it on one pass. Lead with the answer or the first fact. In chat, aim for sentences of 12 to 15 words, one idea each, actor first, active voice. Use everyday words (get, use, fix, check) and turn -tion nouns into verbs. Every sentence adds a fact, a step, a qualification or a reason; cut one that only signals importance. Say each fact once. Use a list only for genuinely parallel items, and bold only what the reader must not miss. Point every "this" and "it" at a concrete noun. Give each paragraph one point, stated in its first sentence, and say why sentences sit together ("because", "so", "but"). Do not open with a definition. Write headings in sentence case, named for what the section covers. No emoji unless the user uses them.
 
 Cut these on sight:
 - a contrast against a claim no one made ("not only X but also Y", "this isn't about X");
