@@ -10,7 +10,9 @@ from pathlib import Path
 MAX_CHARS = 4000          # hooks/lib.js truncates voice.md at this length
 SAMPLE_MAX_CHARS = 300    # longer sentences make poor samples
 SAMPLE_MIN_WORDS = 8
-DOTTED = ("et al.", "e.g.", "i.e.", "vs.", "Fig.", "Figs.", "Eq.", "Ref.", "cf.", "approx.")
+# Science-family journals write "fig. S1" and "table S3" in lower case.
+DOTTED = ("et al.", "e.g.", "i.e.", "vs.", "Fig.", "Figs.", "fig.", "figs.", "Eq.", "Ref.", "cf.", "approx.",
+          "Suppl.", "suppl.", "No.", "no.")
 
 WORD = re.compile(r"[A-Za-z][A-Za-z'-]*")
 HEDGES = "hedges (may/might/likely/perhaps/suggest*)"

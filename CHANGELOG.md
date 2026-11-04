@@ -4,6 +4,20 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-04
+
+### Changed
+
+- `lite` is renamed `prose` (`hooks/rules/prose.md`) and is documented as unsafe for scientific claims; in the release gate it kept a causal claim in 3 of 3 education runs. `/lucid-writer lite` and an old `lite` flag file still map to `prose` for this version.
+- `prose` absorbs the plain-prose rules many users kept in CLAUDE.md: 12–15 word chat sentences, everyday words, no unnamed authority, no filler connectives.
+- `full` applies its voice only to deliverables (manuscripts, abstracts, reports, files, pasted text); chat follows `prose`.
+- `full` adds at most one sentence the source lacks, marked `[AUTHOR CHECK]`. Markers stay inline in drafts and move to a list after the text when final text is requested.
+
+### Added
+
+- Global voice layer: the hook loads `.lucid-writer/voice.md`, then `~/.claude/lucid-writer/voice.md`, then the default.
+- `voice_profile.py` no longer splits sentences at lower-case "fig.", "suppl." or "no.", which Science-family journals use.
+
 ## [1.2.0] - 2026-11-04
 
 ### Added
