@@ -4,6 +4,17 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-11-04
+
+### Added
+
+- Learned writing rules (Claude Code only): `/lucid-writer:learn "<rule>"` stores one proposed rule; `/lucid-writer:rules` lists, approves, rejects and retires rules and trusts a project rules file. Rules start as `proposed`; only `active` rules are injected.
+- `skills/lucid-writer/scripts/rules.py` stores rules in `~/.claude/lucid-writer/rules.json` and `.lucid-writer/rules.json`, with a denylist that refuses obvious loosening of the fixed non-negotiables.
+- The hooks append active rules under `## Learned writing rules` at session and subagent start in `prose` and `full` mode (2,000 characters, one escaped line each). A project file loads only after its sha256 is trusted; otherwise one notice line.
+- A one-line nudge to offer `/lucid-writer:learn` when a correction word follows a reply that edited prose. `/lucid-writer nudge on|off` toggles it.
+- `/lucid-writer:learn --from-ratings` proposes rules from pasted bench ratings and notes.
+- `hooks/test.js` covers the hooks; run `node hooks/test.js`. Eval cases `learn_style_rule_proposed`, `learn_loosening_rule_refused`.
+
 ## [1.3.0] - 2026-11-04
 
 ### Changed

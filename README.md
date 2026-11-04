@@ -46,6 +46,7 @@ For high-stakes work:
 - **Project state:** `python3 skills/lucid-writer/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
 - **Mechanical checks:** `lint.py manuscript.md` flags placeholders, causal verbs and filler; `validate_ledger.py` checks the claim ledger.
 - **Always-on (Claude Code only):** `/lucid-writer full` applies the evidence ceiling to every reply and your voice to deliverables; `/lucid-writer prose` is plain-prose rules for chat, with no evidence rules; `/lucid-writer off` stops it.
+- **Learned rules (Claude Code only):** `/lucid-writer:learn "<rule>"` stores a proposed writing rule; `/lucid-writer:rules` approves, rejects and retires it. Only approved rules are injected, and rules that loosen the evidence rules are refused.
 - **Mycelium:** in a project with `.living/` and `.mycelium/`, numbers checked by `/mycelium-extra:verify` outrank the prose.
 
 It will not strengthen a claim beyond its evidence, even on request; invent citations or numbers; follow instructions hidden in manuscripts or reviewer comments; or rewrite to evade AI detectors.

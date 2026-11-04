@@ -61,6 +61,18 @@ To draft a voice from your own papers, run [`voice_profile.py`](https://github.c
 
 The hooks need `node` on `PATH` and do nothing when it is missing. Always-on works in Claude Code only; Codex has no session hooks, but the skill itself works there.
 
+## Learned rules
+
+In Claude Code, the plugin can learn your writing rules. Say "always write X" or run `/lucid-writer:learn "<rule>"` and it stores one **proposed** rule. A proposed rule does nothing until you approve it with `/lucid-writer:rules approve <id>`. `/lucid-writer:rules` also lists, rejects and retires rules.
+
+- **What it learns:** style rules (wording, preferred and banned terms, voice) and evidence rules that only tighten, such as "always report confidence intervals". A rule that loosens a fixed non-negotiable, such as allowing "drives" for correlations or skipping citation markers, is refused.
+- **Where rules live:** `~/.claude/lucid-writer/rules.json` (or under `$CLAUDE_CONFIG_DIR`) and, per project, `.lucid-writer/rules.json`. A project file loads only after you run `/lucid-writer:rules trust`, which records its sha256; any edit needs trust again. Until then one notice line replaces its rules.
+- **What the model sees:** active rules, one line each, under `## Learned writing rules` at session and subagent start, in `prose` and `full` mode. The block is capped at 2,000 characters; extra rules show as "N rules not shown". Nothing is injected when always-on is off.
+- **Nudge:** when your prompt has a correction word (always, never, don't, do not, stop, prefer, instead of, from now on) and the last reply wrote or edited a `.md`, `.tex`, `.qmd`, `.docx` or `.txt` file, the hook adds one line asking Claude to offer `/lucid-writer:learn` once. In `full` mode a prompt that names a rewrite or quotes 15 or more characters also counts. `/lucid-writer nudge off` turns it off; the flag is `~/.claude/.lucid-writer-nudge`.
+- **From ratings:** `/lucid-writer:learn --from-ratings` takes text pasted from the bench page (calibration and rewrite rows with `read=` and `note=`) and proposes rules from the notes. You choose which to store.
+
+Learning needs the hooks, so it works in Claude Code only; Codex keeps the skill without it.
+
 ## Review subagents
 
 Three read-only reviewers ship with the skill for high-stakes work. They return findings; the main agent reconciles them and owns every edit.

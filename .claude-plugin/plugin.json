@@ -1,6 +1,6 @@
 {
   "name": "lucid-writer",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Evidence-bounded research writing for articles, scientific and technical reports, revision, and manuscript review.",
   "hooks": "./hooks/hooks.json"
 }
