@@ -4,6 +4,10 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/voice_profile.py` drafts `.lucid-writer/voice.md` from sample texts: measured sentence length, punctuation and word rates, top openers, and verbatim samples. Prefer/Avoid stay for the author; it warns when the author is not first or sole author.
+
 ## [1.1.0] - 2026-11-04
 
 ### Added

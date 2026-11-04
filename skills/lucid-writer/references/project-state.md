@@ -26,6 +26,8 @@ Use `.lucid-writer/` only for substantial ongoing work.
 
 **voice.md** — observed author/team preferences. Never overrides evidence or reporting rules.
 
+To draft it from your own papers, run `python3 skills/lucid-writer/scripts/voice_profile.py paper1.md paper2.md --author "Name" --author-position first --out .lucid-writer/voice.md`. The script measures sentence length, punctuation and word rates, and copies verbatim sample sentences. Prefer, Avoid and terminology stay as prompts for the author. Use `--author-position other` when you are not first or sole author; the profile then warns that the text may reflect co-authors. A voice sets rhythm and wording only; it never adds claims, removes hedges or overrides evidence.
+
 ## Resume order
 
 For macro work:
