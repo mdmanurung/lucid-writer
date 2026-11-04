@@ -21,4 +21,4 @@ of agent-facing files so its no-skill baseline arm is genuinely skill-free; keep
 module free of skill content means there is nothing here for that scrub to miss.
 """
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"

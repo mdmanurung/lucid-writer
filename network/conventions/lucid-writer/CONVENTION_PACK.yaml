@@ -1,6 +1,6 @@
 ---
 name: lucid-writer
-version: 1.3.0
+version: 1.4.0
 description: >
   Opt-in report style for Markdown manuscripts, manuscript sections and
   reviewer responses written by the lucid-writer skill from a repository's
