@@ -4,8 +4,11 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-04
+
 ### Added
 
+- Eval cases `full_lowers_author_overclaim`, `voice_adds_no_claims`, `lite_no_causal_additions`; `lint.py` flags "it's not just X; it's Y", "Let that sink in" and "the best part?".
 - `scripts/voice_profile.py` drafts `.lucid-writer/voice.md` from sample texts: measured sentence length, punctuation and word rates, top openers, and verbatim samples. Prefer/Avoid stay for the author; it warns when the author is not first or sole author.
 
 ## [1.1.0] - 2026-11-04
