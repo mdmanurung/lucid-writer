@@ -46,12 +46,32 @@ In Claude Code, the plugin can apply its prose rules to every reply, not only to
 
 | Command | Effect |
 |---|---|
-| `/lucid-writer lite` | plain-prose rules: cut generic-model patterns, keep meaningful hedges |
-| `/lucid-writer full` (or `on`) | lite plus the evidence ceiling for any finding you state |
+| `/lucid-writer prose` | plain-prose rules for chat and commit messages. No evidence rules, so not for scientific claims. `lite` still works for one version |
+| `/lucid-writer full` (or `on`) | prose plus the evidence ceiling for any finding you state, and a voice for deliverables |
 | `/lucid-writer off` | turn always-on off |
 | `/lucid-writer status` | show the current mode and flag path |
 
-A change applies from the next session start or `/clear`. Saying "stop lucid-writer" turns it off for the rest of the session only. The mode lives in `~/.claude/.lucid-writer-mode` (or under `$CLAUDE_CONFIG_DIR`). The rulesets are [`hooks/rules/lite.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/lite.md) and [`hooks/rules/full.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/full.md); together they add about 3,700 characters to each session. In `full` mode the hook also loads a voice: `.lucid-writer/voice.md` in the project (up to 4,000 characters) or the plain [`hooks/rules/voice-default.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/voice-default.md). The voice sets rhythm and wording only; it cannot add claims or remove hedges. To draft that file from your own papers, run [`voice_profile.py`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/scripts/voice_profile.py) (`--out .lucid-writer/voice.md`, plus `--author-position first|sole|other`). It fills only measured fields and verbatim samples, and warns when you are not first or sole author. The hooks need `node` on `PATH` and do nothing when it is missing. Codex has no equivalent.
+A change applies from the next session start or `/clear`. Saying "stop lucid-writer" turns it off for the rest of the session only. The mode lives in `~/.claude/.lucid-writer-mode` (or under `$CLAUDE_CONFIG_DIR`). The rulesets are [`hooks/rules/prose.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/prose.md) and [`hooks/rules/full.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/full.md); together they add about 4,900 characters to each session.
+
+In `full` mode the evidence ceiling applies everywhere, but the voice applies only to deliverables: manuscripts, abstracts, reports, response letters, text written into `.md`, `.tex`, `.qmd` or `.docx` files, and text pasted for revision. Chat and commit messages follow the plain-prose rules. The hook loads the first voice it finds: `.lucid-writer/voice.md` in the project, then `~/.claude/lucid-writer/voice.md`, then the plain [`hooks/rules/voice-default.md`](https://github.com/mdmanurung/lucid-writer/blob/main/hooks/rules/voice-default.md). Each is capped at 4,000 characters. The voice sets rhythm and wording only; it cannot add claims or remove hedges.
+
+To draft a voice from your own papers, run [`voice_profile.py`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/scripts/voice_profile.py) with `--out ~/.claude/lucid-writer/voice.md` (or a project's `.lucid-writer/voice.md`) and `--author-position first|sole|other`. It fills only measured fields and verbatim samples, and warns when you are not first or sole author.
+
+`full` adds at most one sentence the source lacks, a design caveat or an open question, marked `[AUTHOR CHECK]`. Markers stay inline while drafting. Ask for final, clean or submission-ready text and they move to a list after the text.
+
+The hooks need `node` on `PATH` and do nothing when it is missing. Always-on works in Claude Code only; Codex has no session hooks, but the skill itself works there.
+
+## Learned rules
+
+In Claude Code, the plugin can learn your writing rules. Say "always write X" or run `/lucid-writer:learn "<rule>"` and it stores one **proposed** rule. A proposed rule does nothing until you approve it with `/lucid-writer:rules approve <id>`. `/lucid-writer:rules` also lists, rejects and retires rules.
+
+- **What it learns:** style rules (wording, preferred and banned terms, voice) and evidence rules that only tighten, such as "always report confidence intervals". A rule that loosens a fixed non-negotiable, such as allowing "drives" for correlations or skipping citation markers, is refused.
+- **Where rules live:** `~/.claude/lucid-writer/rules.json` (or under `$CLAUDE_CONFIG_DIR`) and, per project, `.lucid-writer/rules.json`. A project file loads only after you run `/lucid-writer:rules trust`, which records its sha256; any edit needs trust again. Until then one notice line replaces its rules.
+- **What the model sees:** active rules, one line each, under `## Learned writing rules` at session and subagent start, in `prose` and `full` mode. The block is capped at 2,000 characters; extra rules show as "N rules not shown". Nothing is injected when always-on is off.
+- **Nudge:** when your prompt has a correction word (always, never, don't, do not, stop, prefer, instead of, from now on) and the last reply wrote or edited a `.md`, `.tex`, `.qmd`, `.docx` or `.txt` file, the hook adds one line asking Claude to offer `/lucid-writer:learn` once. In `full` mode a prompt that names a rewrite or quotes 15 or more characters also counts. `/lucid-writer nudge off` turns it off; the flag is `~/.claude/.lucid-writer-nudge`.
+- **From ratings:** `/lucid-writer:learn --from-ratings` takes text pasted from the bench page (calibration and rewrite rows with `read=` and `note=`) and proposes rules from the notes. You choose which to store.
+
+Learning needs the hooks, so it works in Claude Code only; Codex keeps the skill without it.
 
 ## Review subagents
 

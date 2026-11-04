@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "lucid-writer",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "Evidence-bounded research writing for articles, scientific and technical reports, revision, and manuscript review.",
   "license": "MIT",
   "keywords": [
