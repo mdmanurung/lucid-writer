@@ -1,0 +1,12 @@
+{
+  "helminth": {
+    "design": "observational comparison of previously exposed and helminth-naive adults",
+    "c1": "the sentence linking IL-10 and costimulation to the CD80/CD86 axis (original: 'This affected the CD80/CD86 axis')",
+    "c2": "the final conclusion (original: 'we present insights into how prior helminth exposure shapes dendritic cell responses')"
+  },
+  "education": {
+    "design": "non-randomised comparison of enrolled and non-enrolled students in the same schools",
+    "c1": "the sentence linking confidence to engagement (original: 'which improved engagement in class')",
+    "c2": "the final conclusion (original: 'these results demonstrate that structured tutoring closes achievement gaps and should be adopted as a national strategy')"
+  }
+}
