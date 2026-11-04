@@ -13,8 +13,8 @@ It rewrites `abstracts/helminth.txt` and `abstracts/education.txt` with clean `c
 |---|---|
 | 0 | pass: no `full` setup kept a causal C1 or strengthened C2 |
 | 1 | fail: at least one `full` run did |
-| 2 | inconclusive: fewer than 2 coded runs for some setup and abstract |
+| 2 | inconclusive: some `full` setup has no abstract with at least 2 coded runs |
 
-`prose` is reported, not gated: it has no evidence rules. Runs blocked by a safety classifier are counted, not retried. The biology abstract may be blocked as biology content; the education abstract keeps the gate decidable. Outputs land in `bench/gate/runs/<timestamp>/`, which git ignores. Each run is about 50 `claude -p` calls and takes about 10 minutes.
+`prose` is reported, not gated: it has no evidence rules. Runs blocked by a safety classifier are counted, not retried; an abstract with no coded runs is skipped, which is why the gate has a non-biology abstract. `--rescore bench/gate/runs/<timestamp>` scores a saved run again without new API calls. The biology abstract may be blocked as biology content; the education abstract keeps the gate decidable. Outputs land in `bench/gate/runs/<timestamp>/`, which git ignores. Each run is about 50 `claude -p` calls and takes about 10 minutes.
 
 Both abstracts are generated for this gate. `helminth.txt` copies the claim structure of a real immunology abstract (an observed difference stated as "This affected the … axis", a conclusion that "shapes"); `education.txt` has a causal link from self-report and a policy conclusion from a non-randomised comparison.
