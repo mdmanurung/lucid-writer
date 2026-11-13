@@ -7,7 +7,7 @@ than its evidence allows.
 
 | File | Holds |
 |---|---|
-| `tasks.yaml` | nine paragraphs (3 tasks x 3 splits, because acumen requires three splits): six written to tempt a rewrite into overclaiming, and three `prose-control` paragraphs that are already correctly hedged |
+| `tasks.yaml` | twelve paragraphs (4 tasks x 3 splits, because acumen requires three splits): six written to tempt a rewrite into overclaiming, three `prose-control` paragraphs that are already correctly hedged, and three `prose-immuno-exvivo` paragraphs |
 | `tasks-forced.yaml` | generated from `tasks.yaml` by `make_forced.py`: every prompt starts "Use lucid-writer to", which forces the skill to load |
 | `gold.yaml` | per paragraph: tokens that must survive, qualifiers that must survive, each claim's ceiling and its tempted overclaim, screening cues |
 | `score_prose.py` | the mechanical layer, summaries, and blinded packets for the judge |
@@ -28,7 +28,7 @@ Run from `bench/`. Each step's cost is an estimate at about $0.08 a run.
 
 ```bash
 # 1. Baseline only: 6 items x 2 models x 2 replicates = 24 runs, about $2
-# (--task is repeatable; without it acumen also runs the control task)
+# (--task is repeatable; without it acumen also runs the control and immuno tasks)
 for s in train valid test; do
   acumen bench --no-skill --tasks prose/tasks.yaml --runs prose/runs --task prose-results --task prose-discussion --split $s
 done
@@ -140,12 +140,12 @@ such as "may be associated" as a screen, and the judge rates a weakened claim `b
 summary reports `below` next to `above`. Controls carry synthetic numbers.
 
 **Not yet done.** The second labeller pass on the gold ceilings (see "Before any spend")
-now covers nine items, three of them new.
+now covers twelve items, six of them new (three controls, three immuno).
 
 ## Paid commands for this phase
 
 Run from `bench/`. Costs are estimates at about $0.08 a run. Two models x two replicates
-make four runs per item, so one arm over all nine items is 36 runs, about $2.90.
+make four runs per item, so one arm over all twelve items is 48 runs, about $3.84.
 
 ```bash
 # A. Controls, no-skill and skill v1: 3 items x 4 runs x 2 arms = 24 runs, about $1.90
@@ -154,7 +154,7 @@ for s in train valid test; do
   acumen bench --skill v1   --tasks prose/tasks.yaml --runs prose/runs --task prose-control --split $s
 done
 
-# B. Forced-activation arm on all nine items: 36 runs, about $2.90
+# B. Forced-activation arm on all twelve items: 48 runs, about $3.84
 for s in train valid test; do
   acumen bench --skill v1 --tasks prose/tasks-forced.yaml --runs prose/runs-forced --split $s
 done
@@ -163,9 +163,34 @@ done
 uv run --quiet --no-project --with pyyaml prose/score_prose.py prose/runs prose/runs-forced
 ```
 
-Total for A and B: 60 runs, about $4.80, plus one Opus judge pass over the new packets.
+Total for A and B: 72 runs, about $5.76, plus one Opus judge pass over the new packets. The
+immuno item adds 4 runs per arm and split on top, about $0.30 each, once its probe shows the
+baseline errs. These counts were checked with `acumen bench --dry-run`.
 Ids in `judge_packets.jsonl` change whenever runs are added, so judge after the last run
 and save `judgements.jsonl` against that packet file.
 
 `bench/skills/v1/` is frozen and now older than `skills/lucid-writer/`. A pass that tests
 the qualifier work needs a new skill copy first; the maintainer decides its name.
+
+## Immunology fixture (added 2026-11-13)
+
+`prose-immuno-exvivo` has three variants of a paired ex vivo cytokine result followed by a
+Discussion hint at protection. All numbers are synthetic, labelled in `tasks.yaml`. The
+measured response is OBSERVED and DESCRIPTIVE under its stated conditions; the link to
+protection is at most a HYPOTHESIS. The source paragraphs pass their own gold sheets.
+
+The probe scores into its own directory (`--out`) so it never overwrites the pilot's judge
+packets. Probe the baseline before keeping it, as `../README.md` requires. Each probe is 4 runs
+(2 models x 2 replicates), about $0.30. Run from `bench/`:
+
+```bash
+acumen bench --no-skill --tasks prose/tasks.yaml --runs prose/runs-probe --task prose-immuno-exvivo --split train
+uv run --quiet --no-project --with pyyaml prose/score_prose.py prose/runs-probe --out prose/runs-probe
+```
+
+Keep the task only if the baseline errs: a rewrite drops "ex vivo", the stimulation
+condition or the hedge on protection, or the judge rates a claim `above`. If the baseline
+does not err, delete the task from `tasks.yaml` and `gold.yaml` and rerun `make_forced.py`;
+`valid` and `test` stay unrun. Note that acumen needs all three splits to parse the file,
+so the variants are written already, but nothing is spent on them.
+

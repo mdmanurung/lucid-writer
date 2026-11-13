@@ -11,6 +11,7 @@ All notable changes to Lucid Writer are documented here.
 - Eval cases `qualifier_keep_exploratory`, `qualifier_keep_in_sample`, `qualifier_keep_modal_hypothesis`, `qualifier_ledger_blocks_release`.
 
 - Prose bench: `must_keep_qualifiers` and `over_hedge_cues` in `gold.yaml`; `score_prose.py` reports qualifier retention by arm and `skill_loaded`, item-level summaries, and judged `below` next to `above`; `make_forced.py` generates `tasks-forced.yaml` (forced-activation arm); three already-hedged `prose-control` items. `validate_repo.py` fails when `tasks-forced.yaml` is stale.
+- Prose bench: `prose-immuno-exvivo` fixture (synthetic paired ex vivo cytokine response with a protection hint). `bench/external/` holds a plan and `sample_pairs.py`, which samples labelled sentence pairs from two public corpora at run time; no data is committed.
 
 ### Changed
 
