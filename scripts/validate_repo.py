@@ -108,12 +108,17 @@ def main() -> int:
 
     required_assets = [
         "project-brief.md", "extended-outline.md",
-        "claim-evidence-ledger.csv", "decisions.md", "review-log.md", "voice-profile.md"
+        "claim-evidence-ledger.csv", "decisions.md", "review-log.md", "voice-profile.md",
+        "reporting-preflight.csv",
     ]
     asset_dir = SKILL.parent / "assets"
     for name in required_assets:
         if not (asset_dir / name).is_file():
             fail(f"missing asset: {name}")
+
+    preflight_header = (SKILL.parent / "assets" / "reporting-preflight.csv").read_text(encoding="utf-8").splitlines()[0]
+    if preflight_header != "guideline,version,item_id,item,manuscript_location,status":
+        fail("assets/reporting-preflight.csv header does not match references/reporting.md")
 
     # Ensure every explicit reference path mentioned in SKILL.md exists.
     for rel in re.findall(r"`(references/[^`]+)`", skill_text):

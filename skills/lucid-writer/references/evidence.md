@@ -43,15 +43,20 @@ Do not weaken solid evidence reflexively either; calibrate.
 
 For complex work, track:
 
-`claim_id | claim | class | evidence | scope | inference_ceiling | status | location | notes | qualifiers`
+`claim_id | claim | class | evidence | scope | inference_ceiling | status | location | notes | qualifiers | warrant`
 
-Use it for material claims, not every sentence. `scripts/validate_ledger.py` checks it and accepts these tokens: class `OBSERVED|LITERATURE|INFERENCE|HYPOTHESIS` (O/L/I/H above); ceiling `DESCRIPTIVE|ASSOCIATIVE|PREDICTIVE|CAUSAL|MECHANISTIC`; status `supported|partial|unresolved|rejected`. The optional last column `qualifiers` lists, separated by `;`, the phrases the claim must keep (for example `exploratory; may`); a `supported` INFERENCE or HYPOTHESIS claim with none gets a warning (`--strict` makes it an error), and a ledger with the older 9-column header stays valid.
+Use it for material claims, not every sentence. `scripts/validate_ledger.py` checks it and accepts these tokens: class `OBSERVED|LITERATURE|INFERENCE|HYPOTHESIS` (O/L/I/H above); ceiling `DESCRIPTIVE|ASSOCIATIVE|PREDICTIVE|CAUSAL|MECHANISTIC`; status `supported|partial|unresolved|rejected`. The optional `qualifiers` column (after `notes`, before `warrant`) lists, separated by `;`, the phrases the claim must keep (for example `exploratory; may`); a `supported` INFERENCE or HYPOTHESIS claim with none gets a warning (`--strict` makes it an error), and a ledger with the older 9-column header stays valid. The optional `warrant` column states why the evidence licenses the claim and what assumption or alternative explanation would defeat it; keep it for central claims only. A `supported` INFERENCE claim with ceiling CAUSAL or MECHANISTIC and no warrant gets a warning (`--strict` makes it an error); claims with any other status are not checked.
 
-An example row (kept here, not in the template, so new projects start without fake claims):
+Two example rows (not in the template, so new projects start without fake claims):
 
 ```csv
-C002,"Exploratory subgroup analysis: the effect may be larger in older participants.",INFERENCE,"Table 3, subgroup row 2","Post hoc subgroup of one cohort",ASSOCIATIVE,supported,Results para 4,,exploratory; may; post hoc
+C002,"Exploratory subgroup analysis: the effect may be larger in older participants.",INFERENCE,"Table 3, subgroup row 2","Post hoc subgroup of one cohort",ASSOCIATIVE,supported,Results para 4,,exploratory; may; post hoc,
+C003,"Drug A lowered pain intensity versus placebo in this trial.",INFERENCE,"Table 2, row 1","Randomised adults at one clinic",CAUSAL,supported,Results para 2,,randomised; one clinic,"Randomisation licenses the causal reading for this trial population; differential dropout or unblinding would defeat it."
 ```
+
+### Evidence locators
+
+For claims that need a reviewer to open the support, add `.lucid-writer/evidence.csv` beside `claims.csv`: `claim_id | evidence_id | locator | kind | verdict | notes`. `kind` is `passage|table_cell|figure_panel|analysis_output|citation`. `locator` is whatever opens the support: page and paragraph, table and cell, figure panel, or, in a Mycelium repository, an output hash and cell in the claims grammar below. `verdict` for a `citation` row is the four-level scale in Citations (`supports|partially supports|does not support|cannot determine`; put `metadata only` or `full text` in `notes`); for every other kind it is `supported|partial|unresolved|rejected`. `validate_ledger.py` checks the file: each `claim_id` is in the ledger, `kind` and `verdict` are valid, a supporting row has a locator, and a `supported` claim has at least one supporting row (`supported`, or `supports` for a citation). When `evidence.csv` exists it takes precedence over the ledger's `evidence` column, which stays for older projects.
 
 In a Mycelium repository, `evidence` for an OBSERVED claim uses the cell grammar of mycelium-extra `verify` claims blocks: `<file> <column> [<row>]`, or `<file.json> <dotted.key>`; a multi-row table needs `<row>`. Write `<value> | <cell>` and the row becomes a `<!-- claims -->` line. A figure path is valid in the ledger only; it is not claims grammar. The ledger is the writer's bookkeeping; the manuscript's `<!-- claims -->` block is the checked record. Never add, edit, or drop a claims line to make a check pass.
 
@@ -80,6 +85,8 @@ Observational associations normally remain associative unless a valid causal ide
 "Suggests" does not rescue an unsupported mechanism.
 
 Do not equate prediction with explanation.
+
+For a trial, the interpretation depends on the estimand and the analysis population (for example, intention-to-treat or per-protocol), not only on randomisation.
 
 ## Measurement and terminology fidelity
 

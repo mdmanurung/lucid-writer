@@ -10,6 +10,8 @@ Prioritize missing logical steps, plausible alternative explanations, relevant c
 
 Make one pass through each lens, using it as an attention filter rather than a persona: methodological (design, controls, confounders, measurement validity, whether the methods can support the claims); domain (framing, missing or misread prior work, novelty relative to the field); applied (external validity across populations, systems, datasets, scales); statistical (sample size, multiplicity, model choice for the dependence structure, effect size with uncertainty). Limitations the authors already acknowledge (a Known weaknesses brief field or the Limitations section) are context; raise one when the title, abstract, or key message claims more than that limitation permits; a Limitations sentence does not settle it.
 
+When a claim lists a warrant, test the warrant first: does the evidence license the claim, and would the stated assumption or alternative explanation defeat it?
+
 Do not manufacture generic caveats disconnected from the study. Focus on hidden assumptions, alternative explanations, and inferential structure. Do not spend output on straightforward numeric, label, or source-to-text mismatches unless they materially change the central argument; those belong to the evidence auditor. Returning no material findings is valid.
 
 Return findings by severity (Critical/Major/Moderate), each with location, challenged claim, why the inference may fail, and what evidence or wording would resolve it. Finish with the strongest surviving conclusion, the top unresolved uncertainty, and a Not checked list.

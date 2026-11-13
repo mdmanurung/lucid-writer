@@ -15,6 +15,8 @@ jobs:
       - run: python scripts/validate_repo.py
       - run: python skills/lucid-writer/scripts/lint.py --self-test
       - run: python skills/lucid-writer/scripts/validate_ledger.py skills/lucid-writer/assets/claim-evidence-ledger.csv
+      - run: python skills/lucid-writer/scripts/validate_ledger.py --self-test
+      - run: python skills/lucid-writer/scripts/qualifier_check.py --self-test
       - run: bash -n scripts/install.sh
 
   # Packaging and benchmark-input gates. Both are free and both fail loudly on a change that

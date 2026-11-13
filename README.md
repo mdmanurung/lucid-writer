@@ -44,7 +44,7 @@ For high-stakes work:
 
 - **Review subagents:** run the evidence auditor and skeptical reviewer in parallel, then manuscript preflight before submission. Skip them for ordinary edits; they cost extra tokens.
 - **Project state:** `python3 skills/lucid-writer/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
-- **Mechanical checks:** `lint.py manuscript.md` flags placeholders, causal verbs and filler; `validate_ledger.py` checks the claim ledger; `qualifier_check.py` reports hedges and design limits a revision dropped.
+- **Mechanical checks:** `lint.py manuscript.md` flags placeholders, causal verbs and filler; `validate_ledger.py` checks the claim ledger and the optional `evidence.csv`; `qualifier_check.py` reports hedges and design limits a revision dropped.
 - **Always-on (Claude Code only):** `/lucid-writer full` applies the evidence ceiling to every reply and your voice to deliverables; `/lucid-writer prose` is plain-prose rules for chat, with no evidence rules; `/lucid-writer off` stops it.
 - **Learned rules (Claude Code only):** `/lucid-writer:learn "<rule>"` stores a proposed writing rule; `/lucid-writer:rules` approves, rejects and retires it. Only approved rules are injected, and rules that loosen the evidence rules are refused.
 - **Mycelium:** in a project with `.living/` and `.mycelium/`, numbers checked by `/mycelium-extra:verify` outrank the prose.

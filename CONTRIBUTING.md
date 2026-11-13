@@ -28,6 +28,8 @@ Run:
 python scripts/validate_repo.py
 python skills/lucid-writer/scripts/lint.py --self-test
 python skills/lucid-writer/scripts/validate_ledger.py skills/lucid-writer/assets/claim-evidence-ledger.csv
+python skills/lucid-writer/scripts/validate_ledger.py --self-test
+python skills/lucid-writer/scripts/qualifier_check.py --self-test
 ```
 
 before submitting.
