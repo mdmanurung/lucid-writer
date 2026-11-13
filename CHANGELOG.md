@@ -20,6 +20,8 @@ All notable changes to Lucid Writer are documented here.
 
 - `bench/skills/v2/`: a verbatim copy of `skills/lucid-writer/` after the qualifier-survival, evidence-locator and warrant work, for the next paid bench pass. `v1` stays frozen. Note that `acumen bench` with no `--skill` or `--no-skill` runs every version in `bench/skills/`.
 
+- Prose bench: `gold.yaml` accepts "possibly", "potentially" and, for the immunology items, "possible" and "potential" as ways to keep a hedge. `bench/prose/README.md` records the second pass (`v2`, 120 runs, two blinded judges).
+
 ### Changed
 
 - Skeptical-reviewer agents test a stated warrant first. `references/evidence.md` notes that a trial's interpretation depends on the estimand and analysis population.

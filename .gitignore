@@ -25,6 +25,9 @@ bench/prose/runs/
 bench/prose/judge_packets.jsonl
 bench/prose/judge_key.jsonl
 bench/prose/judgements.jsonl
+bench/prose/judgements_b.jsonl
+bench/prose/judge-b-out/
+bench/prose/score_out.txt
 bench/prose/runs-forced/
 bench/prose/runs-probe/
 bench/external/sample/
