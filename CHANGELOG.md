@@ -18,6 +18,8 @@ All notable changes to Lucid Writer are documented here.
 - `references/reporting.md`: preflight table (`assets/reporting-preflight.csv`) and an assay-level standards table (MIFlowCyt 1.0 and MIFlowCyt-EV; minSCe for single-cell RNA-seq), citations checked in PubMed and Europe PMC.
 - Eval cases `evidence_locator_required_for_supported`, `warrant_tested_by_skeptic`, `reporting_preflight_table`.
 
+- `bench/skills/v2/`: a verbatim copy of `skills/lucid-writer/` after the qualifier-survival, evidence-locator and warrant work, for the next paid bench pass. `v1` stays frozen. Note that `acumen bench` with no `--skill` or `--no-skill` runs every version in `bench/skills/`.
+
 ### Changed
 
 - Skeptical-reviewer agents test a stated warrant first. `references/evidence.md` notes that a trial's interpretation depends on the estimand and analysis population.
