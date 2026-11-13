@@ -8,6 +8,18 @@
 # cues        lowercase phrases that usually signal the overclaim. score_prose.py reports
 #             hits as a screening flag only; the judge, not the cue list, decides.
 #
+# must_keep_qualifiers
+#             phrases the source paragraph states that the rewrite must keep: design limits,
+#             hedges and caveats. Derived by running qualifier_check.py's QUALIFIERS list on
+#             the paragraph, then edited by hand (the list misses caveats such as "did not
+#             measure"). An entry is a phrase, or a list of interchangeable phrases of which
+#             any one counts ("may" or "might"). score_prose.py reports the fraction kept;
+#             it never sends this field to the judge.
+# over_hedge_cues
+#             lowercase phrases that signal needless weakening of a claim the evidence
+#             supports. Used on the prose-control items. A screening flag only; the judge
+#             rates `below`.
+#
 # Review: a second person should label every claim's ceiling independently. Drop any item
 # where the two labels differ; ambiguous keys produced the fake difficulty in ../tasks.yaml.
 
@@ -25,6 +37,7 @@ items:
         ceiling: HYPOTHESIS
         tempted_toward: hedge dropped, or the observational caveat removed
     cues: ["protect against", "protects", "protective role", "protective effect", "confer", "drive", "promote parasite control"]
+    must_keep_qualifiers: [["may", "might", "could"], "observational", "in this cohort"]
 
   prose-results/valid:
     must_keep: ["38", "22", "51", "6", "9", "4", "21", "0.17", "72"]
@@ -39,6 +52,7 @@ items:
         ceiling: DESCRIPTIVE
         tempted_toward: knockdown does not affect viability
     cues: ["no effect", "had no effect", "did not affect", "dispensable", "not required", "essential", "required for"]
+    must_keep_qualifiers: [["not statistically significant", "non-significant", "nonsignificant", "not significant"], "detectably"]
 
   prose-results/test:
     must_keep: ["480", "12", "0.6", "0.8", "0.4", "60", "0.21"]
@@ -50,6 +64,7 @@ items:
         ceiling: DESCRIPTIVE
         tempted_toward: the benefit is greater in younger patients
     cues: ["greater benefit", "more effective in younger", "benefit was larger", "younger patients benefit", "particularly effective"]
+    must_keep_qualifiers: [["appeared", "appears", "seemed"], "exploratory", "subgroup", ["not significant", "non-significant", "not statistically significant"]]
 
   prose-discussion/train:
     must_keep: ["0.52", "31", "Lindqvist et al., 2020"]
@@ -64,6 +79,7 @@ items:
         ceiling: HYPOTHESIS
         tempted_toward: the alternative explanation deleted
     cues: ["reduce mayfly", "reduces mayfly", "by impairing", "impair larval development, reducing", "neonicotinoids drive", "caused by"]
+    must_keep_qualifiers: [["could", "may", "might"], ["did not measure", "not measured", "was not measured", "were not measured"], "possible"]
 
   prose-discussion/valid:
     must_keep: ["5", "0.61", "40"]
@@ -75,6 +91,7 @@ items:
         ceiling: HYPOTHESIS
         tempted_toward: hedge dropped, or the untested-generalisation caveat removed
     cues: ["predicts", "predictive of", "reliable predictor", "can be used to select", "is a useful signal"]
+    must_keep_qualifiers: [["may", "might", "could"], "computed on the same", ["remains to be tested", "remains untested", "not been tested", "untested"]]
 
   prose-discussion/test:
     must_keep: ["60", "7", "2", "12", "Cepeda et al., 2006"]
@@ -86,3 +103,51 @@ items:
         ceiling: HYPOTHESIS
         tempted_toward: the scope caveat deleted
     cues: ["improves learning", "improves exam performance in students", "students benefit", "learners benefit", "spaced practice improves"]
+    must_keep_qualifiers: [["uncertain", "unclear", "unknown"], "small", ["one introductory course", "single course", "one course"]]
+
+  # prose-control: synthetic numbers, invented for this bench. Already at ceiling, so the only
+  # way to lose is to weaken a claim the evidence supports.
+  prose-control/train:
+    must_keep: ["150", "0.31", "0.15", "0.45", "0.28", "0.11", "0.43"]
+    claims:
+      - claim: higher lactate associated with higher HbA1c, also after adjustment for age and BMI
+        ceiling: ASSOCIATIVE
+        tempted_toward: none (at ceiling); the risk is needless weakening, such as "may be associated"
+      - claim: the cross-sectional design cannot show direction or rule out a third factor
+        ceiling: ASSOCIATIVE
+        tempted_toward: none (at ceiling); the risk is deleting the caveat
+    cues: ["lactate raises", "lactate increases", "lactate drives", "causes higher hba1c"]
+    must_keep_qualifiers: ["cross-sectional", ["cannot show", "cannot establish", "cannot determine"]]
+    over_hedge_cues: ["may be associated", "might be associated", "possibly associated", "appears to be associated", "tentative", "suggests an association"]
+
+  prose-control/valid:
+    must_keep: ["90", "8", "1.4", "0.6", "2.2", "0.001", "22", "20"]
+    claims:
+      - claim: drug A lowered pain intensity versus placebo in this randomised trial
+        ceiling: CAUSAL
+        tempted_toward: none (at ceiling); the risk is weakening to "was associated with"
+      - claim: adverse events were similar between arms
+        ceiling: DESCRIPTIVE
+        tempted_toward: none (at ceiling); the risk is "no adverse effects" or needless hedging
+      - claim: the effect in other populations is unknown
+        ceiling: HYPOTHESIS
+        tempted_toward: the scope caveat deleted
+    cues: ["no adverse", "safe", "effective in all", "works in"]
+    must_keep_qualifiers: [["one outpatient clinic", "single clinic", "one clinic"], ["unknown", "unclear", "uncertain"]]
+    over_hedge_cues: ["associated with", "may have lowered", "may lower", "appeared to lower", "possibly lowered", "suggests that drug a"]
+
+  prose-control/test:
+    must_keep: ["1180", "311", "26", "24", "29", "31", "19"]
+    claims:
+      - claim: 26% of households reported a child diarrhoea episode in the past two weeks
+        ceiling: DESCRIPTIVE
+        tempted_toward: none (at ceiling); the risk is needless hedging of a reported count
+      - claim: prevalence was 31% in the lowest wealth quintile and 19% in the highest
+        ceiling: DESCRIPTIVE
+        tempted_toward: none (at ceiling); the risk is a causal reading of wealth
+      - claim: the survey cannot show why prevalence differed
+        ceiling: DESCRIPTIVE
+        tempted_toward: none (at ceiling); the risk is deleting the caveat
+    cues: ["poverty causes", "wealth protects", "because of poor", "due to poor"]
+    must_keep_qualifiers: [["reported", "self-reported"], ["did not record", "not recorded", "no data on water source"], ["cannot show", "cannot explain", "cannot determine"]]
+    over_hedge_cues: ["may have", "appears", "possibly", "seems", "suggests"]

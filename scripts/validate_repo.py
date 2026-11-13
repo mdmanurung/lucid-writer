@@ -6,6 +6,7 @@ from __future__ import annotations
 import ast
 import json
 import re
+import subprocess
 import sys
 import tomllib
 from pathlib import Path
@@ -217,6 +218,14 @@ def main() -> int:
                     f"bench/skills/{version_dir.name}/SKILL.md name {name!r} does not match "
                     f"skill_name {declared!r} in bench/config.yaml"
                 )
+
+    # tasks-forced.yaml is generated from tasks.yaml; a stale copy would run different paragraphs.
+    forced = subprocess.run(
+        [sys.executable, str(ROOT / "bench" / "prose" / "make_forced.py"), "--check"],
+        capture_output=True, text=True,
+    )
+    if forced.returncode != 0:
+        fail((forced.stdout + forced.stderr).strip() or "bench/prose/tasks-forced.yaml is stale")
 
     # Validate JSONL evals.
     eval_path = ROOT / "evals" / "cases.jsonl"

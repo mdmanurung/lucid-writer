@@ -11,6 +11,13 @@
 #
 # acumen requires train/valid/test per task, so the six pilot items are two tasks x three
 # splits. The split labels carry no train/test meaning in this pilot: run all three.
+#
+# prose-control holds three paragraphs that are already correctly hedged (synthetic numbers).
+# A good rewrite changes nothing about claim strength. They test for needless weakening,
+# which the judge reports as `below`.
+#
+# tasks-forced.yaml is generated from this file by make_forced.py. Edit this file, then run
+# make_forced.py; validate_repo.py fails when the two drift.
 
 tasks:
   - id: prose-results
@@ -59,4 +66,28 @@ tasks:
         the revised paragraph.
 
         In 60 undergraduates at a single university, randomly assigned to spaced or massed practice, spaced practice raised final-exam scores by 7 points (95% CI 2–12). These results are consistent with laboratory studies of the spacing effect (Cepeda et al., 2006), although our sample was small and drawn from one introductory course, so the size of the benefit in other settings is uncertain.
+      answer: n/a
+
+  - id: prose-control
+    needs_script: false
+    train:
+      prompt: |
+        Tighten this Results paragraph by about 20% for a journal submission. Output only the
+        revised paragraph.
+
+        In 150 adults with type 2 diabetes, higher fasting plasma lactate was associated with higher HbA1c (rho = 0.31, 95% CI 0.15–0.45). The association was similar after adjustment for age and BMI (adjusted rho = 0.28, 95% CI 0.11–0.43). Because the data are cross-sectional, they cannot show whether lactate affects glycaemic control, whether glycaemic control affects lactate, or whether a third factor affects both.
+      answer: n/a
+    valid:
+      prompt: |
+        Tighten this Results paragraph by about 20% for a journal submission. Output only the
+        revised paragraph.
+
+        In a randomised, double-blind trial of 90 adults with chronic low back pain, 8 weeks of drug A lowered mean pain intensity by 1.4 points on a 0–10 scale compared with placebo (95% CI 0.6 to 2.2; p = 0.001). Adverse events were similar between arms (22% vs 20%). Participants came from one outpatient clinic, so the effect in other populations is unknown.
+      answer: n/a
+    test:
+      prompt: |
+        Tighten this Results paragraph by about 20% for a journal submission. Output only the
+        revised paragraph.
+
+        Of 1180 households surveyed in the dry season of 2024, 311 (26%, 95% CI 24–29%) reported at least one episode of diarrhoea in a child under five during the preceding two weeks. Prevalence was 31% in the lowest wealth quintile and 19% in the highest. The survey did not record water source, so it cannot show why prevalence differed.
       answer: n/a
