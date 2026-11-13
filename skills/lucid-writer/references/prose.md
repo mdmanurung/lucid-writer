@@ -69,6 +69,8 @@ Replace rhetoric with the actual result, relation, or implication when supported
 
 Also remove duplicate summaries and endings that merely restate the paragraph.
 
+When tightening, a qualifier that carries a design limit or uncertainty (*exploratory*, *may*, *computed on the same runs*) is part of the claim, not filler. Keep it unless the evidence changed. `scripts/qualifier_check.py SOURCE REVISED` lists the ones a revision dropped.
+
 ## 4. Generic model-like patterns
 
 For a "remove AI/LLM trace" request, or when one passage shows several of these, work through `patterns.md`. It ranks the patterns by strength and lists the science overrides: hedges, "associated with", passive Methods and technical uses of flagged words stay.

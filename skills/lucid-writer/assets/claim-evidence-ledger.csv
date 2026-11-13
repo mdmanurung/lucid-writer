@@ -1,2 +1,2 @@
-claim_id,claim,class,evidence,scope,inference_ceiling,status,location,notes
-C001,,OBSERVED,,,DESCRIPTIVE,unresolved,,
+claim_id,claim,class,evidence,scope,inference_ceiling,status,location,notes,qualifiers
+C001,,OBSERVED,,,DESCRIPTIVE,unresolved,,,

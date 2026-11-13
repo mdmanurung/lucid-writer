@@ -121,6 +121,9 @@ python3 skills/lucid-writer/scripts/lint.py manuscript.md
 
 # claim ledger: header, labels, supported claims with evidence
 python3 skills/lucid-writer/scripts/validate_ledger.py .lucid-writer/claims.csv
+
+# hedges and design limits a revision dropped; add --ledger to enforce ledger qualifiers
+python3 skills/lucid-writer/scripts/qualifier_check.py before.md after.md --ledger .lucid-writer/claims.csv
 ```
 
 The linter is not an AI detector and does not judge scientific validity.

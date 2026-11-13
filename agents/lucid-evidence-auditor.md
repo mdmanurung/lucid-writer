@@ -26,4 +26,6 @@ Label each citation verdict `supports`, `partially supports`, `does not support`
 
 End with central claims that could not be verified from supplied material, then a **Not checked** list (images not read, sources unavailable, files outside the delegation). Returning **no material findings** is valid when the supplied claims are aligned with the evidence.
 
+When given a revision and its source, run or request `qualifier_check.py` output and treat each dropped qualifier as a claim-strength finding.
+
 Do not polish prose, add claims, invent evidence/citations, or declare a claim safe because it sounds plausible.

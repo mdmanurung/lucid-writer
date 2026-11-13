@@ -4,6 +4,16 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- `skills/lucid-writer/scripts/qualifier_check.py SOURCE REVISED [--ledger claims.csv] [--json]` reports qualifiers ("exploratory", "may", "computed on the same runs") that a revision dropped. A ledger qualifier missing from the revision is an error (exit 1); a missing list qualifier is a review flag.
+- Optional `qualifiers` column in the claim ledger (`;`-separated). `validate_ledger.py` accepts the 9-column and 10-column headers, warns when a `supported` INFERENCE or HYPOTHESIS claim lists none, and takes `--strict` to turn warnings into errors.
+- Eval cases `qualifier_keep_exploratory`, `qualifier_keep_in_sample`, `qualifier_keep_modal_hypothesis`, `qualifier_ledger_blocks_release`.
+
+### Changed
+
+- Release step, `references/prose.md` and both evidence-auditor definitions point to `qualifier_check.py`.
+
 ## [1.4.0] - 2026-11-04
 
 ### Added
