@@ -26,6 +26,8 @@ bench/prose/judge_packets.jsonl
 bench/prose/judge_key.jsonl
 bench/prose/judgements.jsonl
 bench/prose/runs-forced/
+bench/prose/runs-probe/
+bench/external/sample/
 
 # Release gate runs (bench/gate/README.md).
 bench/gate/runs/

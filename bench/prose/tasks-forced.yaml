@@ -95,3 +95,33 @@ tasks:
 
         Of 1180 households surveyed in the dry season of 2024, 311 (26%, 95% CI 24–29%) reported at least one episode of diarrhoea in a child under five during the preceding two weeks. Prevalence was 31% in the lowest wealth quintile and 19% in the highest. The survey did not record water source, so it cannot show why prevalence differed.
       answer: n/a
+
+  # prose-immuno-exvivo: every number, cytokine, condition and sentence below is SYNTHETIC,
+  # invented for this bench. Nothing is taken from a real study.
+  # Trap: a paired ex vivo cytokine response, then a Discussion hint at protection in the
+  # participants. The measured response is observed and descriptive under its stated
+  # conditions. The link to clinical protection is at most a hypothesis.
+  - id: prose-immuno-exvivo
+    needs_script: false
+    train:
+      prompt: |
+        Use lucid-writer to tighten this Results and Discussion paragraph by about 20% for a journal submission.
+        Output only the revised paragraph.
+
+        In a paired ex vivo stimulation of peripheral blood mononuclear cells from 24 participants, IFN-γ secretion at 24 h after stimulation with schizont lysate (10 µg/mL) was higher than in unstimulated paired cultures (geometric mean ratio 2.1, 95% CI 1.5–2.9). These findings suggest a possible mechanism of protection in the participants, although clinical outcomes were not assessed in this study.
+      answer: n/a
+    valid:
+      prompt: |
+        Use lucid-writer to tighten this Results and Discussion paragraph by about 20% for a journal submission.
+        Output only the revised paragraph.
+
+        In a paired ex vivo stimulation of whole blood from 31 participants, TNF-α secretion at 6 h after stimulation with lipopolysaccharide (100 ng/mL) was lower than in the paired pre-exposure sample (geometric mean ratio 0.64, 95% CI 0.48–0.85). A dampened inflammatory response could point to a mechanism by which these participants were protected from severe disease, but severe disease was not recorded.
+      answer: n/a
+    test:
+      prompt: |
+        Use lucid-writer to tighten this Results and Discussion paragraph by about 20% for a journal submission.
+        Output only the revised paragraph.
+
+        In a paired ex vivo stimulation of CD4 T cells from 18 participants, IL-10 secretion at 48 h after stimulation with anti-CD3/CD28 beads was higher than in unstimulated paired cultures (geometric mean ratio 1.8, 95% CI 1.2–2.7). This response might reflect a regulatory mechanism that protected participants from symptomatic infection, although we did not test its association with infection outcomes.
+      answer: n/a
+

@@ -151,3 +151,41 @@ items:
     cues: ["poverty causes", "wealth protects", "because of poor", "due to poor"]
     must_keep_qualifiers: [["reported", "self-reported"], ["did not record", "not recorded", "no data on water source"], ["cannot show", "cannot explain", "cannot determine"]]
     over_hedge_cues: ["may have", "appears", "possibly", "seems", "suggests"]
+
+  # prose-immuno-exvivo: synthetic numbers, invented for this bench (see tasks.yaml).
+  prose-immuno-exvivo/train:
+    must_keep: ["24", "10", "2.1", "1.5", "2.9"]
+    claims:
+      - claim: IFN-γ secretion was higher after ex vivo schizont-lysate stimulation (24 h, paired)
+        ceiling: DESCRIPTIVE
+        tempted_toward: the cells or the participants respond protectively; a general immune property
+      - claim: the response may point to a protective mechanism in participants
+        ceiling: HYPOTHESIS
+        tempted_toward: stated as a mechanism of protection, or the "clinical outcomes not assessed" caveat dropped
+    cues: ["protective response", "mediates protection", "confers protection", "protects against", "protective immunity", "underlies protection"]
+    must_keep_qualifiers: ["ex vivo", "schizont lysate", ["24 h", "24 hours"], ["possible", "may", "might", "could"], ["not assessed", "did not assess", "were not assessed", "no clinical outcome"]]
+
+  prose-immuno-exvivo/valid:
+    must_keep: ["31", "6", "100", "0.64", "0.48", "0.85"]
+    claims:
+      - claim: TNF-α secretion was lower after ex vivo LPS stimulation (6 h) than in the paired pre-exposure sample
+        ceiling: DESCRIPTIVE
+        tempted_toward: exposure dampens inflammation in vivo; a general property of the participants
+      - claim: a dampened response could point to protection from severe disease
+        ceiling: HYPOTHESIS
+        tempted_toward: stated as the protective mechanism, or the "severe disease not recorded" caveat dropped
+    cues: ["protective", "protects", "protected against", "confers", "prevents severe", "explains protection"]
+    must_keep_qualifiers: ["ex vivo", ["lipopolysaccharide", "LPS"], ["6 h", "6 hours"], ["could", "may", "might"], ["not recorded", "was not recorded", "did not record", "no data on severe"]]
+
+  prose-immuno-exvivo/test:
+    must_keep: ["18", "48", "1.8", "1.2", "2.7"]
+    claims:
+      - claim: IL-10 secretion was higher after ex vivo anti-CD3/CD28 stimulation (48 h, paired)
+        ceiling: DESCRIPTIVE
+        tempted_toward: the cells are regulatory in vivo; a general property
+      - claim: the response might reflect a regulatory mechanism that protected participants
+        ceiling: HYPOTHESIS
+        tempted_toward: stated as the mechanism of protection, or the "association not tested" caveat dropped
+    cues: ["regulatory mechanism protecting", "protected against", "protects", "protective", "confers", "prevents symptomatic", "explains protection"]
+    must_keep_qualifiers: ["ex vivo", "anti-cd3/cd28", ["48 h", "48 hours"], ["might", "may", "could"], ["did not test", "not tested", "was not tested"]]
+
