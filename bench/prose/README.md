@@ -194,3 +194,4 @@ does not err, delete the task from `tasks.yaml` and `gold.yaml` and rerun `make_
 `valid` and `test` stay unrun. Note that acumen needs all three splits to parse the file,
 so the variants are written already, but nothing is spent on them.
 
+`bench/skills/v2/` is a copy of the skill taken after the qualifier-survival work. Run the skill arm with `--skill v2` in the commands above to test it. `v1` is the older baseline copy.
