@@ -43,9 +43,15 @@ Do not weaken solid evidence reflexively either; calibrate.
 
 For complex work, track:
 
-`claim_id | claim | class | evidence | scope | inference_ceiling | status | location | notes`
+`claim_id | claim | class | evidence | scope | inference_ceiling | status | location | notes | qualifiers`
 
-Use it for material claims, not every sentence. `scripts/validate_ledger.py` checks it and accepts these tokens: class `OBSERVED|LITERATURE|INFERENCE|HYPOTHESIS` (O/L/I/H above); ceiling `DESCRIPTIVE|ASSOCIATIVE|PREDICTIVE|CAUSAL|MECHANISTIC`; status `supported|partial|unresolved|rejected`.
+Use it for material claims, not every sentence. `scripts/validate_ledger.py` checks it and accepts these tokens: class `OBSERVED|LITERATURE|INFERENCE|HYPOTHESIS` (O/L/I/H above); ceiling `DESCRIPTIVE|ASSOCIATIVE|PREDICTIVE|CAUSAL|MECHANISTIC`; status `supported|partial|unresolved|rejected`. The optional last column `qualifiers` lists, separated by `;`, the phrases the claim must keep (for example `exploratory; may`); a `supported` INFERENCE or HYPOTHESIS claim with none gets a warning (`--strict` makes it an error), and a ledger with the older 9-column header stays valid.
+
+An example row (kept here, not in the template, so new projects start without fake claims):
+
+```csv
+C002,"Exploratory subgroup analysis: the effect may be larger in older participants.",INFERENCE,"Table 3, subgroup row 2","Post hoc subgroup of one cohort",ASSOCIATIVE,supported,Results para 4,,exploratory; may; post hoc
+```
 
 In a Mycelium repository, `evidence` for an OBSERVED claim uses the cell grammar of mycelium-extra `verify` claims blocks: `<file> <column> [<row>]`, or `<file.json> <dotted.key>`; a multi-row table needs `<row>`. Write `<value> | <cell>` and the row becomes a `<!-- claims -->` line. A figure path is valid in the ledger only; it is not claims grammar. The ledger is the writer's bookkeeping; the manuscript's `<!-- claims -->` block is the checked record. Never add, edit, or drop a claims line to make a check pass.
 

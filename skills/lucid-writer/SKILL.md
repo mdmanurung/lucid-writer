@@ -129,6 +129,7 @@ For full manuscripts/reports:
 - check internal references and artifact consistency;
 - apply the current study-design reporting guideline when relevant;
 - run deterministic checks if available (`python3 <skill-dir>/scripts/lint.py <file>`, where `<skill-dir>` holds this `SKILL.md`);
+- when a before and after version exist, run `scripts/qualifier_check.py SOURCE REVISED`, adding `--ledger .lucid-writer/claims.csv` when that file exists; a ledger-qualifier error blocks release;
 - in a Mycelium repository with mycelium-extra, run its checks before preflight through its own skills, which own the invocation: `/mycelium-extra:verify` (`report <hash> --claims <doc>`, one call per plan hash; add `--resolve-citations` for DOI/PMID; needs `.mycelium-extra/gate.json`) and `/mycelium-extra:manuscript-audit`. Read their output; never re-derive it;
 - separate unresolved scientific risks from stylistic issues;
 - state what was not checked.
