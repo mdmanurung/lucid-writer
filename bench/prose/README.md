@@ -195,3 +195,61 @@ does not err, delete the task from `tasks.yaml` and `gold.yaml` and rerun `make_
 so the variants are written already, but nothing is spent on them.
 
 `bench/skills/v2/` is a copy of the skill taken after the qualifier-survival work. Run the skill arm with `--skill v2` in the commands above to test it. `v1` is the older baseline copy.
+
+## Results of the second pass (2026-11-13)
+
+Skill version `v2` (a copy of the skill after the qualifier, evidence and warrant work), two
+models, two replicates, all 12 items. The no-skill arm and the forced arm cover all 12 items;
+the unforced `v2` arm covers only the control and immunology items. The runs cost $12.83 at
+API rates (the runs were session-billed, so that is not metered spend), against my estimate of
+about $9. Two blinded Opus judges rated every claim in 117 rewrites; they agree on 276 of 280
+claims (98.6%). Judge A is the primary result below; judge B is in brackets.
+
+`table fallback:` counts of runs per arm are a small contingency table that a table states
+exactly. No figure was made, and making one needs a grill plan. Every conclusion here is
+therefore a table reading, not a figure reading.
+
+Runs with at least one claim judged `above` its ceiling. Three runs with no rewrite are
+excluded (see below). Fisher's exact test, two-sided, treating runs as independent.
+
+| Items | no skill | `v2` forced | p |
+|---|---|---|---|
+| all 12 | 10 / 48 (20.8%) | 6 / 46 (13.0%) [5 / 46] | 0.41 [0.26] |
+| the 6 original-task items | 9 / 24 (37.5%) | 6 / 24 (25.0%) [5 / 24] | 0.53 [0.34] |
+| the 6 control and immunology items | 1 / 24 (4.2%) | 0 / 22 | 1.00 |
+
+By model, on all 12 items: sonnet 4 / 24 without the skill and 0 / 24 forced; haiku 6 / 24
+without and 6 / 22 forced. The unforced `v2` arm, on the 6 control and immunology items only,
+had 2 / 23 [1 / 23] against 1 / 24 for no skill, which says nothing because those items rarely
+draw an overclaim.
+
+What the tables show:
+
+- The skill points the right way when forced to load, but no difference reaches significance,
+  and the 12-item sample is too small to detect one. The effect sits in sonnet; haiku shows
+  none. Earlier I estimated about 10 replicates per cell to detect a halving from 20%.
+- The overclaims are on the original items. `prose-results` has 7 / 12 runs above without the
+  skill and 5 / 12 forced; `prose-discussion` has 2 / 12 and 1 / 12 [0 / 12].
+- The skill loaded in 18 of 24 unforced `v2` runs (`v1` loaded in 13 of 24 in the first pilot,
+  on different items) and in 48 of 48 forced runs.
+- The mechanical qualifier retention is close across arms: 0.68 for no skill, 0.72 to 0.75 for
+  unforced `v2` (by `skill_loaded`) and 0.73 forced. Per item, the share of runs with a dropped
+  qualifier is 0.62 without the skill and 0.50 forced.
+- No needless weakening: the controls drew 0 `above` and 0 `below` without the skill, and
+  `below` in 1 of 22 forced runs [2 of 22].
+
+Immunology gate. The baseline had 1 / 12 runs above (1 of 24 claims, 4%), both judges, under
+the 10% gate in step 4 of the pilot. The probe showed one real hedge drop (haiku wrote
+"suggesting a protective mechanism") and one false positive ("a potential protective
+mechanism", now an accepted synonym). The paragraphs are not tempting enough. Rewrite them to
+be harder or drop the task; I did not decide.
+
+Output form. Three haiku runs loaded the skill and then answered in chat with only a
+preamble, so no rewrite exists (one unforced, two forced; two of the preambles name the
+skill). They were left out of judging so they could not unblind it, and are recorded as
+`missing` for every claim. Counting them as ordinary runs gives 6 / 48 forced and 2 / 24
+unforced. Four more runs were recovered from chat as real rewrites.
+
+Not done: a second labeller for the gold ceilings, and a judge that did not know the item
+labels beyond what is in the packets.
+
