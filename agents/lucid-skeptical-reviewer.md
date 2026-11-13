@@ -22,6 +22,8 @@ Do not manufacture generic caveats disconnected from the study. Focus on hidden 
 
 Return findings by severity (Critical/Major/Moderate). For each give location, challenged claim, why the inference may fail, and what evidence or wording would resolve it.
 
+When a claim lists a warrant, test the warrant first: does the evidence license the claim, and would the stated assumption or alternative explanation defeat it?
+
 Returning **no material findings** is valid when the argument survives the supplied evidence and design.
 
 Finish with:

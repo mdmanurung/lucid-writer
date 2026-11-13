@@ -7,14 +7,20 @@ All notable changes to Lucid Writer are documented here.
 ### Added
 
 - `skills/lucid-writer/scripts/qualifier_check.py SOURCE REVISED [--ledger claims.csv] [--json]` reports qualifiers ("exploratory", "may", "computed on the same runs") that a revision dropped. A ledger qualifier missing from the revision is an error (exit 1); a missing list qualifier is a review flag.
-- Optional `qualifiers` column in the claim ledger (`;`-separated). `validate_ledger.py` accepts the 9-column and 10-column headers, warns when a `supported` INFERENCE or HYPOTHESIS claim lists none, and takes `--strict` to turn warnings into errors.
+- Optional `qualifiers` column in the claim ledger (`;`-separated). `validate_ledger.py` accepts the 9-, 10- and 11-column headers, warns when a `supported` INFERENCE or HYPOTHESIS claim lists none, and takes `--strict` to turn warnings into errors.
 - Eval cases `qualifier_keep_exploratory`, `qualifier_keep_in_sample`, `qualifier_keep_modal_hypothesis`, `qualifier_ledger_blocks_release`.
 
 - Prose bench: `must_keep_qualifiers` and `over_hedge_cues` in `gold.yaml`; `score_prose.py` reports qualifier retention by arm and `skill_loaded`, item-level summaries, and judged `below` next to `above`; `make_forced.py` generates `tasks-forced.yaml` (forced-activation arm); three already-hedged `prose-control` items. `validate_repo.py` fails when `tasks-forced.yaml` is stale.
 - Prose bench: `prose-immuno-exvivo` fixture (synthetic paired ex vivo cytokine response with a protection hint). `bench/external/` holds a plan and `sample_pairs.py`, which samples labelled sentence pairs from two public corpora at run time; no data is committed.
 
+- Optional `.lucid-writer/evidence.csv` (`claim_id, evidence_id, locator, kind, verdict, notes`). `validate_ledger.py` checks claim ids, `kind` and `verdict` tokens, locators, and that each `supported` claim has a supporting row. It takes precedence over the ledger's `evidence` column.
+- Optional `warrant` ledger column; a `supported` INFERENCE claim with ceiling CAUSAL or MECHANISTIC and no warrant gets a warning. `validate_ledger.py --self-test`.
+- `references/reporting.md`: preflight table (`assets/reporting-preflight.csv`) and an assay-level standards table (MIFlowCyt 1.0 and MIFlowCyt-EV; minSCe for single-cell RNA-seq), citations checked in PubMed and Europe PMC.
+- Eval cases `evidence_locator_required_for_supported`, `warrant_tested_by_skeptic`, `reporting_preflight_table`.
+
 ### Changed
 
+- Skeptical-reviewer agents test a stated warrant first. `references/evidence.md` notes that a trial's interpretation depends on the estimand and analysis population.
 - Prose bench judge prompt: `below` now names needless weakening of a supported claim.
 - Release step, `references/prose.md` and both evidence-auditor definitions point to `qualifier_check.py`.
 
