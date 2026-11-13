@@ -7,10 +7,12 @@ than its evidence allows.
 
 | File | Holds |
 |---|---|
-| `tasks.yaml` | six paragraphs, each written to tempt a rewrite into overclaiming (2 tasks x 3 splits, because acumen requires three splits) |
-| `gold.yaml` | per paragraph: tokens that must survive, each claim's ceiling and its tempted overclaim, screening cues |
-| `score_prose.py` | the mechanical layer, and blinded packets for the judge |
-| `judge_prompt.md` | the judge's instructions |
+| `tasks.yaml` | nine paragraphs (3 tasks x 3 splits, because acumen requires three splits): six written to tempt a rewrite into overclaiming, and three `prose-control` paragraphs that are already correctly hedged |
+| `tasks-forced.yaml` | generated from `tasks.yaml` by `make_forced.py`: every prompt starts "Use lucid-writer to", which forces the skill to load |
+| `gold.yaml` | per paragraph: tokens that must survive, qualifiers that must survive, each claim's ceiling and its tempted overclaim, screening cues |
+| `score_prose.py` | the mechanical layer, summaries, and blinded packets for the judge |
+| `make_forced.py` | writes `tasks-forced.yaml`; `--check` fails if it is stale (`validate_repo.py` runs it) |
+| `judge_prompt.md` | the judge's instructions; rates each claim `below`, `at`, `above` or `missing` |
 
 acumen's exact-match grade is meaningless here: every run reads `wrong_answer`. acumen is
 used only to generate outputs in its sandbox and to record `skill_loaded`.
@@ -26,9 +28,10 @@ Run from `bench/`. Each step's cost is an estimate at about $0.08 a run.
 
 ```bash
 # 1. Baseline only: 6 items x 2 models x 2 replicates = 24 runs, about $2
-acumen bench --no-skill --tasks prose/tasks.yaml --runs prose/runs --split train
-acumen bench --no-skill --tasks prose/tasks.yaml --runs prose/runs --split valid
-acumen bench --no-skill --tasks prose/tasks.yaml --runs prose/runs --split test
+# (--task is repeatable; without it acumen also runs the control task)
+for s in train valid test; do
+  acumen bench --no-skill --tasks prose/tasks.yaml --runs prose/runs --task prose-results --task prose-discussion --split $s
+done
 
 # 2. Mechanical scores and blinded judge packets
 uv run --quiet --no-project --with pyyaml prose/score_prose.py prose/runs
@@ -107,3 +110,62 @@ from answering in chat after loading the skill: it passes the Skill tool a parap
 drops the harness's "write answer.md". That is a bench artefact, not a user-facing one, so
 `score_prose.py` recovers those answers and marks them. The probe copies were deleted so a
 default `acumen bench` runs only v1.
+
+## Separating activation from quality (added 2026-11-13)
+
+The pilot could not tell whether the skill failed to load or loaded and did not help. These
+additions separate the two. All of them are free to run on existing outputs.
+
+**Qualifier retention.** `gold.yaml` lists `must_keep_qualifiers` per item: the hedges and
+design limits the source states. `score_prose.py` prints per run which ones the rewrite
+dropped, and then the mean fraction kept per arm, split by `skill_loaded` (true, false,
+unknown). The match is mechanical and uses `qualifier_check.py`'s phrase matching, so it
+does not need the judge. An entry may list interchangeable phrases ("may" or "might").
+
+**Items, not runs.** Repeated runs of one prompt are not independent. The summary counts
+per item (paragraph x split), pooling models and replicates, and gives the fraction of runs
+with at least one dropped qualifier. With `judgements.jsonl` present it also gives the
+fraction with at least one claim `above` and at least one `below`. The per-arm line then
+takes the mean over items. The claim-level counts stay for comparison with the earlier
+tables above.
+
+**Forced arm.** `tasks-forced.yaml` prefixes each prompt with "Use lucid-writer to". Run it
+into its own tree, `prose/runs-forced`. Pass both trees to the scorer; the forced arm shows
+as `v1+forced`. If forced runs retain more qualifiers than unforced skill runs, the gap is
+loading. If they do not, the skill text is the problem.
+
+**Controls and needless weakening.** The three `prose-control` paragraphs already sit at
+their ceiling. A good rewrite changes no claim's strength. `over_hedge_cues` flags phrases
+such as "may be associated" as a screen, and the judge rates a weakened claim `below`. The
+summary reports `below` next to `above`. Controls carry synthetic numbers.
+
+**Not yet done.** The second labeller pass on the gold ceilings (see "Before any spend")
+now covers nine items, three of them new.
+
+## Paid commands for this phase
+
+Run from `bench/`. Costs are estimates at about $0.08 a run. Two models x two replicates
+make four runs per item, so one arm over all nine items is 36 runs, about $2.90.
+
+```bash
+# A. Controls, no-skill and skill v1: 3 items x 4 runs x 2 arms = 24 runs, about $1.90
+for s in train valid test; do
+  acumen bench --no-skill   --tasks prose/tasks.yaml --runs prose/runs --task prose-control --split $s
+  acumen bench --skill v1   --tasks prose/tasks.yaml --runs prose/runs --task prose-control --split $s
+done
+
+# B. Forced-activation arm on all nine items: 36 runs, about $2.90
+for s in train valid test; do
+  acumen bench --skill v1 --tasks prose/tasks-forced.yaml --runs prose/runs-forced --split $s
+done
+
+# C. Score both trees (free), then judge as before
+uv run --quiet --no-project --with pyyaml prose/score_prose.py prose/runs prose/runs-forced
+```
+
+Total for A and B: 60 runs, about $4.80, plus one Opus judge pass over the new packets.
+Ids in `judge_packets.jsonl` change whenever runs are added, so judge after the last run
+and save `judgements.jsonl` against that packet file.
+
+`bench/skills/v1/` is frozen and now older than `skills/lucid-writer/`. A pass that tests
+the qualifier work needs a new skill copy first; the maintainer decides its name.

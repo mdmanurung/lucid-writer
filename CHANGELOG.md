@@ -10,8 +10,11 @@ All notable changes to Lucid Writer are documented here.
 - Optional `qualifiers` column in the claim ledger (`;`-separated). `validate_ledger.py` accepts the 9-column and 10-column headers, warns when a `supported` INFERENCE or HYPOTHESIS claim lists none, and takes `--strict` to turn warnings into errors.
 - Eval cases `qualifier_keep_exploratory`, `qualifier_keep_in_sample`, `qualifier_keep_modal_hypothesis`, `qualifier_ledger_blocks_release`.
 
+- Prose bench: `must_keep_qualifiers` and `over_hedge_cues` in `gold.yaml`; `score_prose.py` reports qualifier retention by arm and `skill_loaded`, item-level summaries, and judged `below` next to `above`; `make_forced.py` generates `tasks-forced.yaml` (forced-activation arm); three already-hedged `prose-control` items. `validate_repo.py` fails when `tasks-forced.yaml` is stale.
+
 ### Changed
 
+- Prose bench judge prompt: `below` now names needless weakening of a supported claim.
 - Release step, `references/prose.md` and both evidence-auditor definitions point to `qualifier_check.py`.
 
 ## [1.4.0] - 2026-11-04
