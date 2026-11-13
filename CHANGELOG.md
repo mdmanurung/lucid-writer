@@ -4,6 +4,8 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-13
+
 ### Added
 
 - `skills/lucid-writer/scripts/qualifier_check.py SOURCE REVISED [--ledger claims.csv] [--json]` reports qualifiers ("exploratory", "may", "computed on the same runs") that a revision dropped. A ledger qualifier missing from the revision is an error (exit 1); a missing list qualifier is a review flag.
