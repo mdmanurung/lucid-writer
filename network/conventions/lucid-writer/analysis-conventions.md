@@ -25,6 +25,8 @@ Run lucid-writer in Build mode on `analysis/<name>/reports/<name>-manuscript.md`
 - Every reported number is a `<value> | <file> <column> [<row>]` line in the document's `<!-- claims -->` block. Each cited file must be an output of the plan whose hash you will verify.
 - Every figure cited as evidence has a producer in `outputs-<hash>.tsv` and follows plot-first's conclusion format, tag at line end.
 - Gaps stay marked `[EVIDENCE NEEDED]` or `[CITATION NEEDED]`; never fill them to pass a check.
+- Methods come from the run's decision log (`<analysis>/logs/decisions.tsv`, columns `ts phase decision why evidence result plan_row source`), each with its plan row. Report no choice the log does not show.
+- Only findings that `/mycelium-extra:verify reproduce` reproduces go in the text. An `unreproduced` finding is dropped. An `inconclusive` one, or an `<!-- explain -->` factor with no figure, is worded as a description with `[AUTHOR CHECK]` or `[EVIDENCE NEEDED]`.
 
 ## 4. Release
 

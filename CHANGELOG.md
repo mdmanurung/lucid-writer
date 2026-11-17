@@ -4,6 +4,10 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- The Mycelium conventions pack (`network/conventions/lucid-writer/`) and the QC checklist cover mycelium-extra 0.31: the decision log as the source of Methods, `verify reproduce` as the filter for findings, and `<!-- explain -->` factors with their markers.
+
 ## [1.5.0] - 2026-11-13
 
 ### Added
