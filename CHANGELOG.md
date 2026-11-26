@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Lucid Writer are documented here.
+All notable changes to Lucid Writer are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Only v1.5.0 and later have git tags; earlier versions have no compare links.
 
 ## [Unreleased]
 
@@ -268,3 +268,6 @@ The benchmark grades closed-vocabulary judgements by exact string match. It cann
 - GitHub Actions validation workflow.
 - Study-design reporting-guideline routing using current authoritative sources.
 - Cross-platform convenience installers for Codex and Claude Code.
+
+[Unreleased]: https://github.com/mdmanurung/lucid-writer/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/mdmanurung/lucid-writer/releases/tag/v1.5.0

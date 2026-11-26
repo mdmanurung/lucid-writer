@@ -51,7 +51,7 @@ Changes should fix a demonstrated failure rather than add prompt text. Add or up
 
 ## Security
 
-Audit any fork before installing executable skills. The bundled helpers use only the Python standard library, make no network requests, and write project files only when `init_project.py` runs. See [`SECURITY.md`](https://github.com/mdmanurung/lucid-writer/blob/main/SECURITY.md).
+Audit any fork before installing executable skills. The bundled helpers and hooks use only the Python standard library or Node built-ins and make no network requests. [`SECURITY.md`](https://github.com/mdmanurung/lucid-writer/blob/main/SECURITY.md) lists what each one reads and writes, and how to report a vulnerability privately.
 
 ## Design provenance
 
