@@ -6,7 +6,7 @@ This page summarises the rules. The rules themselves live in the skill files, li
 
 ## How the rules load
 
-One short file, [`SKILL.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/SKILL.md), holds the rules that always apply. Six reference files load only when a task needs them:
+One short file, [`SKILL.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/SKILL.md), holds the rules that always apply. Seven reference files load only when a task needs them:
 
 | File | Loads for |
 |---|---|
@@ -16,6 +16,7 @@ One short file, [`SKILL.md`](https://github.com/mdmanurung/lucid-writer/blob/mai
 | [`review.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/review.md) | critique and submission preflight |
 | [`reporting.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/reporting.md) | study-design reporting guidelines |
 | [`project-state.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/project-state.md) | long-running manuscripts |
+| [`patterns.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/patterns.md) | generic-prose patterns and their fixes, loaded from `prose.md` |
 
 A copyedit therefore costs one small file, and a full audit pulls in what it needs. The design reasons are in [`docs/architecture.md`](https://github.com/mdmanurung/lucid-writer/blob/main/docs/architecture.md).
 

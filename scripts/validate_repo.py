@@ -178,6 +178,12 @@ def main() -> int:
 
     # The Codex twins are hand-kept copies of agents/*.md. A full diff is too strict (the
     # wording is condensed), so guard the rules that must survive in both copies.
+    # Maintainer notes must not ship inside the installed skill.
+    for path in sorted((ROOT / "skills").rglob("*.md")):
+        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if re.search(r"\bTODO\b|\bFIXME\b", line):
+                fail(f"{path.relative_to(ROOT)}:{n} has a maintainer note (TODO/FIXME)")
+
     # Markers are defined once, in SKILL.md; a hook ruleset must not use one the skill lacks.
     skill_markers = set(re.findall(r"\[[A-Z][A-Z ]+[A-Z]\]", SKILL.read_text(encoding="utf-8")))
     for rules_file in sorted((ROOT / "hooks" / "rules").glob("*.md")):
