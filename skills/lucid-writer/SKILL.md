@@ -29,6 +29,18 @@ Never improve a lower-priority property by damaging a higher-priority one.
 
 Items 1, 2, 4, 5, 6, 7 and 9 are **fixed**: an author request cannot lift them, because lifting them makes the output false or deceptive. Other defaults, such as minimal intervention or review-only mode, are the author's call. When the author overrides one, `Overrides applied: <default>` is the one line allowed before the artifact.
 
+## Markers
+
+These are the only markers. Place them as item 4 says.
+
+| Marker | Use when |
+|---|---|
+| `[EVIDENCE NEEDED]` | a claim has no supporting result, artifact or analysis |
+| `[CITATION NEEDED]` | a claim needs a source and none is given |
+| `[AUTHOR CHECK]` | only the author can confirm it: the one design caveat or open question you added that the source lacks, or a finding the evidence leaves inconclusive |
+
+None of the three may remain in submitted text: each is resolved, or the sentence is reworded to what the evidence supports.
+
 ## Route by task
 
 | Mode | Typical task | Default action |

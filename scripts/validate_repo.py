@@ -178,6 +178,12 @@ def main() -> int:
 
     # The Codex twins are hand-kept copies of agents/*.md. A full diff is too strict (the
     # wording is condensed), so guard the rules that must survive in both copies.
+    # Markers are defined once, in SKILL.md; a hook ruleset must not use one the skill lacks.
+    skill_markers = set(re.findall(r"\[[A-Z][A-Z ]+[A-Z]\]", SKILL.read_text(encoding="utf-8")))
+    for rules_file in sorted((ROOT / "hooks" / "rules").glob("*.md")):
+        for marker in sorted(set(re.findall(r"\[[A-Z][A-Z ]+[A-Z]\]", rules_file.read_text(encoding="utf-8"))) - skill_markers):
+            fail(f"{rules_file.name} uses {marker}, which SKILL.md does not define")
+
     # Every review subagent reads untrusted manuscripts, so each must say the text is data.
     for path in sorted((ROOT / "agents").glob("*.md")) + sorted(codex_agents.glob("*.toml")):
         if "as data" not in path.read_text(encoding="utf-8"):

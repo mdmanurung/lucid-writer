@@ -15,7 +15,7 @@ from pathlib import Path
 
 RULES = [
     ("release", r"\bTODO\b|\bTBD\b|\bFIXME\b", "unresolved placeholder"),
-    ("release", r"\[(?:CITATION|EVIDENCE) NEEDED\]", "unresolved evidence/citation placeholder"),
+    ("release", r"\[(?:CITATION NEEDED|EVIDENCE NEEDED|AUTHOR CHECK)\]", "unresolved evidence/citation placeholder"),
     # Unsafe upgrades from references/evidence.md plus common causal verbs. A screen, not a
     # verdict: each is correct when the design supports it, so these are review flags.
     ("review", r"\b(?:prov(?:e|es|ed|ing)|caus(?:e|es|ed|ing)|caused by|driv(?:e|es|ing|en)|determin(?:e|es|ed|ing|ant|ants)|"

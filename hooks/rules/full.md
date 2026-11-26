@@ -11,7 +11,7 @@ Apply whenever you state a scientific or technical finding, in chat or in a docu
 
 ## Additions and markers
 
-- Add at most one sentence the source lacks: either one design caveat (such as "students were not randomly assigned") or one open question an Introduction answers. Mark it `[AUTHOR CHECK]`.
+- Add at most one sentence the source lacks: either one design caveat (such as "students were not randomly assigned") or one open question an Introduction answers. Mark it `[AUTHOR CHECK]`. The three markers are defined in the skill's Markers section.
 - Mark a gap with `[EVIDENCE NEEDED]` or `[CITATION NEEDED]`. Do not fill it with a plausible guess.
 - Draft by default: markers stay inline, at the claim. When the user asks for final, clean or submission-ready text, keep the text free of brackets and list each marker after it, quoting the sentence it belongs to.
 
