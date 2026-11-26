@@ -179,6 +179,17 @@ test('lite was removed in 2.0.0: a lite flag is off, the command is not handled'
   assert.strictEqual(prompt(env, '/lucid-writer lite'), '');
 });
 
+test('an unwritable config dir reports the write error', () => {
+  const env = sandbox();
+  const blocked = path.join(env.cfg, 'blocked');
+  fs.writeFileSync(blocked, 'a file where a directory should be');
+  const r = cp.spawnSync('node', [path.join(HOOKS, 'prompt.js')], {
+    cwd: env.proj, input: JSON.stringify({ prompt: '/lucid-writer full' }), encoding: 'utf8',
+    env: { ...process.env, CLAUDE_CONFIG_DIR: path.join(blocked, 'cfg') },
+  });
+  assert(r.stdout.includes('could not write'), r.stdout);
+});
+
 test('mode off injects nothing', () => {
   const env = sandbox();
   writeJson(globalFile(env), { version: 1, rules: [rule('r-0001', 'A rule.', 'active')] });

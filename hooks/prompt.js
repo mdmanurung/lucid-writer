@@ -113,7 +113,14 @@ readStdin(payload => {
     const match = prompt.toLowerCase().match(COMMAND);
     if (match) {
       const arg = match[1] === 'status' ? 'status' : normalise(match[1]);
-      if (arg !== 'status') setMode(arg);
+      if (arg !== 'status') {
+        try {
+          setMode(arg);
+        } catch (e) {
+          writeOutput('UserPromptSubmit', `LUCID-WRITER: could not write ${flagPath()} (${e.code || e.message}); the mode is unchanged. Report this line to the user and do nothing else.`);
+          process.exit(0);
+        }
+      }
       const mode = readMode();
       // Rules are injected at session start, so a change lands after /clear or a new session.
       const when = arg === 'status' ? '' : ' from the next session start or /clear';
