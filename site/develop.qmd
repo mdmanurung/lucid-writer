@@ -43,7 +43,7 @@ CI runs it with the linter self-test, the ledger check, a wheel build and `acume
 
 ## Benchmark workflow
 
-Edit `skills/lucid-writer/`, re-copy it to `bench/skills/v1`, commit, then run acumen from `bench/`. Acumen benchmarks the committed `main`, not the working tree. The commands and caveats are in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
+Edit `skills/lucid-writer/` and commit. To benchmark it, copy it to a new folder `bench/skills/v<n+1>` and add a row with the source commit to `bench/skills/SNAPSHOTS.tsv`; never overwrite or edit an existing snapshot. `validate_repo.py` fails when a snapshot differs from the skill at its recorded commit. Then run acumen from `bench/` with `--skill v<n+1>`. Acumen benchmarks the committed `main`, not the working tree. The commands and caveats are in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
 
 ## Contributing
 
@@ -51,7 +51,7 @@ Changes should fix a demonstrated failure rather than add prompt text. Add or up
 
 ## Security
 
-Audit any fork before installing executable skills. The bundled helpers use only the Python standard library, make no network requests, and write project files only when `init_project.py` runs. See [`SECURITY.md`](https://github.com/mdmanurung/lucid-writer/blob/main/SECURITY.md).
+Audit any fork before installing executable skills. The bundled helpers and hooks use only the Python standard library or Node built-ins and make no network requests. [`SECURITY.md`](https://github.com/mdmanurung/lucid-writer/blob/main/SECURITY.md) lists what each one reads and writes, and how to report a vulnerability privately.
 
 ## Design provenance
 

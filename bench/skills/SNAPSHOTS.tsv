@@ -1,0 +1,3 @@
+version	source_commit	source_date	note
+v1	83e8ade916188bb47b8016fd87d12ae1cfbd14e3	2026-11-02	first bench baseline
+v2	828456c08464a00455c9f7a9e7246e0abf853593	2026-11-13	after qualifier-survival, evidence-locator and warrant work

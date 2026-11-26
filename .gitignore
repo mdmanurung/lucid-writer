@@ -34,3 +34,6 @@ bench/external/sample/
 
 # Release gate runs (bench/gate/README.md).
 bench/gate/runs/
+
+# Release-readiness reviews (local only)
+.review/

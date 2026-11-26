@@ -165,6 +165,7 @@ def main():
     p.add_argument("--author-position", choices=["sole", "first", "other"],
                    help="author position in the sample papers; 'other' adds a warning")
     p.add_argument("--out", help="write to this file (default: stdout)")
+    p.add_argument("--force", action="store_true", help="overwrite an existing --out file")
     p.add_argument("--self-test", action="store_true")
     a = p.parse_args()
     if a.self_test:
@@ -173,6 +174,10 @@ def main():
         p.error("give at least one file, or use --self-test")
     texts = [Path(f).read_text(encoding="utf-8", errors="replace") for f in a.files]
     doc = build(texts, a.author, a.author_position, [Path(f).name for f in a.files])
+    if a.out and Path(a.out).exists() and not a.force:
+        print(f"{a.out} exists and may hold your filled-in fields; not overwritten. "
+              f"Use --force to replace it, or write elsewhere and merge.", file=sys.stderr)
+        return 1
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
         Path(a.out).write_text(doc, encoding="utf-8")

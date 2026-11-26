@@ -1,0 +1,1 @@
+In paired ex vivo stimulation of CD4 T cells (n=18), IL-10 secretion at 48 h after anti-CD3/CD28 stimulation was higher than in unstimulated cultures (geometric mean ratio 1.8, 95% CI 1.2–2.7). This response may reflect a regulatory mechanism, though its association with infection outcomes was not examined.

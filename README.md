@@ -2,7 +2,7 @@
 
 > **Make the writing clearer without making the evidence stronger than it is.**
 
-Lucid Writer is an Agent Skill for Claude Code and Codex. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses, from a two-sentence copyedit to a full manuscript audit. Before it changes wording, it checks each material claim:
+Lucid Writer is an Agent Skill for Claude Code and Codex; its behaviour has been tested on Claude Code only. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses, from a two-sentence copyedit to a full manuscript audit. Before it changes wording, it checks each material claim:
 
 ```text
 claim → evidence → scope → uncertainty → inference ceiling → wording
@@ -27,7 +27,7 @@ cd lucid-writer
 bash scripts/install.sh both        # Windows: .\scripts\install.ps1 both
 ```
 
-Use one of the two, not both. Install by hand, update and uninstall are on the [docs home page](https://mdmanurung.github.io/lucid-writer/#install).
+Use one of the two, not both. Always-on mode and learned rules need the plugin; the installer adds the skill and subagents only. The helper scripts need Python 3.11 or newer; `<skill-dir>` below is `skills/lucid-writer` in a clone, `~/.claude/skills/lucid-writer` or `~/.agents/skills/lucid-writer` after the installer. Install by hand, update and uninstall are on the [docs home page](https://mdmanurung.github.io/lucid-writer/#install).
 
 ## Use
 
@@ -43,30 +43,29 @@ There is no special command: the skill loads when a writing task matches. Start 
 For high-stakes work:
 
 - **Review subagents:** run the evidence auditor and skeptical reviewer in parallel, then manuscript preflight before submission. Skip them for ordinary edits; they cost extra tokens.
-- **Project state:** `python3 skills/lucid-writer/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
-- **Mechanical checks:** `lint.py manuscript.md` flags placeholders, causal verbs and filler; `validate_ledger.py` checks the claim ledger and the optional `evidence.csv`; `qualifier_check.py` reports hedges and design limits a revision dropped.
-- **Always-on (Claude Code only):** `/lucid-writer full` applies the evidence ceiling to every reply and your voice to deliverables; `/lucid-writer prose` is plain-prose rules for chat, with no evidence rules; `/lucid-writer off` stops it.
-- **Learned rules (Claude Code only):** `/lucid-writer:learn "<rule>"` stores a proposed writing rule; `/lucid-writer:rules` approves, rejects and retires it. Only approved rules are injected, and rules that loosen the evidence rules are refused.
+- **Project state:** `python3 <skill-dir>/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
+- **Mechanical checks:** `lint.py manuscript.md` flags placeholders, hidden text, causal verbs and filler (unvalidated heuristics; `--strict` exits 1 on release flags); `validate_ledger.py` checks the claim ledger and the optional `evidence.csv`; `qualifier_check.py` reports hedges and design limits a revision dropped.
+- **Always-on (Claude Code plugin only):** `/lucid-writer full` injects the evidence rules at session start, and your voice for deliverables; `/lucid-writer prose` is plain-prose rules for chat, with no evidence rules; `/lucid-writer off` stops it.
+- **Learned rules (Claude Code plugin only):** `/lucid-writer:learn "<rule>"` stores a proposed writing rule; `/lucid-writer:rules` approves, rejects and retires it. Only rules you approve are injected, below the evidence rules. A phrase check refuses common attempts to loosen the evidence rules; it can miss new wordings, so read each rule before you approve it.
 - **Mycelium:** in a project with `.living/` and `.mycelium/`, numbers checked by `/mycelium-extra:verify` outrank the prose.
 
-It will not strengthen a claim beyond its evidence, even on request; invent citations or numbers; follow instructions hidden in manuscripts or reviewer comments; or rewrite to evade AI detectors.
+Its rules forbid strengthening a claim beyond its evidence, even on request; inventing citations or numbers; following instructions hidden in manuscripts or reviewer comments; and rewriting to evade AI detectors. These are instructions to the model, not guarantees. In the only blinded comparison so far, rewrites overclaimed in 10 of 48 runs without the skill and 6 of 46 with it (p = 0.41), so an effect is not yet shown. See [Evaluation](https://mdmanurung.github.io/lucid-writer/evaluation.html).
 
-Example:
+Example, from Case 1 in [`evals/before-after-review.md`](evals/before-after-review.md) (skill v0.4, one model run in-session; not a blinded result):
 
 ```text
-Use lucid-writer to tighten this paragraph without changing claim strength:
-[paste a research paragraph]
+Use lucid-writer to revise this paragraph without changing claim strength:
 ```
 
 Input:
 
-> Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
+> Interestingly, participants with higher baseline CD161+ CD4 T-cell frequencies showed a significantly delayed time to parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018). Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
 
 Lucid Writer:
 
-> This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
+> Higher baseline CD161+ CD4 T-cell frequencies were associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95; p=0.018). This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
 
-The numbers in the full sentence survive; the causal claim the data cannot carry does not.
+The hazard ratio, interval and p-value are kept; "demonstrate ... protective role" is lowered to what an association supports.
 
 ## Documentation
 
@@ -77,11 +76,14 @@ The numbers in the full sentence survive; the causal claim the data cannot carry
 | [Mycelium](https://mdmanurung.github.io/lucid-writer/mycelium.html) | writing from verified provenance; the convention pack |
 | [Evaluation](https://mdmanurung.github.io/lucid-writer/evaluation.html) | case studies, regression cases, the benchmark, and their limits |
 | [Develop](https://mdmanurung.github.io/lucid-writer/develop.html) | layout, validation, packaging, contributing, security |
+| [AI usage](docs/ai-usage.md) | which AI tools wrote, tested and judged this package |
+
+To cite Lucid Writer, use [`CITATION.cff`](CITATION.cff) or GitHub's "Cite this repository" button.
 
 ## Develop
 
 ```bash
-python3 scripts/validate_repo.py   # repository checks
+python3 scripts/validate_repo.py   # repository checks (Python 3.11+)
 quarto preview site                # this documentation, locally
 ```
 

@@ -1,0 +1,1 @@
+In paired ex vivo stimulation of PBMCs from 24 participants, IFN-γ secretion 24 h after schizont lysate stimulation (10 µg/mL) exceeded that in unstimulated paired cultures (geometric mean ratio 2.1, 95% CI 1.5–2.9), suggesting a possible mechanism of protection, although clinical outcomes were not assessed.

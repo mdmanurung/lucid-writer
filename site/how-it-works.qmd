@@ -6,7 +6,7 @@ This page summarises the rules. The rules themselves live in the skill files, li
 
 ## How the rules load
 
-One short file, [`SKILL.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/SKILL.md), holds the rules that always apply. Six reference files load only when a task needs them:
+One short file, [`SKILL.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/SKILL.md), holds the rules that always apply. Seven reference files load only when a task needs them:
 
 | File | Loads for |
 |---|---|
@@ -16,6 +16,7 @@ One short file, [`SKILL.md`](https://github.com/mdmanurung/lucid-writer/blob/mai
 | [`review.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/review.md) | critique and submission preflight |
 | [`reporting.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/reporting.md) | study-design reporting guidelines |
 | [`project-state.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/project-state.md) | long-running manuscripts |
+| [`patterns.md`](https://github.com/mdmanurung/lucid-writer/blob/main/skills/lucid-writer/references/patterns.md) | generic-prose patterns and their fixes, loaded from `prose.md` |
 
 A copyedit therefore costs one small file, and a full audit pulls in what it needs. The design reasons are in [`docs/architecture.md`](https://github.com/mdmanurung/lucid-writer/blob/main/docs/architecture.md).
 
@@ -46,7 +47,7 @@ Statements are also sorted by what supports them: observed in this study, from t
 
 ## Rules an author cannot lift
 
-Most defaults, such as minimal intervention or review-only mode, are the author's call. When an author overrides one, the output begins with `Overrides applied: <default>`. Seven rules are fixed, because lifting them makes the output false or deceptive:
+Most defaults, such as minimal intervention or review-only mode, are the author's call. When an author overrides one, the output begins with `Overrides applied: <default>`. Seven rules are fixed by design, because lifting them makes the output false or deceptive. They are instructions to the model; how often it keeps them is measured on the [Evaluation](evaluation.qmd) page:
 
 1. Never invent or strengthen data, methods, statistics, citations, mechanisms, causal claims or generalisations; never claim to have read a source that was not read.
 2. Keep numbers, units, effect direction, uncertainty, citations and caveats.

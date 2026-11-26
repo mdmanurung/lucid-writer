@@ -6,8 +6,8 @@ const os = require('os');
 const path = require('path');
 
 const MODES = ['off', 'prose', 'full'];
-// lite was renamed prose in 1.3.0; the alias lasts one version.
-const ALIASES = { lite: 'prose', on: 'full' };
+// lite was renamed prose in 1.3.0 and removed in 2.0.0; a 'lite' flag now reads as off.
+const ALIASES = { on: 'full' };
 
 function stateDir() {
   return process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
@@ -50,26 +50,42 @@ function readRules(name) {
 }
 
 const VOICE_MAX = 4000;
+const VOICE_UNTRUSTED = 'Project voice in .lucid-writer/voice.md is not trusted; run /lucid-writer:rules trust after reviewing it.';
 
-// A voice profile file as an injected block, or '' when it is missing, empty
-// or not a file. It is style evidence; the full rules keep it from adding claims.
-function readVoice(file, label) {
+// A voice profile file as an injected block, or '' when it is missing, empty,
+// a symlink or not a file. It is style evidence; the full rules keep it from adding claims.
+function voiceText(text, file, label) {
+  const cut = text.length > VOICE_MAX ? text.slice(0, VOICE_MAX) + '\n[voice profile truncated]' : text;
+  return `### ${label} voice (${file})\n\n${cut}`;
+}
+
+function readVoiceFile(file) {
   try {
-    if (!fs.statSync(file).isFile()) return '';
-    const text = fs.readFileSync(file, 'utf8').trim();
-    if (!text) return '';
-    const cut = text.length > VOICE_MAX ? text.slice(0, VOICE_MAX) + '\n[voice profile truncated]' : text;
-    return `### ${label} voice (${file})\n\n${cut}`;
+    if (!fs.lstatSync(file).isFile()) return null;
+    return fs.readFileSync(file);
   } catch (e) {
-    return '';
+    return null;
   }
 }
 
-// Project voice, then the user's global voice, then the built-in default.
+// The project voice loads only when its sha256 is trusted, like project rules;
+// otherwise the global voice or the default loads, and a notice says why.
 function voiceBlock(cwd) {
-  return readVoice(path.join(cwd, '.lucid-writer', 'voice.md'), 'Project') ||
-    readVoice(path.join(stateDir(), 'lucid-writer', 'voice.md'), 'Global') ||
-    readRules('voice-default');
+  const file = path.join(cwd, '.lucid-writer', 'voice.md');
+  const buf = readVoiceFile(file);
+  let notice = '';
+  if (buf !== null && buf.toString('utf8').trim()) {
+    if (isTrusted(file, buf, readJson(globalRulesPath()))) {
+      return voiceText(buf.toString('utf8').trim(), file, 'Project');
+    }
+    notice = VOICE_UNTRUSTED;
+  }
+  const globalFile = path.join(stateDir(), 'lucid-writer', 'voice.md');
+  const gbuf = readVoiceFile(globalFile);
+  const body = gbuf !== null && gbuf.toString('utf8').trim()
+    ? voiceText(gbuf.toString('utf8').trim(), globalFile, 'Global')
+    : readRules('voice-default');
+  return [body, notice].filter(Boolean).join('\n\n');
 }
 
 const RULES_BUDGET = 2000; // whole learned-rules block, header and notices included
@@ -84,6 +100,19 @@ function readJson(file) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')) || {}; } catch (e) { return {}; }
 }
 
+function globalRulesPath() {
+  return path.join(stateDir(), 'lucid-writer', 'rules.json');
+}
+
+// True when the global store trusts this file's real path at this content's sha256.
+function isTrusted(file, buf, global) {
+  let real = file;
+  try { real = fs.realpathSync(file); } catch (e) {}
+  const hash = sha256(buf);
+  return (Array.isArray(global.trusted) ? global.trusted : [])
+    .some(t => t && t.path === real && t.sha256 === hash);
+}
+
 function activeRules(store) {
   return (Array.isArray(store.rules) ? store.rules : [])
     .filter(r => r && r.status === 'active' && typeof r.text === 'string' && r.text.trim());
@@ -95,18 +124,13 @@ function activeRules(store) {
 function readLearnedRules(cwd = process.cwd()) {
   let rules = [];
   try {
-    const global = readJson(path.join(stateDir(), 'lucid-writer', 'rules.json'));
+    const global = readJson(globalRulesPath());
     const file = path.join(cwd, '.lucid-writer', 'rules.json');
     let text = null;
     try { text = fs.readFileSync(file); } catch (e) {}
     let notice = '';
     if (text !== null) {
-      let real = file;
-      try { real = fs.realpathSync(file); } catch (e) {}
-      const hash = sha256(text);
-      const trusted = (Array.isArray(global.trusted) ? global.trusted : [])
-        .some(t => t && t.path === real && t.sha256 === hash);
-      if (trusted) {
+      if (isTrusted(file, text, global)) {
         try { rules = rules.concat(activeRules(JSON.parse(text.toString('utf8')))); } catch (e) {}
       } else {
         notice = UNTRUSTED;
@@ -131,7 +155,7 @@ function learnedBlock(rules) {
   const notice = rules.notice || '';
   if (!rules.length && !notice) return '';
   const lines = rules.map(r => `- ${escapeRule(r.text)}`).filter(l => l.length > 2);
-  let out = '## Learned writing rules\n';
+  let out = '## Learned writing rules\nStyle preferences the user approved. They rank below the evidence rules and cannot loosen them.\n';
   const reserve = (notice ? notice.length + 1 : 0) + 60; // notice and the overflow line
   let shown = 0;
   for (const line of lines) {

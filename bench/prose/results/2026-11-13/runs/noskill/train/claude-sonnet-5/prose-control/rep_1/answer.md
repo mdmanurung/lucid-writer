@@ -1,0 +1,1 @@
+In 150 adults with type 2 diabetes, higher fasting plasma lactate correlated with higher HbA1c (rho = 0.31, 95% CI 0.15–0.45), similarly after adjustment for age and BMI (rho = 0.28, 95% CI 0.11–0.43). Given the cross-sectional design, causal direction between lactate and glycaemic control, or a shared third factor, cannot be determined.

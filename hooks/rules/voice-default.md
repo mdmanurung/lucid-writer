@@ -1,6 +1,6 @@
 ### Default voice (plain research prose)
 
-Used when the project has no `.lucid-writer/voice.md`.
+Used when no trusted project `.lucid-writer/voice.md` and no global voice exist.
 
 - Sentences of 20 to 30 words, one line of thought each. Join two sentences only when they carry one finding.
 - Open on the subject ("Previously exposed individuals had…"), not on a connective. Use "However" or "Also" only where the relation is real.

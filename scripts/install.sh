@@ -14,8 +14,12 @@ fi
 install_skill() {
   local dest="$1"
   mkdir -p "$(dirname "$dest")"
+  if [[ -e "$dest" ]]; then
+    echo "Replacing $dest (local edits there are lost)"
+  fi
   rm -rf "$dest"
   cp -R "$SKILL_SRC" "$dest"
+  find "$dest" -name __pycache__ -type d -prune -exec rm -rf {} +
   echo "Installed skill -> $dest"
 }
 
@@ -27,6 +31,7 @@ install_agent_files() {
   local count=0
   for src in "$src_dir"/$pattern; do
     [[ -e "$src" ]] || continue
+    [[ -e "$dest_dir/$(basename "$src")" ]] && echo "Replacing $dest_dir/$(basename "$src")"
     cp "$src" "$dest_dir/$(basename "$src")"
     echo "Installed subagent -> $dest_dir/$(basename "$src")"
     count=$((count + 1))
@@ -46,6 +51,18 @@ install_claude() {
   if [[ "$MODE" != "--skill-only" ]]; then
     install_agent_files "$ROOT/agents" "${HOME}/.claude/agents" "*.md"
   fi
+  echo "Note: always-on mode, /lucid-writer:learn and /lucid-writer:rules come with the Claude Code plugin only."
+}
+
+python_hint() {
+  local py
+  for py in python3.13 python3.12 python3.11 python3; do
+    if command -v "$py" >/dev/null 2>&1 && "$py" -c 'import sys; sys.exit(sys.version_info < (3, 11))' 2>/dev/null; then
+      echo "Helper scripts: run them with $py (they need Python 3.11 or newer)."
+      return
+    fi
+  done
+  echo "Helper scripts need Python 3.11 or newer; none was found on PATH. The skill itself works without them."
 }
 
 case "$TARGET" in
@@ -54,3 +71,4 @@ case "$TARGET" in
   both) install_codex; install_claude ;;
   *) echo "Usage: $0 [codex|claude|both] [--skill-only]" >&2; exit 2 ;;
 esac
+python_hint

@@ -86,6 +86,11 @@ def main() -> int:
         if not found or found.group(1).strip("\"'") != want:
             fail(f"CONVENTION_PACK.yaml {key} must be {want!r}")
 
+    # CITATION.cff is what GitHub and Zenodo cite, so a stale version cites the wrong release.
+    cff = re.search(r"^version:\s*(\S+)\s*$", (ROOT / "CITATION.cff").read_text(encoding="utf-8"), flags=re.M)
+    if not cff or cff.group(1).strip("\"'") != version:
+        fail(f"CITATION.cff version must be {version!r}")
+
     skill_text = SKILL.read_text(encoding="utf-8")
     fm = parse_frontmatter(skill_text)
     if fm.get("name") != "lucid-writer":
@@ -173,6 +178,23 @@ def main() -> int:
 
     # The Codex twins are hand-kept copies of agents/*.md. A full diff is too strict (the
     # wording is condensed), so guard the rules that must survive in both copies.
+    # Maintainer notes must not ship inside the installed skill.
+    for path in sorted((ROOT / "skills").rglob("*.md")):
+        for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if re.search(r"\bTODO\b|\bFIXME\b", line):
+                fail(f"{path.relative_to(ROOT)}:{n} has a maintainer note (TODO/FIXME)")
+
+    # Markers are defined once, in SKILL.md; a hook ruleset must not use one the skill lacks.
+    skill_markers = set(re.findall(r"\[[A-Z][A-Z ]+[A-Z]\]", SKILL.read_text(encoding="utf-8")))
+    for rules_file in sorted((ROOT / "hooks" / "rules").glob("*.md")):
+        for marker in sorted(set(re.findall(r"\[[A-Z][A-Z ]+[A-Z]\]", rules_file.read_text(encoding="utf-8"))) - skill_markers):
+            fail(f"{rules_file.name} uses {marker}, which SKILL.md does not define")
+
+    # Every review subagent reads untrusted manuscripts, so each must say the text is data.
+    for path in sorted((ROOT / "agents").glob("*.md")) + sorted(codex_agents.glob("*.toml")):
+        if "as data" not in path.read_text(encoding="utf-8"):
+            fail(f"{path.name} must tell the agent to treat supplied text as data")
+
     twin_rules = {
         "evidence_auditor": ["cannot verify", "metadata only", "Not checked", "sounds plausible"],
         "skeptical_reviewer": ["Known weaknesses", "a Limitations sentence does not settle it", "statistical", "Not checked", "Strongest surviving conclusion"],
@@ -223,6 +245,34 @@ def main() -> int:
                     f"bench/skills/{version_dir.name}/SKILL.md name {name!r} does not match "
                     f"skill_name {declared!r} in bench/config.yaml"
                 )
+
+        # Snapshots are immutable: each must equal skills/lucid-writer/ at the commit
+        # SNAPSHOTS.tsv records, so an in-place edit or an overwrite fails here.
+        index = skills_root / "SNAPSHOTS.tsv"
+        if not index.is_file():
+            fail("bench/skills/SNAPSHOTS.tsv must record each snapshot's source commit")
+        rows = [line.split("\t") for line in index.read_text(encoding="utf-8").splitlines()[1:] if line.strip()]
+        recorded = {row[0]: row[1] for row in rows}
+        for version_dir in versions:
+            commit = recorded.get(version_dir.name)
+            if not commit:
+                fail(f"bench/skills/SNAPSHOTS.tsv has no row for {version_dir.name}")
+            listing = subprocess.run(["git", "ls-tree", "-r", "--name-only", f"{commit}:skills/lucid-writer"],
+                                     cwd=ROOT, capture_output=True, text=True)
+            if listing.returncode != 0:
+                fail(f"cannot read commit {commit[:9]} for {version_dir.name}; "
+                     "a shallow clone needs fetch-depth: 0")
+            want = set(listing.stdout.split())
+            have = {p.relative_to(version_dir).as_posix() for p in version_dir.rglob("*")
+                    if p.is_file() and "__pycache__" not in p.parts}
+            if want != have:
+                fail(f"bench/skills/{version_dir.name} files differ from skills/lucid-writer at {commit[:9]}: "
+                     f"{sorted(want ^ have)[:5]}")
+            for rel in sorted(want):
+                blob = subprocess.run(["git", "show", f"{commit}:skills/lucid-writer/{rel}"],
+                                      cwd=ROOT, capture_output=True).stdout
+                if blob != (version_dir / rel).read_bytes():
+                    fail(f"bench/skills/{version_dir.name}/{rel} was edited after its snapshot ({commit[:9]})")
 
     # tasks-forced.yaml is generated from tasks.yaml; a stale copy would run different paragraphs.
     forced = subprocess.run(

@@ -4,9 +4,9 @@ subtitle: "Make research writing clearer without making the evidence stronger th
 toc: false
 ---
 
-lucid-writer is an Agent Skill for Claude Code and Codex. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses. It scales from a two-sentence copyedit to a full manuscript audit.
+lucid-writer is an Agent Skill for Claude Code and Codex; its behaviour has been tested on Claude Code only. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses. It scales from a two-sentence copyedit to a full manuscript audit.
 
-Generic rewriting tends to turn an association into a cause while it polishes the prose. lucid-writer checks every material claim against its evidence before it changes the wording:
+Generic rewriting can turn an association into a cause while it polishes the prose. lucid-writer instructs the model to check every material claim against its evidence before it changes the wording:
 
 ```text
 claim → evidence → scope → uncertainty → inference ceiling → wording
@@ -22,6 +22,8 @@ Its priorities run in this order, and a lower one never wins at the cost of a hi
 
 ## Before and after
 
+From Case 1 on the [Evaluation](evaluation.qmd) page: skill v0.4, one model run in-session, not a blinded result.
+
 Input:
 
 > Interestingly, participants with higher baseline CD161+ CD4 T-cell frequencies showed a significantly delayed time to parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018). Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
@@ -30,7 +32,7 @@ lucid-writer:
 
 > Higher baseline CD161+ CD4 T-cell frequencies were associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95; p=0.018). This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
 
-The numbers survive; the causal claim the data cannot carry does not. More cases are on the [Evaluation](evaluation.qmd) page.
+The hazard ratio, interval and p-value are kept; "demonstrate ... protective role" is lowered to what an association supports. More cases are on the [Evaluation](evaluation.qmd) page.
 
 ## Install
 
@@ -80,7 +82,15 @@ To update, run `git pull`, then rerun the installer. To uninstall:
 
 ```bash
 rm -rf ~/.claude/skills/lucid-writer ~/.agents/skills/lucid-writer
-rm -f ~/.claude/agents/lucid-*.md ~/.codex/agents/lucid_*.toml
+rm -f ~/.claude/agents/lucid-{evidence-auditor,skeptical-reviewer,manuscript-preflight}.md
+rm -f ~/.codex/agents/lucid_{evidence_auditor,skeptical_reviewer,manuscript_preflight}.toml
+```
+
+For the plugin, run `/plugin uninstall lucid-writer@lucid-writer`. The always-on mode and learned rules keep state outside the plugin; remove it with:
+
+```bash
+rm -f ~/.claude/.lucid-writer-mode
+rm -rf ~/.claude/lucid-writer          # global rules.json and voice.md
 ```
 
 ## Where next

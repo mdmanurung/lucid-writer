@@ -2,5 +2,5 @@
   "name": "lucid-writer",
   "version": "1.5.0",
   "description": "Evidence-bounded research writing for articles, scientific and technical reports, revision, and manuscript review.",
-  "skills": "./skills/"
+  "skills": "./skills/lucid-writer/"
 }

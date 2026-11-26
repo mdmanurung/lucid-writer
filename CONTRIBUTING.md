@@ -22,9 +22,12 @@ A pull request should state:
 - files changed;
 - new or updated eval cases.
 
-Run:
+Run, with Python 3.11 or newer and Node on `PATH`:
 
 ```bash
+node hooks/test.js
+python skills/lucid-writer/scripts/rules.py --self-test
+python skills/lucid-writer/scripts/voice_profile.py --self-test
 python scripts/validate_repo.py
 python skills/lucid-writer/scripts/lint.py --self-test
 python skills/lucid-writer/scripts/validate_ledger.py skills/lucid-writer/assets/claim-evidence-ledger.csv

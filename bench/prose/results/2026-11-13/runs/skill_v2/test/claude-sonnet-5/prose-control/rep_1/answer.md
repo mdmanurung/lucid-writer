@@ -1,0 +1,1 @@
+Of 1180 households surveyed in the 2024 dry season, 311 (26%, 95% CI 24–29%) reported a child under five with diarrhoea in the preceding two weeks. Prevalence was 31% in the lowest wealth quintile versus 19% in the highest; water source was unrecorded, leaving the difference unexplained.

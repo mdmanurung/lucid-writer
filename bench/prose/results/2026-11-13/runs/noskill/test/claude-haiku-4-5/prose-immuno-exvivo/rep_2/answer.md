@@ -1,0 +1,1 @@
+Ex vivo stimulation with anti-CD3/CD28 beads increased IL-10 secretion in CD4 T cells (18 participants) at 48 h compared to unstimulated controls (geometric mean ratio 1.8, 95% CI 1.2–2.7). This elevation may indicate a regulatory response protecting against symptomatic infection, though infection outcomes were not assessed.

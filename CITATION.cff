@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Lucid Writer, please cite it as below."
+title: "Lucid Writer: an agent skill that edits research prose without strengthening claims beyond their evidence"
+type: software
+authors:
+  - name: "Lucid Writer contributors"
+version: 1.5.0
+date-released: 2026-11-13
+license: MIT
+repository-code: "https://github.com/mdmanurung/lucid-writer"
+url: "https://mdmanurung.github.io/lucid-writer/"
+keywords:
+  - scientific writing
+  - claim strength
+  - large language models
+  - agent skills
+  - research integrity

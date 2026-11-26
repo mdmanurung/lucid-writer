@@ -1,0 +1,1 @@
+In paired ex vivo CD4 T-cell cultures from 18 participants, IL-10 secretion at 48 h after anti-CD3/CD28 bead stimulation was higher than in unstimulated cultures (geometric mean ratio 1.8, 95% CI 1.2–2.7). This may reflect a regulatory mechanism protecting against symptomatic infection, though this association was not tested.

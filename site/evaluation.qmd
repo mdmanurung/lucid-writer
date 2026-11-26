@@ -2,7 +2,23 @@
 title: "Evaluation"
 ---
 
-Every evaluation below has a stated limit, and the limits matter more than the scores. The two case studies were run in-session by one model, before version 1.0; the benchmark has run, and shows the baseline already at ceiling.
+Every evaluation below has a stated limit, and the limits matter more than the scores. The one blinded comparison, the prose bench, comes first: it does not show that the skill lowers overclaiming. The case studies after it were run in-session by one model, before version 1.0, and scored by the author. The closed-vocabulary benchmark shows the baseline already at ceiling.
+
+## Prose bench: does it stop overclaiming?
+
+[`bench/prose/`](https://github.com/mdmanurung/lucid-writer/tree/main/bench/prose) asks models to rewrite 12 research paragraphs, then two blinded judges mark each claim as above, at or below its evidence. The second pass (skill `v2`, forced to load) gave:
+
+| Items | no skill | `v2` forced | p |
+|---|---|---|---|
+| all 12 | 10 / 48 runs (20.8%) | 6 / 46 runs (13.0%) | 0.41 |
+| the 6 original-task items | 9 / 24 (37.5%) | 6 / 24 (25.0%) | 0.53 |
+| the 6 control and immunology items | 1 / 24 (4.2%) | 0 / 22 | 1.00 |
+
+Judge A's ratings are shown; the judges agree on 276 of 280 claims in the rewrites. The runs, packets and both judges' verdicts are committed in [`bench/prose/results/2026-11-13/`](https://github.com/mdmanurung/lucid-writer/tree/main/bench/prose/results/2026-11-13), and every number reruns from there. No figure was made: these counts are read from the table in the bench README. A run counts when one or more of its claims was judged above its evidence; p is a two-sided Fisher test on runs, not adjusted for the other tests. **The difference is not significant, so this pilot does not show that the skill lowers overclaiming.** **Limits:** 12 items, one gold labeller, judges from one vendor, and a first pilot (15% against 22% of claims, p = 0.48) whose runs were not kept, so it cannot be rerun. Details are in [`bench/prose/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/prose/README.md).
+
+## Release gate
+
+[`bench/gate/`](https://github.com/mdmanurung/lucid-writer/tree/main/bench/gate) rewrites two generated abstracts with clean `claude -p` runs under the `prose` and `full` rules, then codes each output blind against the original claims. It is a pre-merge smoke check, not an evaluation: 3 runs per abstract cannot bound a failure rate, and no gate result has been committed yet.
 
 ## Case study 1: what it does to prose
 
@@ -27,21 +43,21 @@ The skill keeps the numbers and drops the causal claim:
 
 The difference is epistemic, not cosmetic. **Limit:** the same model produced and judged both outputs; this is a qualitative comparison, not a blinded one.
 
-A second same-model test, [`evals/paired-ab-test-2026-09-18.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/paired-ab-test-2026-09-18.md), scored eight fixed cases. A strict audit found two minor meaning-compression errors in v0.4.0; both were fixed and retested in v0.4.1.
+A second same-model test, [`evals/paired-ab-test-2026-09-18.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/paired-ab-test-2026-09-18.md), scored eight fixed cases: 71/80 without the skill and 78/80 with v0.4.0. A strict audit found two minor meaning-compression errors; both were patched and retested in v0.4.1, which scored 80/80 on the same cases, so that score is tuned to them.
 
 ## Case study 2: what the reviewers catch
 
 [`evals/second-pass/`](https://github.com/mdmanurung/lucid-writer/tree/main/evals/second-pass) tests whether the review subagents add signal beyond the core skill. A synthetic manuscript carries 14 seeded issues across evidence fidelity, inferential reasoning and cross-artifact consistency, plus clean controls.
 
 - The core skill alone found 13 of 14 issues.
-- In the v0.5.1 retest, each subagent found all seeded issues in its own domain, with no false positives on the clean controls.
-- Overlap between the evidence auditor and the skeptical reviewer was 7.7%.
+- In the v0.5.1 retest, made after edits informed by v0.5.0 on this fixture, each subagent found all seeded issues in its own domain, with no false positives on the clean controls.
+- The evidence auditor and the skeptical reviewer overlapped on 1 of 13 unique findings (7.7%).
 
 That is why the subagents stay optional. **Limits**, from the [report](https://github.com/mdmanurung/lucid-writer/blob/main/evals/second-pass/second-pass-report.md): the same model and session produced and scored the outputs; the fixture is synthetic; seeded issues are crisp and may overstate recall; no cost or latency was measured.
 
 ## Regression cases
 
-[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 24 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
+[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 55 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
 
 ## Benchmark
 
@@ -51,7 +67,7 @@ That is why the subagents stay optional. **Limits**, from the [report](https://g
 
 - `claude-sonnet-5` and `claude-haiku-4-5` score at or near 100% without the skill on unambiguous claim-strength judgements. Items that tripped them turned out to have two defensible answers, and fixing that removed the errors.
 - One trap discriminates: an in-sample regression across a time lag described as "predicted". Three of four baseline runs called it predictive.
-- The skill was offered and skipped in every run until its description named the judgement itself. After that change, `claude-sonnet-5` loaded it in both probe runs and caught the trap in both; `claude-haiku-4-5` never loaded it.
+- The skill was offered and skipped in every run until its description named the judgement itself. After that change, `claude-sonnet-5` loaded it in both probe runs and caught the trap in both (n = 2 runs on one item, so a probe, not a result); `claude-haiku-4-5` never loaded it.
 
 The round-by-round table is in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
 

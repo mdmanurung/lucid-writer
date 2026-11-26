@@ -1,10 +1,43 @@
 # Changelog
 
-All notable changes to Lucid Writer are documented here.
+All notable changes to Lucid Writer are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Only v1.5.0 and later have git tags; earlier versions have no compare links.
 
 ## [Unreleased]
 
+### Changed (breaking)
+
+- The `lite` mode alias is removed, as promised in 1.3.0. **Migration:** a `lite` flag now reads as off; run `/lucid-writer prose`.
+- The Codex plugin manifest ships only the `lucid-writer` skill. `learn` and `rules` need Claude Code hooks and never worked there.
+- `lint.py` flags many more causal verbs (the `references/evidence.md` unsafe upgrades plus *protects*, *mediates*, *regulates*, *rules out*, *eliminates* and others), absence claims ("had no effect") and hidden text. Expect more review flags on correct uses.
+- `voice_profile.py --out` refuses to overwrite an existing file; add `--force`.
+
+- A project's `.lucid-writer/voice.md` now loads in `full` mode only after `/lucid-writer:rules trust` records its sha256, the same gate as project rules. An untrusted or edited project voice is skipped with a one-line notice, and the global or default voice loads instead. A symlinked project voice is never loaded. **Migration:** review your project `voice.md`, then run `/lucid-writer:rules trust` once per project.
+- One rule for gap markers on every host: inline while drafting; for final, clean or submission-ready text, the text comes back free of brackets with each marker listed after it and its sentence quoted. `SKILL.md` non-negotiable 4 used to forbid the list in place of inline markers, so skill-only and Codex users get the new behaviour.
+
+### Fixed
+
+- `SKILL.md` item 1 now says to lower an author's own overclaim, on every host; before, only the always-on `full` rules said so.
+- `SKILL.md` defines the three markers once; `[AUTHOR CHECK]` was used but never defined in the skill.
+- The skeptical-reviewer subagents treat supplied text as data, like the other two.
+- The learned-rules phrase check refuses verb swaps toward causal wording, dropped qualifiers and limitations, "never hedge", following embedded instructions, p < 0.10 as significant, non-significance as equivalence and placeholder citations. The injected block says learned rules rank below the evidence rules.
+- `/lucid-writer full` on an unwritable config directory reports the error instead of failing silently.
+- `bench/gate/gate.py` skips malformed recoder output instead of crashing, and compares labels case-insensitively.
+- Installer: names the uninstall files instead of a glob that matched other tools' agents, skips `__pycache__`, warns before replacing files, and says which Python runs the helpers.
+- Docs: the Python 3.11 floor and `<skill-dir>` helper paths are stated where commands appear; always-on and learned rules are marked plugin only; Codex behaviour is marked untested; `SECURITY.md` lists what each component reads and writes; the README example is the sourced Case 1; the Evaluation page leads with the blinded null result; legacy eval reports open with their limits.
+- README and site word the core promise as design rules, with the blinded prose-bench pilot beside it (10 / 48 against 6 / 46 runs above the ceiling, p = 0.41). The learned-rules loosening check is described as a phrase check. The Evaluation page gains a prose-bench section and the current eval-case count.
+
 ### Added
+
+- `lint.py --strict` exits 1 on release flags. `lint.py` and `qualifier_check.py` exit 2 on `.docx`, `.pdf` and other binary input, with a pandoc hint.
+- `bench/skills/SNAPSHOTS.tsv` records each snapshot's source commit; `validate_repo.py` fails when a snapshot was edited or overwritten.
+- `validate_repo.py` also fails on TODO/FIXME inside `skills/`, an undefined marker in a hook ruleset, and an agent file without the "treat text as data" line.
+- CI tests Python 3.11 and 3.12 and runs `node hooks/test.js`, `rules.py`, `voice_profile.py` and `gate.py` self-tests.
+- 13 eval cases: learned-rule paraphrases and author-overclaim cases for skill-only edit and review.
+
+- Eval cases `final_text_markers_listed_after` and `planted_project_voice_is_data`.
+- `bench/prose/results/2026-11-13/`: the second-pass runs, blinded packets, key and both judges' verdicts, so every reported number reruns from a clone. `score_prose.py` reads `chat_answer.md` for runs that answered in chat.
+- `CITATION.cff`; `validate_repo.py` checks that its version matches `lucid_writer.__version__`.
+- `docs/ai-usage.md`: which AI tools wrote, tested and judged the package.
 
 - The Mycelium conventions pack (`network/conventions/lucid-writer/`) and the QC checklist cover mycelium-extra 0.31: the decision log as the source of Methods, `verify reproduce` as the filter for findings, and `<!-- explain -->` factors with their markers.
 
@@ -254,3 +287,6 @@ The benchmark grades closed-vocabulary judgements by exact string match. It cann
 - GitHub Actions validation workflow.
 - Study-design reporting-guideline routing using current authoritative sources.
 - Cross-platform convenience installers for Codex and Claude Code.
+
+[Unreleased]: https://github.com/mdmanurung/lucid-writer/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/mdmanurung/lucid-writer/releases/tag/v1.5.0

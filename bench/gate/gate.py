@@ -82,7 +82,10 @@ def main():
                     help="explicit ID; the 'opus' alias resolved to a model whose classifier blocked a biology abstract")
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--rescore", metavar="RUN_DIR", help="score a saved run again; no new API calls")
+    ap.add_argument("--self-test", action="store_true", help="check the recode parser; no API calls")
     a = ap.parse_args()
+    if a.self_test:
+        return self_test()
 
     setups = [s.strip() for s in a.setups.split(",") if s.strip()]
     claims = json.loads(read(GATE / "abstracts" / "claims.json"))
@@ -121,14 +124,58 @@ def main():
         (run_dir / f"recode_{ab}.jsonl").write_text(text, encoding="utf-8")
         (run_dir / f"recode_{ab}.key.json").write_text(
             json.dumps({l: "__".join(map(str, k)) for l, k in labels.items()}), encoding="utf-8")
-        for line in text.splitlines():
-            line = line.strip()
-            if line.startswith("{"):
-                d = json.loads(line)
-                if d.get("id") in labels:
-                    codes[labels[d["id"]]] = d
+        codes.update(parse_codes(text, labels))
 
     return score(run_dir, setups, list(abstracts), a.runs, a.model, outputs, codes)
+
+
+C1 = {"causal", "association", "neutral", "dropped"}
+C2 = {"stronger", "same", "weaker"}
+
+
+def parse_codes(text, labels):
+    """Recoder JSON Lines -> {run key: code}. A line that is not JSON, names an unknown id or
+    uses an unknown c1/c2 value is skipped with a warning, so it counts as an uncoded run
+    rather than crashing the gate or passing silently."""
+    codes = {}
+    for n, line in enumerate(text.splitlines(), 1):
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            d = json.loads(line)
+        except json.JSONDecodeError:
+            print(f"recode line {n}: not JSON, skipped", file=sys.stderr)
+            continue
+        if not isinstance(d, dict) or d.get("id") not in labels:
+            continue
+        d["c1"] = str(d.get("c1", "")).strip().lower()
+        d["c2"] = str(d.get("c2", "")).strip().lower()
+        if d["c1"] not in C1 or d["c2"] not in C2:
+            print(f"recode line {n}: unknown c1/c2 {d['c1']!r}/{d['c2']!r}, skipped", file=sys.stderr)
+            continue
+        if not isinstance(d.get("added", []), list):
+            d["added"] = []
+        codes[labels[d["id"]]] = d
+    return codes
+
+
+def self_test():
+    labels = {"R01": ("full", "a", 1), "R02": ("full", "a", 2), "R03": ("full", "a", 3), "R04": ("full", "a", 4)}
+    text = "\n".join([
+        '{"id": "R01", "c1": " Causal ", "c2": "SAME"}',
+        '{"id": "R02", "c1": "association", "c2": "stronger"',   # truncated JSON
+        '{"id": "R03", "c1": "maybe", "c2": "same"}',            # unknown value
+        '{"id": "R99", "c1": "neutral", "c2": "same"}',          # unknown id
+        'not json at all',
+        '{"id": "R04", "c1": "neutral", "c2": "weaker", "added": "x"}',
+    ])
+    codes = parse_codes(text, labels)
+    assert set(codes) == {("full", "a", 1), ("full", "a", 4)}, codes
+    assert codes[("full", "a", 1)]["c1"] == "causal" and codes[("full", "a", 1)]["c2"] == "same"
+    assert codes[("full", "a", 4)]["added"] == []
+    print("gate self-test OK")
+    return 0
 
 
 def load_run(run_dir):
@@ -143,12 +190,7 @@ def load_run(run_dir):
         ab = kf.name[len("recode_"):-len(".key.json")]
         labels = {l: tuple(int(x) if x.isdigit() else x for x in v.split("__"))
                   for l, v in json.loads(kf.read_text(encoding="utf-8")).items()}
-        for line in (run_dir / f"recode_{ab}.jsonl").read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line.startswith("{"):
-                d = json.loads(line)
-                if d.get("id") in labels:
-                    codes[labels[d["id"]]] = d
+        codes.update(parse_codes((run_dir / f"recode_{ab}.jsonl").read_text(encoding="utf-8"), labels))
     return outputs, codes
 
 

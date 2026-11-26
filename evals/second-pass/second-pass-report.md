@@ -2,6 +2,8 @@
 
 Date: 2026-09-18
 
+> **Limits, read first.** Skill v0.5 under its old name, `research-writer`. The fixture is synthetic, with 14 crisp seeded issues, so recall may be overstated. The same model and session produced and scored the outputs, and the v0.5.1 retest followed edits made after seeing the v0.5.0 results on this fixture, so its scores are tuned. No cost or latency was measured.
+
 ## Question
 
 Do the optional review subagents add useful signal beyond the already-strong core `research-writer` skill, and do they do so without producing noisy or fabricated critiques?

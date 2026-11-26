@@ -1,0 +1,1 @@
+Mayfly density decreased with neonicotinoid concentration (rho = −0.52, 31 streams), possibly reflecting sublethal impairment of larval development observed in other aquatic insects (Lindqvist et al., 2020). However, we did not measure larval development, and other agricultural stressors could explain the pattern.

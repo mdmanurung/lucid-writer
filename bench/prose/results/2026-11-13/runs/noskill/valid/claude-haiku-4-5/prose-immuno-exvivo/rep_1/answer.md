@@ -1,0 +1,1 @@
+In paired ex vivo whole blood stimulation from 31 participants, TNF-α secretion 6 h post-lipopolysaccharide (100 ng/mL) was reduced compared to pre-exposure (geometric mean ratio 0.64, 95% CI 0.48–0.85). This dampened response may confer protection against severe disease, though none was observed.

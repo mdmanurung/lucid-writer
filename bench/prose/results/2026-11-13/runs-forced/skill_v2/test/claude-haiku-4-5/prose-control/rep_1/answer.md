@@ -1,0 +1,1 @@
+Of 1180 households surveyed in 2024, 311 (26%, 95% CI 24–29%) reported diarrhoea in a child under five in the preceding two weeks. Prevalence was 31% in the lowest wealth quintile and 19% in the highest. The survey lacked water-source data, limiting analysis of prevalence differences.
