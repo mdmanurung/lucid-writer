@@ -224,7 +224,11 @@ def main() -> int:
     if a.source is None or a.revised is None:
         p.error("SOURCE and REVISED are required unless --self-test is used")
 
-    read = lambda f: f.read_text(encoding="utf-8", errors="replace")
+    def read(f):
+        raw = f.read_bytes()
+        if b"\0" in raw[:8192] or raw[:4] == b"PK\x03\x04" or raw[:5] == b"%PDF-":
+            raise OSError(f"{f} is not plain text; convert it first, e.g. pandoc {f.name} -t gfm -o {f.stem}.md")
+        return raw.decode("utf-8", errors="replace")
     try:
         source, revised = read(a.source), read(a.revised)
         issues = check(source, revised, a.ledger)
