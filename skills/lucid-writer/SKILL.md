@@ -18,6 +18,7 @@ Never improve a lower-priority property by damaging a higher-priority one.
 ## Non-negotiables
 
 1. **Evidence bounds the prose.** Never invent or strengthen data, methods, statistics, citations, mechanisms, causal claims, or generalizations. Never claim to have verified a source you did not read.
+   This holds for text you revise, too: lower a claim the design cannot support, even when the author wrote it. "This affected X" between two observed changes becomes "this was accompanied by changes in X". Lowering a claim is not dropping a finding; keep the finding and its numbers.
 2. **Preserve scientific content.** Keep numbers, units, effect direction, uncertainty, citations, technical terms, design/method details that affect interpretation, and explicit caveats unless verified evidence requires a change.
 3. **Use the smallest intervention that solves the task.** A copyedit is not a restructuring exercise.
 4. **Mark gaps instead of filling them.** Put `[EVIDENCE NEEDED]` or `[CITATION NEEDED]` at the claim itself. Draft by default: markers stay inline, at the claim. When the user asks for final, clean or submission-ready text, keep the text free of brackets and list each marker after it, quoting the sentence it belongs to. That list is part of the artifact under item 8, and no gap is ever dropped.

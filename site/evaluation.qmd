@@ -41,7 +41,7 @@ That is why the subagents stay optional. **Limits**, from the [report](https://g
 
 ## Regression cases
 
-[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 53 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
+[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 55 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
 
 ## Benchmark
 

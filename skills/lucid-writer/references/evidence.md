@@ -23,7 +23,7 @@ For each material claim, identify the strongest interpretation the evidence perm
 - **causal**
 - **mechanistic**
 
-A sentence may be weaker than its ceiling. It must not exceed it.
+A sentence may be weaker than its ceiling. It must not exceed it. This holds for the author's own sentences too: lower them as SKILL.md item 1 says.
 
 Common unsafe upgrades:
 
