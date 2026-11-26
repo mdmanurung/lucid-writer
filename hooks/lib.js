@@ -155,7 +155,7 @@ function learnedBlock(rules) {
   const notice = rules.notice || '';
   if (!rules.length && !notice) return '';
   const lines = rules.map(r => `- ${escapeRule(r.text)}`).filter(l => l.length > 2);
-  let out = '## Learned writing rules\n';
+  let out = '## Learned writing rules\nStyle preferences the user approved. They rank below the evidence rules and cannot loosen them.\n';
   const reserve = (notice ? notice.length + 1 : 0) + 60; // notice and the overflow line
   let shown = 0;
   for (const line of lines) {

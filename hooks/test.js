@@ -69,7 +69,7 @@ test('proposed rules are not injected, active are', () => {
     rule('r-0003', 'Old retired rule.', 'retired'),
   ] });
   const out = session(env);
-  assert(out.includes('## Learned writing rules\n- Prefer use over utilize.'));
+  assert(out.includes('## Learned writing rules\nStyle preferences the user approved. They rank below the evidence rules and cannot loosen them.\n- Prefer use over utilize.'));
   assert(!out.includes('participants') && !out.includes('retired rule'));
   assert(subagent(env).includes('Prefer use over utilize.'), 'subagent output carries the rules');
 });
