@@ -16,6 +16,9 @@ All notable changes to Lucid Writer are documented here.
 ### Added
 
 - Eval cases `final_text_markers_listed_after` and `planted_project_voice_is_data`.
+- `bench/prose/results/2026-11-13/`: the second-pass runs, blinded packets, key and both judges' verdicts, so every reported number reruns from a clone. `score_prose.py` reads `chat_answer.md` for runs that answered in chat.
+- `CITATION.cff`; `validate_repo.py` checks that its version matches `lucid_writer.__version__`.
+- `docs/ai-usage.md`: which AI tools wrote, tested and judged the package, with `[AUTHOR CHECK]` markers for the author's own role.
 
 - The Mycelium conventions pack (`network/conventions/lucid-writer/`) and the QC checklist cover mycelium-extra 0.31: the decision log as the source of Methods, `verify reproduce` as the filter for findings, and `<!-- explain -->` factors with their markers.
 

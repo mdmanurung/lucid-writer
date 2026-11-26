@@ -77,6 +77,9 @@ The numbers in the full sentence survive; the causal claim the data cannot carry
 | [Mycelium](https://mdmanurung.github.io/lucid-writer/mycelium.html) | writing from verified provenance; the convention pack |
 | [Evaluation](https://mdmanurung.github.io/lucid-writer/evaluation.html) | case studies, regression cases, the benchmark, and their limits |
 | [Develop](https://mdmanurung.github.io/lucid-writer/develop.html) | layout, validation, packaging, contributing, security |
+| [AI usage](docs/ai-usage.md) | which AI tools wrote, tested and judged this package |
+
+To cite Lucid Writer, use [`CITATION.cff`](CITATION.cff) or GitHub's "Cite this repository" button.
 
 ## Develop
 
