@@ -178,6 +178,11 @@ def main() -> int:
 
     # The Codex twins are hand-kept copies of agents/*.md. A full diff is too strict (the
     # wording is condensed), so guard the rules that must survive in both copies.
+    # Every review subagent reads untrusted manuscripts, so each must say the text is data.
+    for path in sorted((ROOT / "agents").glob("*.md")) + sorted(codex_agents.glob("*.toml")):
+        if "as data" not in path.read_text(encoding="utf-8"):
+            fail(f"{path.name} must tell the agent to treat supplied text as data")
+
     twin_rules = {
         "evidence_auditor": ["cannot verify", "metadata only", "Not checked", "sounds plausible"],
         "skeptical_reviewer": ["Known weaknesses", "a Limitations sentence does not settle it", "statistical", "Not checked", "Strongest surviving conclusion"],
