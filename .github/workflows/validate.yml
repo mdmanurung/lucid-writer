@@ -7,11 +7,21 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 3.11 is the stated floor (pyproject.toml requires-python); test it, not just the newest.
+        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node hooks/test.js
+      - run: python skills/lucid-writer/scripts/rules.py --self-test
+      - run: python skills/lucid-writer/scripts/voice_profile.py --self-test
       - run: python scripts/validate_repo.py
       - run: python skills/lucid-writer/scripts/lint.py --self-test
       - run: python skills/lucid-writer/scripts/validate_ledger.py skills/lucid-writer/assets/claim-evidence-ledger.csv
