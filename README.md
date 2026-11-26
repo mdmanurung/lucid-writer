@@ -2,7 +2,7 @@
 
 > **Make the writing clearer without making the evidence stronger than it is.**
 
-Lucid Writer is an Agent Skill for Claude Code and Codex. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses, from a two-sentence copyedit to a full manuscript audit. Before it changes wording, it checks each material claim:
+Lucid Writer is an Agent Skill for Claude Code and Codex; its behaviour has been tested on Claude Code only. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses, from a two-sentence copyedit to a full manuscript audit. Before it changes wording, it checks each material claim:
 
 ```text
 claim → evidence → scope → uncertainty → inference ceiling → wording
