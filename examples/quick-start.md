@@ -64,8 +64,10 @@ If you cannot verify a source, mark [CITATION NEEDED] instead of inventing one.
 ## 8. Project mode
 
 ```bash
-python skills/lucid-writer/scripts/init_project.py .
+python3 <skill-dir>/scripts/init_project.py .
 ```
+
+`<skill-dir>` is `skills/lucid-writer` in a clone, or `~/.claude/skills/lucid-writer` (Claude Code) or `~/.agents/skills/lucid-writer` (Codex) after the installer. The helpers need Python 3.11 or newer.
 
 Then:
 
