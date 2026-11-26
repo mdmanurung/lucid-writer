@@ -27,15 +27,15 @@ The skill keeps the numbers and drops the causal claim:
 
 The difference is epistemic, not cosmetic. **Limit:** the same model produced and judged both outputs; this is a qualitative comparison, not a blinded one.
 
-A second same-model test, [`evals/paired-ab-test-2026-09-18.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/paired-ab-test-2026-09-18.md), scored eight fixed cases. A strict audit found two minor meaning-compression errors in v0.4.0; both were fixed and retested in v0.4.1.
+A second same-model test, [`evals/paired-ab-test-2026-09-18.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/paired-ab-test-2026-09-18.md), scored eight fixed cases: 71/80 without the skill and 78/80 with v0.4.0. A strict audit found two minor meaning-compression errors; both were patched and retested in v0.4.1, which scored 80/80 on the same cases, so that score is tuned to them.
 
 ## Case study 2: what the reviewers catch
 
 [`evals/second-pass/`](https://github.com/mdmanurung/lucid-writer/tree/main/evals/second-pass) tests whether the review subagents add signal beyond the core skill. A synthetic manuscript carries 14 seeded issues across evidence fidelity, inferential reasoning and cross-artifact consistency, plus clean controls.
 
 - The core skill alone found 13 of 14 issues.
-- In the v0.5.1 retest, each subagent found all seeded issues in its own domain, with no false positives on the clean controls.
-- Overlap between the evidence auditor and the skeptical reviewer was 7.7%.
+- In the v0.5.1 retest, made after edits informed by v0.5.0 on this fixture, each subagent found all seeded issues in its own domain, with no false positives on the clean controls.
+- The evidence auditor and the skeptical reviewer overlapped on 1 of 13 unique findings (7.7%).
 
 That is why the subagents stay optional. **Limits**, from the [report](https://github.com/mdmanurung/lucid-writer/blob/main/evals/second-pass/second-pass-report.md): the same model and session produced and scored the outputs; the fixture is synthetic; seeded issues are crisp and may overstate recall; no cost or latency was measured.
 
@@ -51,7 +51,7 @@ That is why the subagents stay optional. **Limits**, from the [report](https://g
 
 - `claude-sonnet-5` and `claude-haiku-4-5` score at or near 100% without the skill on unambiguous claim-strength judgements. Items that tripped them turned out to have two defensible answers, and fixing that removed the errors.
 - One trap discriminates: an in-sample regression across a time lag described as "predicted". Three of four baseline runs called it predictive.
-- The skill was offered and skipped in every run until its description named the judgement itself. After that change, `claude-sonnet-5` loaded it in both probe runs and caught the trap in both; `claude-haiku-4-5` never loaded it.
+- The skill was offered and skipped in every run until its description named the judgement itself. After that change, `claude-sonnet-5` loaded it in both probe runs and caught the trap in both (n = 2 runs on one item, so a probe, not a result); `claude-haiku-4-5` never loaded it.
 
 The round-by-round table is in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
 

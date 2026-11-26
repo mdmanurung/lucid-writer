@@ -226,8 +226,10 @@ draw an overclaim.
 What the tables show:
 
 - The skill points the right way when forced to load, but no difference reaches significance,
-  and the 12-item sample is too small to detect one. The effect sits in sonnet; haiku shows
-  none. Earlier I estimated about 10 replicates per cell to detect a halving from 20%.
+  and the 12-item sample is too small to detect one. By model, post hoc and unadjusted:
+  `claude-sonnet-5` had 4 / 24 runs above without the skill and 0 / 24 forced (Fisher p = 0.11);
+  `claude-haiku-4-5` had 6 / 24 and 6 / 22 (p = 1.00). The split was not planned, so it is a
+  lead for the next run, not a finding. Earlier I estimated about 10 replicates per cell to detect a halving from 20%.
 - The overclaims are on the original items. `prose-results` has 7 / 12 runs above without the
   skill and 5 / 12 forced; `prose-discussion` has 2 / 12 and 1 / 12 [0 / 12].
 - The skill loaded in 18 of 24 unforced `v2` runs (`v1` loaded in 13 of 24 in the first pilot,

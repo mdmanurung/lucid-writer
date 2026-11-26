@@ -2,6 +2,8 @@
 
 Date: 2026-09-18
 
+> **Limits, read first.** Skill v0.4 under its old name, Research Writer. One model in one session wrote both arms, and the skill's author scored them. The 80/80 for v0.4.1 was measured after patching the skill on the same eight cases, so it is a tuned score; the untuned v0.4.0 score is 78/80. Not blinded and not independent.
+
 ## Design
 
 Eight fixed research-writing inputs were answered twice in the same model/session.
