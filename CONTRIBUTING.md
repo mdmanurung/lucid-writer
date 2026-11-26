@@ -33,6 +33,9 @@ python skills/lucid-writer/scripts/lint.py --self-test
 python skills/lucid-writer/scripts/validate_ledger.py skills/lucid-writer/assets/claim-evidence-ledger.csv
 python skills/lucid-writer/scripts/validate_ledger.py --self-test
 python skills/lucid-writer/scripts/qualifier_check.py --self-test
+python bench/gate/gate.py --self-test
 ```
 
-before submitting.
+before submitting. CI runs the same steps on Python 3.11 and 3.12.
+
+Never edit or overwrite a snapshot under `bench/skills/`. To benchmark a changed skill, copy it to a new `bench/skills/v<n+1>/` and record its source commit in `bench/skills/SNAPSHOTS.tsv`; `validate_repo.py` fails otherwise.

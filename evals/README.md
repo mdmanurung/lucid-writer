@@ -9,7 +9,9 @@ Each case contains:
 - `should_trigger` — whether Lucid Writer should be selected;
 - `expect` — high-level behaviors that a grader should look for.
 
-The cases cover routing, evidence preservation, citation discipline, causal language, right-sized workflow, report structure, review-only behavior, and reporting-guideline routing.
+The 55 cases cover routing, evidence preservation, citation discipline, causal language, right-sized workflow, report structure, review-only behavior and reporting-guideline routing. Cases added in 2.0.0 also cover markers in final text, a planted project `voice.md`, an author's own overclaim in skill-only edit and review, and eleven paraphrased attempts to loosen the evidence rules through `/lucid-writer:learn`.
+
+There is no runner yet: the cases are a checklist for a human or model grader. A runner with an Opus grader and per-release results is planned in `bench/prose/ANALYSIS_PLAN.md`.
 
 ## Recommended evaluation procedure
 
