@@ -1,0 +1,1 @@
+Validation accuracy at epoch 5 predicted final out-of-distribution accuracy (R² = 0.61, n = 40), suggesting early validation performance is useful for model selection. Whether this generalizes to new architectures or datasets remains to be tested.

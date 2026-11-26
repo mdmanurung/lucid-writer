@@ -1,0 +1,1 @@
+Paired ex vivo stimulation increased IL-10 secretion in CD4 T cells from 18 participants at 48 h (geometric mean ratio 1.8, 95% CI 1.2–2.7) versus unstimulated cultures. This may indicate a regulatory mechanism protecting from symptomatic infection, though we did not test its association with infection outcomes.

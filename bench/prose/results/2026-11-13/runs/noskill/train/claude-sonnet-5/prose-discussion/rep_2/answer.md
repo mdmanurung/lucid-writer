@@ -1,0 +1,1 @@
+Mayfly density was lower in streams with higher neonicotinoid concentrations (rho = −0.52, 31 streams), possibly because sublethal exposure impairs larval development, as in other aquatic insects (Lindqvist et al., 2020); however, this was not measured, and agricultural runoff carries other confounding stressors.

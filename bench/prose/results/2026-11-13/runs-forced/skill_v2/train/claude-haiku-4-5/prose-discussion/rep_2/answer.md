@@ -1,0 +1,1 @@
+Mayfly density was lower at higher neonicotinoid concentrations (rho = −0.52, n = 31). Sublethal exposure might impair larval development, as in other aquatic insects (Lindqvist et al., 2020), though we did not measure development, and agricultural runoff carries other stressors.

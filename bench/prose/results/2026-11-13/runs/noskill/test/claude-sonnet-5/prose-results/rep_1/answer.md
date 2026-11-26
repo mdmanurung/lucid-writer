@@ -1,0 +1,1 @@
+In the trial (n = 480), intensive glycaemic control lowered 12-month HbA1c versus standard care (mean difference −0.6 percentage points, 95% CI −0.8 to −0.4). The effect was larger in participants under 60 years (−0.8 vs −0.4 points), but the interaction test was not significant (p = 0.21).

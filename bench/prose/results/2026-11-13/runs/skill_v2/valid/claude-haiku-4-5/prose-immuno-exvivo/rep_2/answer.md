@@ -1,0 +1,1 @@
+In paired ex vivo stimulation of whole blood from 31 participants, TNF-α secretion at 6 h post-lipopolysaccharide (100 ng/mL) was lower than in pre-exposure samples (geometric mean ratio 0.64, 95% CI 0.48–0.85). This dampened inflammatory response may indicate protection from severe disease, though none was observed.

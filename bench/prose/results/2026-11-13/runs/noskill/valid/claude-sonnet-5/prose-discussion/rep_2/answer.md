@@ -1,0 +1,1 @@
+Validation accuracy at epoch 5 was strongly associated with final out-of-distribution accuracy across our 40 training runs (R² = 0.61, computed on the same runs), suggesting it may be a useful model-selection signal. Whether this holds for new architectures or datasets remains untested.

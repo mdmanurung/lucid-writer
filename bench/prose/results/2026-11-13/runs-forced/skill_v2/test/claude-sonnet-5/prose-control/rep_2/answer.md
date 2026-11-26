@@ -1,0 +1,1 @@
+In 1180 households surveyed in the 2024 dry season, 311 (26%, 95% CI 24–29%) reported an under-five diarrhoea episode in the preceding two weeks; prevalence was higher in the lowest wealth quintile (31%) than the highest (19%). Water source was not recorded, precluding explanation of this difference.

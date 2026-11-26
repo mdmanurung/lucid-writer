@@ -1,0 +1,1 @@
+In 60 undergraduates at one university randomly assigned to spaced or massed practice, spaced practice raised final-exam scores by 7 points (95% CI 2–12), consistent with laboratory spacing-effect studies (Cepeda et al., 2006). Because the sample was small and limited to one introductory course, the benefit's size elsewhere remains uncertain.

@@ -1,0 +1,1 @@
+Knockdown of GENE1 reduced colony formation by 38% (95% CI 22–51%; n = 6 biological replicates); GENE2 knockdown produced a non-significant 9% reduction (95% CI −4 to 21%; p = 0.17). Neither knockdown detectably changed cell viability at 72 h.

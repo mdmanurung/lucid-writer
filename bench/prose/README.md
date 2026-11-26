@@ -44,7 +44,7 @@ uv run --quiet --no-project --with pyyaml prose/score_prose.py prose/runs
 5. Otherwise, run the skill arm on four runs and check `skill_loaded`:
    `acumen bench --skill v1 --tasks prose/tasks.yaml --runs prose/runs --task prose-results --split train`.
 
-`runs/`, the packets, the key and the judgements are gitignored: they are regenerable output.
+`runs/`, the packets, the key and the judgements are gitignored while you work. The judged second pass is committed under [`results/2026-11-13/`](results/2026-11-13/README.md), which reruns every number below; the first pilot kept no runs.
 
 ## Baseline result (2026-11-02)
 

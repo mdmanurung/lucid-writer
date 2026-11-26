@@ -1,0 +1,1 @@
+Of 1180 households surveyed in the 2024 dry season, 311 (26%, 95% CI 24–29%) reported diarrhoea in a child under five in the past fortnight, more often in the lowest wealth quintile (31%) than the highest (19%); water source was not recorded, so the difference remains unexplained.

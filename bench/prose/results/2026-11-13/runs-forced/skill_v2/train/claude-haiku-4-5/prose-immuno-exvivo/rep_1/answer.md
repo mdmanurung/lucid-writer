@@ -1,0 +1,1 @@
+In a paired ex vivo stimulation of peripheral blood mononuclear cells from 24 participants, IFN-γ secretion at 24 h after stimulation with schizont lysate (10 µg/mL) exceeded unstimulated paired cultures (geometric mean ratio 2.1, 95% CI 1.5–2.9), suggesting a possible protection mechanism, though clinical outcomes were not assessed.

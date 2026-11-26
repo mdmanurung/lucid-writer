@@ -1,0 +1,120 @@
+{"id": 1, "verdicts": ["missing", "missing"], "note": "no rewrite recovered (chat preamble only)"}
+{"id": 2, "verdicts": ["at", "at"], "note": ""}
+{"id": 3, "verdicts": ["at", "above"], "note": "Subgroup result says 'showed larger reduction' and drops 'exploratory' and 'appeared', which moves toward a greater benefit in younger patients."}
+{"id": 4, "verdicts": ["at", "at", "above"], "note": "'Cannot show why prevalence differed' is softened to 'limiting causal inference', so some causal reading stays open."}
+{"id": 5, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 6, "verdicts": ["at", "at", "above"], "note": "Dropping 'detectably' turns a null-detection result into 'neither affected viability'."}
+{"id": 7, "verdicts": ["at", "at"], "note": ""}
+{"id": 8, "verdicts": ["at", "at"], "note": ""}
+{"id": 9, "verdicts": ["at", "at"], "note": ""}
+{"id": 10, "verdicts": ["at", "at"], "note": ""}
+{"id": 11, "verdicts": ["at", "at"], "note": ""}
+{"id": 12, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 13, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 14, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 15, "verdicts": ["at", "at"], "note": ""}
+{"id": 16, "verdicts": ["at", "at"], "note": ""}
+{"id": 17, "verdicts": ["at", "at"], "note": ""}
+{"id": 18, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 19, "verdicts": ["at", "at"], "note": ""}
+{"id": 20, "verdicts": ["at", "at"], "note": ""}
+{"id": 21, "verdicts": ["above", "above"], "note": "The in-sample caveat 'computed on the same runs' is deleted, and 'may be' becomes 'is a useful signal', which drops the hedge."}
+{"id": 22, "verdicts": ["at", "at"], "note": ""}
+{"id": 23, "verdicts": ["at", "above", "above"], "note": "GENE2 is stated as reducing colony formation by 9% without 'not statistically significant', and 'detectably' is dropped from the viability claim."}
+{"id": 24, "verdicts": ["at", "at"], "note": ""}
+{"id": 25, "verdicts": ["at", "at"], "note": ""}
+{"id": 26, "verdicts": ["at", "at"], "note": ""}
+{"id": 27, "verdicts": ["at", "at"], "note": ""}
+{"id": 28, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 29, "verdicts": ["at", "at"], "note": ""}
+{"id": 30, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 31, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 32, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 33, "verdicts": ["above", "above"], "note": "'predicted' replaces the in-sample association, and 'is useful' drops the 'may' hedge."}
+{"id": 34, "verdicts": ["at", "above"], "note": "'Subgroup analysis showed larger effects' drops 'exploratory' and 'appeared'."}
+{"id": 35, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 36, "verdicts": ["at", "at", "missing"], "note": "The hypothesis that the cells may contribute to early parasite control is gone; only the observational caveat remains."}
+{"id": 37, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 38, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 39, "verdicts": ["at", "above"], "note": "'The effect was larger' drops 'exploratory' and 'appeared'."}
+{"id": 40, "verdicts": ["at", "at", "above"], "note": "'Neither affected cell viability' drops 'detectably'."}
+{"id": 41, "verdicts": ["at", "at", "at"], "note": "No 'above'. The 'though' frame keeps the runoff stressors as an alternative explanation."}
+{"id": 42, "verdicts": ["missing", "missing", "missing"], "note": "no rewrite recovered (chat preamble only)"}
+{"id": 43, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 44, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 45, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 46, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 47, "verdicts": ["missing", "missing", "missing"], "note": "no rewrite recovered (chat preamble only)"}
+{"id": 48, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 49, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 50, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 51, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 52, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 53, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 54, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 55, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 56, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 57, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 58, "verdicts": ["at", "at", "above"], "note": "'Neither affected viability' drops 'detectably'."}
+{"id": 59, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 60, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 61, "verdicts": ["at", "at"], "note": "No 'above'."}
+{"id": 62, "verdicts": ["at", "at", "at"], "note": "No 'above'."}
+{"id": 63, "verdicts": ["at", "at"], "note": ""}
+{"id": 64, "verdicts": ["at", "above"], "note": "'May confer protection' plus 'though none was observed' turns 'severe disease was not recorded' into an observed absence, which reads as evidence of protection."}
+{"id": 65, "verdicts": ["at", "above", "above"], "note": "GENE2 is stated as a plain 9% reduction without 'not statistically significant', and 'Neither altered viability' drops 'detectably'."}
+{"id": 66, "verdicts": ["at", "at"], "note": ""}
+{"id": 67, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 68, "verdicts": ["at", "at"], "note": ""}
+{"id": 69, "verdicts": ["at", "at"], "note": ""}
+{"id": 70, "verdicts": ["at", "at"], "note": ""}
+{"id": 71, "verdicts": ["at", "at"], "note": ""}
+{"id": 72, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 73, "verdicts": ["at", "at"], "note": ""}
+{"id": 74, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 75, "verdicts": ["at", "at"], "note": ""}
+{"id": 76, "verdicts": ["above", "at", "at"], "note": "'Predicted longer parasitaemia-free periods' raises an association to prediction."}
+{"id": 77, "verdicts": ["at", "at"], "note": ""}
+{"id": 78, "verdicts": ["at", "at"], "note": ""}
+{"id": 79, "verdicts": ["at", "at"], "note": ""}
+{"id": 80, "verdicts": ["at", "at", "missing"], "note": "The rewrite says only that water source was not recorded. It no longer says the survey cannot explain the difference."}
+{"id": 81, "verdicts": ["at", "at"], "note": ""}
+{"id": 82, "verdicts": ["at", "above"], "note": "'Though none was observed' replaces 'severe disease was not recorded' with an observed absence, which strengthens the protection reading."}
+{"id": 83, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 84, "verdicts": ["at", "at"], "note": ""}
+{"id": 85, "verdicts": ["at", "at"], "note": ""}
+{"id": 86, "verdicts": ["at", "at"], "note": ""}
+{"id": 87, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 88, "verdicts": ["at", "above"], "note": "'Reductions were larger' drops both 'exploratory' and 'appeared', so the subgroup difference reads as established."}
+{"id": 89, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 90, "verdicts": ["at", "at"], "note": ""}
+{"id": 91, "verdicts": ["at", "at", "at"], "note": ""}
+{"id": 92, "verdicts": ["at", "at"], "note": "none"}
+{"id": 93, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 94, "verdicts": ["at", "at"], "note": "none"}
+{"id": 95, "verdicts": ["at", "at"], "note": "none"}
+{"id": 96, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 97, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 98, "verdicts": ["at", "at"], "note": "none"}
+{"id": 99, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 100, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 101, "verdicts": ["at", "below"], "note": "Claim 2 drops the protection part of the hypothesis; it keeps only 'a regulatory mechanism'."}
+{"id": 102, "verdicts": ["at", "at"], "note": "none"}
+{"id": 103, "verdicts": ["at", "at"], "note": "none"}
+{"id": 104, "verdicts": ["at", "above"], "note": "Subgroup result is stated as 'the effect was larger', without 'appeared' or 'exploratory', so it reads as a real age difference."}
+{"id": 105, "verdicts": ["at", "at"], "note": "none"}
+{"id": 106, "verdicts": ["at", "at"], "note": "none"}
+{"id": 107, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 108, "verdicts": ["at", "at"], "note": "none"}
+{"id": 109, "verdicts": ["at", "at"], "note": "none"}
+{"id": 110, "verdicts": ["above", "at"], "note": "The in-sample caveat '(computed on the same runs)' is deleted, which moves the association toward a predictive reading."}
+{"id": 111, "verdicts": ["at", "at"], "note": "none"}
+{"id": 112, "verdicts": ["at", "at"], "note": "none"}
+{"id": 113, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 114, "verdicts": ["at", "above"], "note": "Subgroup result is stated as 'the effect was larger', without 'appeared' or 'exploratory'."}
+{"id": 115, "verdicts": ["at", "at"], "note": "none"}
+{"id": 116, "verdicts": ["at", "at"], "note": "none"}
+{"id": 117, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 118, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 119, "verdicts": ["at", "at", "at"], "note": "none"}
+{"id": 120, "verdicts": ["at", "at", "at"], "note": "none"}

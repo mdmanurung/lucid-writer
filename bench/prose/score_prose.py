@@ -225,7 +225,11 @@ def collect(runs: Path) -> list[dict]:
         answer = result_path.with_name("answer.md")
         data = json.loads(result_path.read_text(encoding="utf-8"))
         text = (answer.read_text(encoding="utf-8").strip() or None) if answer.is_file() else None
-        recovered = text is None and (text := chat_answer(result_path.with_name("transcript.jsonl"))) is not None
+        saved = result_path.with_name("chat_answer.md")  # committed results keep the recovered text, not the transcript
+        if text is None and saved.is_file():
+            text, recovered = saved.read_text(encoding="utf-8").strip() or None, True
+        else:
+            recovered = text is None and (text := chat_answer(result_path.with_name("transcript.jsonl"))) is not None
         out.append({
             "arm": arm + suffix, "split": split, "model": model, "task": task, "rep": rep,
             "answer": text, "recovered": recovered,

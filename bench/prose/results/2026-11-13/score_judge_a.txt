@@ -1,0 +1,170 @@
+arm       model              item                     rep   loaded cut%  missing / cues
+noskill   claude-haiku-4-5   prose-control/test       rep_1 False    25   qual 2/3 dropped ['cannot show']
+noskill   claude-haiku-4-5   prose-control/test       rep_2 False    17   qual 1/3 dropped ['did not record', 'cannot show']
+noskill   claude-haiku-4-5   prose-discussion/test    rep_1 False    24   qual 2/3 dropped ['uncertain']
+noskill   claude-haiku-4-5   prose-discussion/test    rep_2 False    21   qual 2/3 dropped ['uncertain']
+noskill   claude-haiku-4-5   prose-immuno-exvivo/test rep_1 False    20   cues ['regulatory mechanism protecting']
+noskill   claude-haiku-4-5   prose-immuno-exvivo/test rep_2 False    23   qual 4/5 dropped ['did not test']
+noskill   claude-haiku-4-5   prose-results/test       rep_1 False    20   qual 2/4 dropped ['appeared', 'exploratory']
+noskill   claude-haiku-4-5   prose-results/test       rep_2 False    23   qual 1/4 dropped ['appeared', 'exploratory', 'subgroup']
+noskill   claude-sonnet-5    prose-control/test       rep_1 False    20   qual 1/3 dropped ['did not record', 'cannot show']
+noskill   claude-sonnet-5    prose-control/test       rep_2 False    20   qual 2/3 dropped ['cannot show']
+noskill   claude-sonnet-5    prose-discussion/test    rep_1 False    23  ok
+noskill   claude-sonnet-5    prose-discussion/test    rep_2 False    19   qual 2/3 dropped ['uncertain']
+noskill   claude-sonnet-5    prose-immuno-exvivo/test rep_1 False    18   cues ['regulatory mechanism protecting']
+noskill   claude-sonnet-5    prose-immuno-exvivo/test rep_2 False    22   cues ['regulatory mechanism protecting']
+noskill   claude-sonnet-5    prose-results/test       rep_1 False    20   qual 1/4 dropped ['appeared', 'exploratory', 'subgroup']
+noskill   claude-sonnet-5    prose-results/test       rep_2 False    18   qual 1/4 dropped ['appeared', 'exploratory', 'subgroup']
+noskill   claude-haiku-4-5   prose-control/train      rep_1 False    19   qual 1/2 dropped ['cannot show']
+noskill   claude-haiku-4-5   prose-control/train      rep_2 False    27   qual 1/2 dropped ['cannot show']
+noskill   claude-haiku-4-5   prose-discussion/train   rep_1 False    22   qual 2/3 dropped ['possible']
+noskill   claude-haiku-4-5   prose-discussion/train   rep_2 False    22  ok
+noskill   claude-haiku-4-5   prose-immuno-exvivo/train rep_1 False    22   qual 4/5 dropped ['possible']
+noskill   claude-haiku-4-5   prose-immuno-exvivo/train rep_2 False    22  ok
+noskill   claude-haiku-4-5   prose-results/train      rep_1 False    18   qual 2/3 dropped ['in this cohort']
+noskill   claude-haiku-4-5   prose-results/train      rep_2 False    25   qual 1/3 dropped ['observational', 'in this cohort']
+noskill   claude-sonnet-5    prose-control/train      rep_1 False    17   qual 1/2 dropped ['cannot show']
+noskill   claude-sonnet-5    prose-control/train      rep_2 False    19  ok
+noskill   claude-sonnet-5    prose-discussion/train   rep_1 False    19  ok
+noskill   claude-sonnet-5    prose-discussion/train   rep_2 False    20  ok
+noskill   claude-sonnet-5    prose-immuno-exvivo/train rep_1 False    18  ok
+noskill   claude-sonnet-5    prose-immuno-exvivo/train rep_2 False    20  ok
+noskill   claude-sonnet-5    prose-results/train      rep_1 False    19  ok
+noskill   claude-sonnet-5    prose-results/train      rep_2 False    19  ok
+noskill   claude-haiku-4-5   prose-control/valid      rep_1 False    27   qual 0/2 dropped ['one outpatient clinic', 'unknown']
+noskill   claude-haiku-4-5   prose-control/valid      rep_2 False    24   qual 1/2 dropped ['unknown']
+noskill   claude-haiku-4-5   prose-discussion/valid   rep_1 False    21   cues ['is a useful signal'] qual 1/3 dropped ['may', 'computed on the same']
+noskill   claude-haiku-4-5   prose-discussion/valid   rep_2 False    32   qual 1/3 dropped ['may', 'computed on the same']
+noskill   claude-haiku-4-5   prose-immuno-exvivo/valid rep_1 False    32   qual 4/5 dropped ['not recorded']
+noskill   claude-haiku-4-5   prose-immuno-exvivo/valid rep_2 False    26   cues ['protective'] qual 4/5 dropped ['could']
+noskill   claude-haiku-4-5   prose-results/valid      rep_1 False    23   qual 0/2 dropped ['not statistically significant', 'detectably']
+noskill   claude-haiku-4-5   prose-results/valid      rep_2 False    21  ok
+noskill   claude-sonnet-5    prose-control/valid      rep_1 False    17   qual 1/2 dropped ['one outpatient clinic']
+noskill   claude-sonnet-5    prose-control/valid      rep_2 False    19   qual 1/2 dropped ['unknown']
+noskill   claude-sonnet-5    prose-discussion/valid   rep_1 False    19  ok
+noskill   claude-sonnet-5    prose-discussion/valid   rep_2 False    19  ok
+noskill   claude-sonnet-5    prose-immuno-exvivo/valid rep_1 False    21  ok
+noskill   claude-sonnet-5    prose-immuno-exvivo/valid rep_2 False    19  ok
+noskill   claude-sonnet-5    prose-results/valid      rep_1 False    23   qual 1/2 dropped ['detectably']
+noskill   claude-sonnet-5    prose-results/valid      rep_2 False    19   qual 1/2 dropped ['detectably']
+skill_v2  claude-haiku-4-5   prose-control/test       rep_1 False    15   qual 2/3 dropped ['cannot show']
+skill_v2  claude-haiku-4-5   prose-control/test       rep_2 False    19   qual 2/3 dropped ['cannot show']
+skill_v2  claude-haiku-4-5   prose-immuno-exvivo/test rep_1 True     67  missing ['18', '48', '1.8', '1.2', '2.7'] qual 0/5 dropped ['ex vivo', 'anti-cd3/cd28', '48 h', 'might', 'did not test'] (recovered from chat)
+skill_v2  claude-haiku-4-5   prose-immuno-exvivo/test rep_2 True     22   cues ['regulatory mechanism protecting'] qual 3/5 dropped ['might', 'did not test']
+skill_v2  claude-sonnet-5    prose-control/test       rep_1 True     20   qual 1/3 dropped ['did not record', 'cannot show']
+skill_v2  claude-sonnet-5    prose-control/test       rep_2 True     19   qual 2/3 dropped ['cannot show']
+skill_v2  claude-sonnet-5    prose-immuno-exvivo/test rep_1 True     18   cues ['regulatory mechanism protecting']
+skill_v2  claude-sonnet-5    prose-immuno-exvivo/test rep_2 True     20   cues ['regulatory mechanism protecting']
+skill_v2  claude-haiku-4-5   prose-control/train      rep_1 True     38   qual 1/2 dropped ['cannot show'] (recovered from chat)
+skill_v2  claude-haiku-4-5   prose-control/train      rep_2 False    31   qual 1/2 dropped ['cannot show']
+skill_v2  claude-haiku-4-5   prose-immuno-exvivo/train rep_1 False    23  ok
+skill_v2  claude-haiku-4-5   prose-immuno-exvivo/train rep_2 True     22   qual 3/5 dropped ['possible', 'not assessed'] (recovered from chat)
+skill_v2  claude-sonnet-5    prose-control/train      rep_1 True     19  ok
+skill_v2  claude-sonnet-5    prose-control/train      rep_2 True     20  ok
+skill_v2  claude-sonnet-5    prose-immuno-exvivo/train rep_1 True     22  ok
+skill_v2  claude-sonnet-5    prose-immuno-exvivo/train rep_2 True     18  ok
+skill_v2  claude-haiku-4-5   prose-control/valid      rep_1 False    21   qual 1/2 dropped ['one outpatient clinic']
+skill_v2  claude-haiku-4-5   prose-control/valid      rep_2 True     25   qual 0/2 dropped ['one outpatient clinic', 'unknown'] (recovered from chat)
+skill_v2  claude-haiku-4-5   prose-immuno-exvivo/valid rep_1 False    23   cues ['protective']
+skill_v2  claude-haiku-4-5   prose-immuno-exvivo/valid rep_2 True     26   qual 4/5 dropped ['not recorded']
+skill_v2  claude-sonnet-5    prose-control/valid      rep_1 True     21  ok
+skill_v2  claude-sonnet-5    prose-control/valid      rep_2 True     17  ok
+skill_v2  claude-sonnet-5    prose-immuno-exvivo/valid rep_1 True     23  ok
+skill_v2  claude-sonnet-5    prose-immuno-exvivo/valid rep_2 True     21  ok
+skill_v2+forced claude-haiku-4-5   prose-control/test       rep_1 True     22   qual 1/3 dropped ['did not record', 'cannot show']
+skill_v2+forced claude-haiku-4-5   prose-control/test       rep_2 True     66  missing ['1180', '311', '26', '24', '29', '31', '19'] qual 0/3 dropped ['reported', 'did not record', 'cannot show'] (recovered from chat)
+skill_v2+forced claude-haiku-4-5   prose-discussion/test    rep_1 True     18   qual 2/3 dropped ['one introductory course']
+skill_v2+forced claude-haiku-4-5   prose-discussion/test    rep_2 True     19   qual 2/3 dropped ['uncertain']
+skill_v2+forced claude-haiku-4-5   prose-immuno-exvivo/test rep_1 True     22   qual 4/5 dropped ['did not test']
+skill_v2+forced claude-haiku-4-5   prose-immuno-exvivo/test rep_2 True     22   cues ['regulatory mechanism protecting'] qual 4/5 dropped ['anti-cd3/cd28']
+skill_v2+forced claude-haiku-4-5   prose-results/test       rep_1 True     20   qual 1/4 dropped ['appeared', 'exploratory', 'subgroup']
+skill_v2+forced claude-haiku-4-5   prose-results/test       rep_2 True     17   qual 1/4 dropped ['appeared', 'exploratory', 'not significant']
+skill_v2+forced claude-sonnet-5    prose-control/test       rep_1 True     22   qual 2/3 dropped ['cannot show']
+skill_v2+forced claude-sonnet-5    prose-control/test       rep_2 True     20   qual 2/3 dropped ['cannot show']
+skill_v2+forced claude-sonnet-5    prose-discussion/test    rep_1 True     19  ok
+skill_v2+forced claude-sonnet-5    prose-discussion/test    rep_2 True     23  ok
+skill_v2+forced claude-sonnet-5    prose-immuno-exvivo/test rep_1 True     20   cues ['protective']
+skill_v2+forced claude-sonnet-5    prose-immuno-exvivo/test rep_2 True     20  ok
+skill_v2+forced claude-sonnet-5    prose-results/test       rep_1 True     20  ok
+skill_v2+forced claude-sonnet-5    prose-results/test       rep_2 True     15  ok
+skill_v2+forced claude-haiku-4-5   prose-control/train      rep_1 True     22   qual 1/2 dropped ['cannot show']
+skill_v2+forced claude-haiku-4-5   prose-control/train      rep_2 True     33   qual 1/2 dropped ['cannot show']
+skill_v2+forced claude-haiku-4-5   prose-discussion/train   rep_1 True     26   qual 2/3 dropped ['possible']
+skill_v2+forced claude-haiku-4-5   prose-discussion/train   rep_2 True     24   qual 2/3 dropped ['possible']
+skill_v2+forced claude-haiku-4-5   prose-immuno-exvivo/train rep_1 True     20  ok
+skill_v2+forced claude-haiku-4-5   prose-immuno-exvivo/train rep_2 True     22  ok
+skill_v2+forced claude-haiku-4-5   prose-results/train      rep_1 True     27   qual 1/3 dropped ['may', 'in this cohort']
+skill_v2+forced claude-haiku-4-5   prose-results/train      rep_2 True     21   qual 2/3 dropped ['in this cohort']
+skill_v2+forced claude-sonnet-5    prose-control/train      rep_1 True     17  ok
+skill_v2+forced claude-sonnet-5    prose-control/train      rep_2 True     23  ok
+skill_v2+forced claude-sonnet-5    prose-discussion/train   rep_1 True     20  ok
+skill_v2+forced claude-sonnet-5    prose-discussion/train   rep_2 True     19  ok
+skill_v2+forced claude-sonnet-5    prose-immuno-exvivo/train rep_1 True     20  ok
+skill_v2+forced claude-sonnet-5    prose-immuno-exvivo/train rep_2 True     25  ok
+skill_v2+forced claude-sonnet-5    prose-results/train      rep_1 True     19  ok
+skill_v2+forced claude-sonnet-5    prose-results/train      rep_2 True     20  ok
+skill_v2+forced claude-haiku-4-5   prose-control/valid      rep_1 True     21   qual 0/2 dropped ['one outpatient clinic', 'unknown']
+skill_v2+forced claude-haiku-4-5   prose-control/valid      rep_2 True     78  missing ['90', '8', '1.4', '0.6', '2.2', '0.001', '22', '20'] qual 0/2 dropped ['one outpatient clinic', 'unknown'] (recovered from chat)
+skill_v2+forced claude-haiku-4-5   prose-discussion/valid   rep_1 True     26   cues ['predicts'] qual 2/3 dropped ['computed on the same'] (recovered from chat)
+skill_v2+forced claude-haiku-4-5   prose-discussion/valid   rep_2 True     17   qual 2/3 dropped ['computed on the same']
+skill_v2+forced claude-haiku-4-5   prose-immuno-exvivo/valid rep_1 True     23   cues ['protective']
+skill_v2+forced claude-haiku-4-5   prose-immuno-exvivo/valid rep_2 True     23   cues ['protective']
+skill_v2+forced claude-haiku-4-5   prose-results/valid      rep_1 True     23   qual 0/2 dropped ['not statistically significant', 'detectably']
+skill_v2+forced claude-haiku-4-5   prose-results/valid      rep_2 True     23   qual 1/2 dropped ['detectably']
+skill_v2+forced claude-sonnet-5    prose-control/valid      rep_1 True     21  ok
+skill_v2+forced claude-sonnet-5    prose-control/valid      rep_2 True     19   qual 0/2 dropped ['one outpatient clinic', 'unknown']
+skill_v2+forced claude-sonnet-5    prose-discussion/valid   rep_1 True     19   cues ['predicts'] qual 2/3 dropped ['computed on the same']
+skill_v2+forced claude-sonnet-5    prose-discussion/valid   rep_2 True     19   cues ['predicts']
+skill_v2+forced claude-sonnet-5    prose-immuno-exvivo/valid rep_1 True     19  ok
+skill_v2+forced claude-sonnet-5    prose-immuno-exvivo/valid rep_2 True     21  ok
+skill_v2+forced claude-sonnet-5    prose-results/valid      rep_1 True     19  ok
+skill_v2+forced claude-sonnet-5    prose-results/valid      rep_2 True     17  ok
+
+qualifier retention by arm and skill_loaded (mean fraction kept, runs)
+  noskill        skill_loaded=false    0.68  (48 runs)
+  skill_v2       skill_loaded=false    0.72  (6 runs)
+  skill_v2       skill_loaded=true     0.75  (18 runs)
+  skill_v2+forced skill_loaded=true     0.73  (48 runs)
+
+per item (paragraph x split): runs pooled over models and replicates; fraction of runs with at least one dropped qualifier, one claim `above`, one claim `below`
+  noskill        prose-control/test       n=4   dropped 1.00  above 0.00  below 0.00  (judged 4)
+  noskill        prose-control/train      n=4   dropped 0.75  above 0.00  below 0.00  (judged 4)
+  noskill        prose-control/valid      n=4   dropped 1.00  above 0.00  below 0.00  (judged 4)
+  noskill        prose-discussion/test    n=4   dropped 0.75  above 0.00  below 0.00  (judged 4)
+  noskill        prose-discussion/train   n=4   dropped 0.25  above 0.00  below 0.00  (judged 4)
+  noskill        prose-discussion/valid   n=4   dropped 0.50  above 0.50  below 0.00  (judged 4)
+  noskill        prose-immuno-exvivo/test n=4   dropped 0.25  above 0.00  below 0.00  (judged 4)
+  noskill        prose-immuno-exvivo/train n=4   dropped 0.25  above 0.00  below 0.00  (judged 4)
+  noskill        prose-immuno-exvivo/valid n=4   dropped 0.50  above 0.25  below 0.00  (judged 4)
+  noskill        prose-results/test       n=4   dropped 1.00  above 1.00  below 0.00  (judged 4)
+  noskill        prose-results/train      n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  noskill        prose-results/valid      n=4   dropped 0.75  above 0.75  below 0.00  (judged 4)
+  skill_v2       prose-control/test       n=4   dropped 1.00  above 0.25  below 0.00  (judged 4)
+  skill_v2       prose-control/train      n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  skill_v2       prose-control/valid      n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  skill_v2       prose-immuno-exvivo/test n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  skill_v2       prose-immuno-exvivo/train n=4   dropped 0.25  above 0.00  below 0.00  (judged 4)
+  skill_v2       prose-immuno-exvivo/valid n=4   dropped 0.25  above 0.25  below 0.00  (judged 4)
+  skill_v2+forced prose-control/test       n=4   dropped 1.00  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-control/train      n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-control/valid      n=4   dropped 0.75  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-discussion/test    n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-discussion/train   n=4   dropped 0.50  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-discussion/valid   n=4   dropped 0.75  above 0.25  below 0.00  (judged 4)
+  skill_v2+forced prose-immuno-exvivo/test n=4   dropped 0.50  above 0.00  below 0.25  (judged 4)
+  skill_v2+forced prose-immuno-exvivo/train n=4   dropped 0.00  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-immuno-exvivo/valid n=4   dropped 0.00  above 0.00  below 0.00  (judged 4)
+  skill_v2+forced prose-results/test       n=4   dropped 0.50  above 0.50  below 0.00  (judged 4)
+  skill_v2+forced prose-results/train      n=4   dropped 0.50  above 0.25  below 0.00  (judged 4)
+  skill_v2+forced prose-results/valid      n=4   dropped 0.50  above 0.50  below 0.00  (judged 4)
+
+per arm, items as the unit (mean of the item fractions)
+  noskill        12 items  dropped 0.62  above 0.21  below 0.00
+  skill_v2       6 items  dropped 0.50  above 0.08  below 0.00
+  skill_v2+forced 12 items  dropped 0.50  above 0.12  below 0.02
+
+claim level, for comparison with earlier reports (claims are not independent)
+  noskill        above 13/116  below 0/116
+  skill_v2       above 2/56  below 0/56
+  skill_v2+forced above 7/116  below 1/116
+

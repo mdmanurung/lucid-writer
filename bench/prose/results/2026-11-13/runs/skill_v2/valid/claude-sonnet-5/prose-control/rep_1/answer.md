@@ -1,0 +1,1 @@
+In a randomised, double-blind trial of 90 adults with chronic low back pain, 8 weeks of drug A reduced pain by 1.4 points (0–10 scale) versus placebo (95% CI 0.6 to 2.2; p = 0.001). Adverse events were similar (22% vs 20%). Participants came from one clinic; generalisability is unknown.

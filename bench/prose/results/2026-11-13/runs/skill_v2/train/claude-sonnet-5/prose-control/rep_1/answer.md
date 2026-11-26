@@ -1,0 +1,1 @@
+In 150 adults with type 2 diabetes, fasting plasma lactate correlated positively with HbA1c (rho = 0.31, 95% CI 0.15–0.45), with similar results after adjustment for age and BMI (adjusted rho = 0.28, 95% CI 0.11–0.43). Because the data are cross-sectional, they cannot establish directionality or exclude confounding by a third factor.
