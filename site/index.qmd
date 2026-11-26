@@ -80,7 +80,15 @@ To update, run `git pull`, then rerun the installer. To uninstall:
 
 ```bash
 rm -rf ~/.claude/skills/lucid-writer ~/.agents/skills/lucid-writer
-rm -f ~/.claude/agents/lucid-*.md ~/.codex/agents/lucid_*.toml
+rm -f ~/.claude/agents/lucid-{evidence-auditor,skeptical-reviewer,manuscript-preflight}.md
+rm -f ~/.codex/agents/lucid_{evidence_auditor,skeptical_reviewer,manuscript_preflight}.toml
+```
+
+For the plugin, run `/plugin uninstall lucid-writer@lucid-writer`. The always-on mode and learned rules keep state outside the plugin; remove it with:
+
+```bash
+rm -f ~/.claude/.lucid-writer-mode
+rm -rf ~/.claude/lucid-writer          # global rules.json and voice.md
 ```
 
 ## Where next
