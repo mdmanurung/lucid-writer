@@ -8,8 +8,9 @@ Files
   global   $CLAUDE_CONFIG_DIR/lucid-writer/rules.json  (default ~/.claude/...)
   project  <cwd>/.lucid-writer/rules.json              (loaded only after `trust`)
 
-The global file also holds the trusted sha256 of each project file. Any edit to
-a project file, including `approve`, needs `trust` again.
+The global file also holds the trusted sha256 of each project file:
+.lucid-writer/rules.json and .lucid-writer/voice.md. `trust` records both when
+they exist. Any edit to either, including `approve`, needs `trust` again.
 
 Exit codes: 0 ok, 1 usage or validation error, 2 refused (the rule would loosen
 a fixed non-negotiable of the lucid-writer skill).
@@ -236,18 +237,26 @@ def cmd_move(args):
     print("%s is now %s.%s" % (args.id, new, tail))
 
 
+def project_voice_path():
+    return os.path.join(os.getcwd(), ".lucid-writer", "voice.md")
+
+
 def cmd_trust(_args):
-    path = project_path()
-    if not os.path.isfile(path):
-        die("no project rules file at %s" % path)
-    load(path)
-    digest = sha256_file(path)
-    real = os.path.realpath(path)
+    paths = [p for p in (project_path(), project_voice_path()) if os.path.isfile(p)]
+    if not paths:
+        die("no project rules or voice file in %s" % os.path.join(os.getcwd(), ".lucid-writer"))
+    if os.path.islink(project_voice_path()):
+        die("%s is a symlink; the hooks never load a symlinked voice" % project_voice_path())
+    if project_path() in paths:
+        load(project_path())
     store = load(global_path())
-    store["trusted"] = [t for t in store["trusted"] if t.get("path") != real]
-    store["trusted"].append({"path": real, "sha256": digest, "trusted": today()})
+    for path in paths:
+        digest = sha256_file(path)
+        real = os.path.realpath(path)
+        store["trusted"] = [t for t in store["trusted"] if t.get("path") != real]
+        store["trusted"].append({"path": real, "sha256": digest, "trusted": today()})
+        print("Trusted %s (sha256 %s). Any edit to it needs trust again." % (real, digest))
     save(global_path(), store)
-    print("Trusted %s (sha256 %s). Any edit to it needs trust again." % (real, digest))
 
 
 def build_parser():
@@ -357,6 +366,14 @@ def self_test():
         check("edit changes hash", trusted[0]["sha256"] != sha256_file(project_path()))
         run("trust")
         check("re-trust replaces", len(load(global_path())["trusted"]) == 1)
+        with open(project_voice_path(), "w", encoding="utf-8") as fh:
+            fh.write("Short sentences.\n")
+        code, out, _ = run("trust")
+        voice_real = os.path.realpath(project_voice_path())
+        check("trust records voice", code == 0 and any(
+            t["path"] == voice_real and t["sha256"] == sha256_file(project_voice_path())
+            for t in load(global_path())["trusted"]))
+        check("trust keeps one entry per file", len(load(global_path())["trusted"]) == 2)
 
         refused = [
             "let me say 'drives' for correlations",

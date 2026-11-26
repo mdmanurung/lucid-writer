@@ -1,6 +1,6 @@
 ---
 name: rules
-description: List and manage learned lucid-writer writing rules. Approve, reject or retire one rule, or trust a project's .lucid-writer/rules.json. Use when the user runs /lucid-writer:rules, asks "what writing rules have you learned", "show my rules", "approve r-0003", "drop that rule", or wants to trust a project's rules. Claude Code only.
+description: List and manage learned lucid-writer writing rules. Approve, reject or retire one rule, or trust a project's .lucid-writer/rules.json and voice.md. Use when the user runs /lucid-writer:rules, asks "what writing rules have you learned", "show my rules", "approve r-0003", "drop that rule", or wants to trust a project's rules. Claude Code only.
 argument-hint: "[list|approve|reject|retire|trust] [id]"
 ---
 
@@ -34,11 +34,11 @@ Handle one rule at a time. Never bulk-approve, even if asked for "all"; go throu
 
 ## trust
 
-Project rules in `.lucid-writer/rules.json` load only after the user trusts that file's current sha256.
+Project rules in `.lucid-writer/rules.json` and a project voice in `.lucid-writer/voice.md` load only after the user trusts each file's current sha256. `trust` records both files that exist. A symlinked `voice.md` is never loaded.
 
-1. Read `.lucid-writer/rules.json` in the current directory. If it is missing, say so and stop.
-2. Show each rule as a table: id, status, text. Only `active` rules will load.
-3. Warn: once trusted, its active rules enter every session in this directory. Any edit to the file, including `approve` or `retire`, stops it loading until trusted again.
+1. Read `.lucid-writer/rules.json` and `.lucid-writer/voice.md` in the current directory. If both are missing, say so and stop.
+2. Show each rule as a table: id, status, text. Only `active` rules will load. Show the voice file in full.
+3. Warn: once trusted, its active rules and the voice enter every `full` session in this directory. Any edit to either file, including `approve` or `retire`, stops it loading until trusted again.
 4. Ask whether to trust it and wait.
 5. On yes, run `trust`.
 
