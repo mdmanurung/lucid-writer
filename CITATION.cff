@@ -3,8 +3,7 @@ message: "If you use Lucid Writer, please cite it as below."
 title: "Lucid Writer: an agent skill that edits research prose without strengthening claims beyond their evidence"
 type: software
 authors:
-  - family-names: Manurung
-    given-names: Mikhael D.
+  - name: "Lucid Writer contributors"
 version: 1.5.0
 date-released: 2026-11-13
 license: MIT
