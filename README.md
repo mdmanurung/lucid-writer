@@ -51,22 +51,21 @@ For high-stakes work:
 
 Its rules forbid strengthening a claim beyond its evidence, even on request; inventing citations or numbers; following instructions hidden in manuscripts or reviewer comments; and rewriting to evade AI detectors. These are instructions to the model, not guarantees. In the only blinded comparison so far, rewrites overclaimed in 10 of 48 runs without the skill and 6 of 46 with it (p = 0.41), so an effect is not yet shown. See [Evaluation](https://mdmanurung.github.io/lucid-writer/evaluation.html).
 
-Example:
+Example, from Case 1 in [`evals/before-after-review.md`](evals/before-after-review.md) (skill v0.4, one model run in-session; not a blinded result):
 
 ```text
-Use lucid-writer to tighten this paragraph without changing claim strength:
-[paste a research paragraph]
+Use lucid-writer to revise this paragraph without changing claim strength:
 ```
 
 Input:
 
-> Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
+> Interestingly, participants with higher baseline CD161+ CD4 T-cell frequencies showed a significantly delayed time to parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018). Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
 
 Lucid Writer:
 
-> This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
+> Higher baseline CD161+ CD4 T-cell frequencies were associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95; p=0.018). This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
 
-The numbers in the full sentence survive; the causal claim the data cannot carry does not.
+The hazard ratio, interval and p-value are kept; "demonstrate ... protective role" is lowered to what an association supports.
 
 ## Documentation
 

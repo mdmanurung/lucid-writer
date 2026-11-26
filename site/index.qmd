@@ -22,6 +22,8 @@ Its priorities run in this order, and a lower one never wins at the cost of a hi
 
 ## Before and after
 
+From Case 1 on the [Evaluation](evaluation.qmd) page: skill v0.4, one model run in-session, not a blinded result.
+
 Input:
 
 > Interestingly, participants with higher baseline CD161+ CD4 T-cell frequencies showed a significantly delayed time to parasitaemia (HR 0.72, 95% CI 0.55–0.95, p=0.018). Taken together, these findings demonstrate that CD161+ CD4 T cells play a crucial protective role against malaria infection.
@@ -30,7 +32,7 @@ lucid-writer:
 
 > Higher baseline CD161+ CD4 T-cell frequencies were associated with delayed parasitaemia (HR 0.72, 95% CI 0.55–0.95; p=0.018). This association is consistent with a relationship between this phenotype and parasite control but does not establish a causal protective role.
 
-The numbers survive; the causal claim the data cannot carry does not. More cases are on the [Evaluation](evaluation.qmd) page.
+The hazard ratio, interval and p-value are kept; "demonstrate ... protective role" is lowered to what an association supports. More cases are on the [Evaluation](evaluation.qmd) page.
 
 ## Install
 
