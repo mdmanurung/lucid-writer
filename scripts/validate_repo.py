@@ -86,6 +86,11 @@ def main() -> int:
         if not found or found.group(1).strip("\"'") != want:
             fail(f"CONVENTION_PACK.yaml {key} must be {want!r}")
 
+    # CITATION.cff is what GitHub and Zenodo cite, so a stale version cites the wrong release.
+    cff = re.search(r"^version:\s*(\S+)\s*$", (ROOT / "CITATION.cff").read_text(encoding="utf-8"), flags=re.M)
+    if not cff or cff.group(1).strip("\"'") != version:
+        fail(f"CITATION.cff version must be {version!r}")
+
     skill_text = SKILL.read_text(encoding="utf-8")
     fm = parse_frontmatter(skill_text)
     if fm.get("name") != "lucid-writer":
