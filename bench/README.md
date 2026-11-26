@@ -107,9 +107,11 @@ A skill arm differs from the baseline in exactly one way: `skills/v{n}/` is copi
 sandbox's `.claude/skills/lucid-writer/`, where the agent's own discovery finds it. Same
 prompt, same tools, same caps, same scrubbed environment (`acumen.sandbox`).
 
-`skills/v1/` is a **frozen copy**. Edit `skills/lucid-writer/`, re-copy to `v1`, and
-re-run — never edit `v1` in place, or a later `improve` has no fixed baseline to beat.
-`improve` writes `v2` and never mutates `v1`.
+Every `skills/v<n>/` is a **frozen copy**. To test a new version of the skill, copy
+`skills/lucid-writer/` to a new `skills/v<n+1>/` and record its source commit in
+`skills/SNAPSHOTS.tsv`. Never re-copy over or edit an existing snapshot, or a later run has
+no fixed baseline to beat. `validate_repo.py` checks each snapshot against its recorded
+commit. `acumen bench` with no `--skill` or `--no-skill` runs every snapshot, so name one.
 
 Only copy a winning version back over the real skill once it wins on the **test** split. A
 version that only wins on train has learned the task set.
