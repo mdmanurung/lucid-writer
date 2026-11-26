@@ -48,7 +48,7 @@ Contribution used here: answer-first reasoning where appropriate, question–ans
 Kobak, D., González-Márquez, R., Horvát, E.-Á., & Lause, J. (2025). Delving into LLM-assisted writing in biomedical publications through excess vocabulary. *Science Advances*. PubMed PMID: 40601754.  
 https://pubmed.ncbi.nlm.nih.gov/40601754/
 
-Contribution used here: corpus-level evidence that the post-ChatGPT biomedical literature shows abrupt excess use of style vocabulary. Lucid Writer uses these observations only as review cues; it does not infer authorship from individual words or documents.
+Contribution used here: corpus-level evidence that the post-ChatGPT biomedical literature shows abrupt excess use of style vocabulary. Lucid Writer uses these observations only as review cues; it does not infer authorship from individual words or documents. The cue lists in `lint.py` and `references/patterns.md` are unvalidated heuristics: their precision and recall on labelled text have not been measured.
 
 ### Cheng et al. — corpus comparison of AI and human academic prose
 

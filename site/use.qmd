@@ -126,4 +126,4 @@ python3 <skill-dir>/scripts/validate_ledger.py .lucid-writer/claims.csv
 python3 <skill-dir>/scripts/qualifier_check.py before.md after.md --ledger .lucid-writer/claims.csv
 ```
 
-The linter is not an AI detector and does not judge scientific validity.
+The helpers read plain text only: Markdown, LaTeX, Quarto or `.txt`. A `.docx` or `.pdf` exits 2 with a hint; convert it first with `pandoc manuscript.docx -t gfm -o manuscript.md`. `lint.py` exits 0 whatever it finds; add `--strict` to exit 1 when a release flag (placeholder, hidden text, chat residue) is present, for CI or a pre-submission check. The linter is not an AI detector and does not judge scientific validity. Its cue lists are unvalidated heuristics: their precision and recall have not been measured, and a longer causal-verb list means more flags on correct uses.
