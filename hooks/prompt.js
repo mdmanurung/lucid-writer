@@ -1,11 +1,11 @@
-// UserPromptSubmit: handle /lucid-writer prose|full|off|status (lite and on are aliases)
+// UserPromptSubmit: handle /lucid-writer prose|full|off|status (on is an alias of full)
 // and /lucid-writer nudge on|off. Other prompts get at most one nudge line.
 // Prompt text is never stored; only the mode and nudge flags are.
 const fs = require('fs');
 const path = require('path');
 const { readMode, setMode, flagPath, normalise, stateDir, writeOutput, readStdin } = require('./lib');
 
-const COMMAND = /^[/@$]lucid-writer(?::lucid-writer)?\s+(on|lite|prose|full|off|status)$/;
+const COMMAND = /^[/@$]lucid-writer(?::lucid-writer)?\s+(on|prose|full|off|status)$/;
 const NUDGE_COMMAND = /^[/@$]lucid-writer(?::lucid-writer)?\s+nudge\s+(on|off)$/;
 const OWN_COMMAND = /^[/@$]lucid-writer/;
 // Nudge heuristic, part 1: the prompt holds a correction word.
@@ -114,13 +114,12 @@ readStdin(payload => {
     if (match) {
       const arg = match[1] === 'status' ? 'status' : normalise(match[1]);
       if (arg !== 'status') setMode(arg);
-      const alias = match[1] === 'lite' ? ' (lite is now called prose; use /lucid-writer prose)' : '';
       const mode = readMode();
       // Rules are injected at session start, so a change lands after /clear or a new session.
       const when = arg === 'status' ? '' : ' from the next session start or /clear';
       const msg = mode === 'off'
         ? `LUCID-WRITER ALWAYS-ON OFF${when}. Turn on: /lucid-writer prose or /lucid-writer full.`
-        : `LUCID-WRITER ALWAYS-ON ${mode.toUpperCase()}${when}. Flag: ${flagPath()}. Turn off: /lucid-writer off.${alias}`;
+        : `LUCID-WRITER ALWAYS-ON ${mode.toUpperCase()}${when}. Flag: ${flagPath()}. Turn off: /lucid-writer off.`;
       writeOutput('UserPromptSubmit', `${msg} Report this line to the user and do nothing else.`);
     } else if (shouldNudge(payload, prompt, readMode())) {
       writeOutput('UserPromptSubmit', NUDGE);

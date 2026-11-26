@@ -6,8 +6,8 @@ const os = require('os');
 const path = require('path');
 
 const MODES = ['off', 'prose', 'full'];
-// lite was renamed prose in 1.3.0; the alias lasts one version.
-const ALIASES = { lite: 'prose', on: 'full' };
+// lite was renamed prose in 1.3.0 and removed in 2.0.0; a 'lite' flag now reads as off.
+const ALIASES = { on: 'full' };
 
 function stateDir() {
   return process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');

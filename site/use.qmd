@@ -46,7 +46,7 @@ In Claude Code, the plugin can apply its prose rules to every reply, not only to
 
 | Command | Effect |
 |---|---|
-| `/lucid-writer prose` | plain-prose rules for chat and commit messages. No evidence rules, so not for scientific claims. `lite` still works for one version |
+| `/lucid-writer prose` | plain-prose rules for chat and commit messages. No evidence rules, so not for scientific claims. |
 | `/lucid-writer full` (or `on`) | prose plus the evidence ceiling for any finding you state, and a voice for deliverables |
 | `/lucid-writer off` | turn always-on off |
 | `/lucid-writer status` | show the current mode and flag path |

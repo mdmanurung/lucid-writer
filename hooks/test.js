@@ -173,6 +173,12 @@ test('trusted project voice is truncated at 4,000 characters', () => {
   assert(!out.includes('v'.repeat(4001)));
 });
 
+test('lite was removed in 2.0.0: a lite flag is off, the command is not handled', () => {
+  const env = sandbox(); setMode(env, 'lite');
+  assert.strictEqual(session(env), '');
+  assert.strictEqual(prompt(env, '/lucid-writer lite'), '');
+});
+
 test('mode off injects nothing', () => {
   const env = sandbox();
   writeJson(globalFile(env), { version: 1, rules: [rule('r-0001', 'A rule.', 'active')] });
