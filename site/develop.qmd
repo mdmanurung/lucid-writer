@@ -31,11 +31,12 @@ This checks, among other things:
 
 - the skill's frontmatter, reference files and assets;
 - that both sets of subagents exist, are read-only, and that each Codex twin keeps the key rules of its Markdown source;
-- that `lucid_writer.__version__`, the three plugin manifests and the convention pack carry one version;
-- that every bench skill snapshot matches `skill_name` in `bench/config.yaml`;
+- that `lucid_writer.__version__`, the three plugin manifests, the convention pack and `CITATION.cff` carry one version;
+- that every bench skill snapshot matches `skill_name` in `bench/config.yaml` and equals the skill at the commit `bench/skills/SNAPSHOTS.tsv` records;
+- that every review subagent treats supplied text as data, every marker a hook ruleset uses is defined in `SKILL.md`, and no TODO or FIXME ships in `skills/`;
 - that every repository link on this site points at a file that exists.
 
-CI runs it with the linter self-test, the ledger check, a wheel build and `acumen check --no-review`.
+CI runs it on Python 3.11 and 3.12, with full git history, together with `node hooks/test.js`, the self-tests of every helper script and of `bench/gate/gate.py`, the ledger check, a wheel build and `acumen check --no-review`.
 
 ## Packaging
 

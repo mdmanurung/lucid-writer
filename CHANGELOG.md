@@ -4,6 +4,8 @@ All notable changes to Lucid Writer are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-26
+
 ### Changed (breaking)
 
 - The `lite` mode alias is removed, as promised in 1.3.0. **Migration:** a `lite` flag now reads as off; run `/lucid-writer prose`.
@@ -288,5 +290,6 @@ The benchmark grades closed-vocabulary judgements by exact string match. It cann
 - Study-design reporting-guideline routing using current authoritative sources.
 - Cross-platform convenience installers for Codex and Claude Code.
 
-[Unreleased]: https://github.com/mdmanurung/lucid-writer/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/mdmanurung/lucid-writer/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/mdmanurung/lucid-writer/compare/v1.5.0...v2.0.0
 [1.5.0]: https://github.com/mdmanurung/lucid-writer/releases/tag/v1.5.0

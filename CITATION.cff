@@ -4,8 +4,8 @@ title: "Lucid Writer: an agent skill that edits research prose without strengthe
 type: software
 authors:
   - name: "Lucid Writer contributors"
-version: 1.5.0
-date-released: 2026-11-13
+version: 2.0.0
+date-released: 2026-11-26
 license: MIT
 repository-code: "https://github.com/mdmanurung/lucid-writer"
 url: "https://mdmanurung.github.io/lucid-writer/"

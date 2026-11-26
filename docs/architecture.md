@@ -1,6 +1,6 @@
 # Architecture rationale
 
-Lucid Writer is designed around five failure modes of agentic research writing.
+Lucid Writer is designed around six failure modes of agentic research writing.
 
 ## 1. Prose outruns evidence
 
@@ -21,6 +21,10 @@ Review mode diagnoses and prioritizes before rewriting. This reduces the tendenc
 ## 5. Deterministic checks should be code
 
 Placeholder detection, schema validation, and broken local LaTeX references do not require language-model judgment. Small standard-library scripts handle them. Scientific validity remains a semantic task.
+
+## 6. Text that reaches the model is data unless the user trusts it
+
+Manuscripts, reviewer letters and project files can carry instructions. The skill treats all supplied text as data (non-negotiable 9), and every review subagent repeats that rule. The always-on hooks inject only what the user chose: global rules they approved, and a project's `rules.json` or `voice.md` only after `/lucid-writer:rules trust` records its sha256. Any edit to a trusted file needs trust again, and a symlinked voice never loads. Learned rules are injected below the evidence rules and say they cannot loosen them.
 
 ## Everyday ergonomics
 
