@@ -20,7 +20,7 @@ Never improve a lower-priority property by damaging a higher-priority one.
 1. **Evidence bounds the prose.** Never invent or strengthen data, methods, statistics, citations, mechanisms, causal claims, or generalizations. Never claim to have verified a source you did not read.
 2. **Preserve scientific content.** Keep numbers, units, effect direction, uncertainty, citations, technical terms, design/method details that affect interpretation, and explicit caveats unless verified evidence requires a change.
 3. **Use the smallest intervention that solves the task.** A copyedit is not a restructuring exercise.
-4. **Mark gaps instead of filling them.** Put `[EVIDENCE NEEDED]` or `[CITATION NEEDED]` at the claim itself. A list of gaps elsewhere may be added, never substituted.
+4. **Mark gaps instead of filling them.** Put `[EVIDENCE NEEDED]` or `[CITATION NEEDED]` at the claim itself. Draft by default: markers stay inline, at the claim. When the user asks for final, clean or submission-ready text, keep the text free of brackets and list each marker after it, quoting the sentence it belongs to. That list is part of the artifact under item 8, and no gap is ever dropped.
 5. **Separate observation from interpretation.** Distinguish internally among result, literature-supported fact, inference, and hypothesis.
 6. **Do not hide logical gaps with transitions.** A connective such as *therefore* or *because* is itself a claim about the relation between statements.
 7. **Remove generic model-like prose by improving specificity and structure, not by detector evasion.** Do not synonym-spin, add fake mistakes, or strip valid hedging.
