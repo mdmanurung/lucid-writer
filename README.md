@@ -27,7 +27,7 @@ cd lucid-writer
 bash scripts/install.sh both        # Windows: .\scripts\install.ps1 both
 ```
 
-Use one of the two, not both. Install by hand, update and uninstall are on the [docs home page](https://mdmanurung.github.io/lucid-writer/#install).
+Use one of the two, not both. Always-on mode and learned rules need the plugin; the installer adds the skill and subagents only. The helper scripts need Python 3.11 or newer; `<skill-dir>` below is `skills/lucid-writer` in a clone, `~/.claude/skills/lucid-writer` or `~/.agents/skills/lucid-writer` after the installer. Install by hand, update and uninstall are on the [docs home page](https://mdmanurung.github.io/lucid-writer/#install).
 
 ## Use
 
@@ -43,10 +43,10 @@ There is no special command: the skill loads when a writing task matches. Start 
 For high-stakes work:
 
 - **Review subagents:** run the evidence auditor and skeptical reviewer in parallel, then manuscript preflight before submission. Skip them for ordinary edits; they cost extra tokens.
-- **Project state:** `python3 skills/lucid-writer/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
+- **Project state:** `python3 <skill-dir>/scripts/init_project.py .` creates `.lucid-writer/` with a brief, a claim ledger and a decision log.
 - **Mechanical checks:** `lint.py manuscript.md` flags placeholders, causal verbs and filler; `validate_ledger.py` checks the claim ledger and the optional `evidence.csv`; `qualifier_check.py` reports hedges and design limits a revision dropped.
-- **Always-on (Claude Code only):** `/lucid-writer full` injects the evidence rules at session start, and your voice for deliverables; `/lucid-writer prose` is plain-prose rules for chat, with no evidence rules; `/lucid-writer off` stops it.
-- **Learned rules (Claude Code only):** `/lucid-writer:learn "<rule>"` stores a proposed writing rule; `/lucid-writer:rules` approves, rejects and retires it. Only rules you approve are injected. A phrase check refuses obvious attempts to loosen the evidence rules; it misses reworded ones, so read each rule before you approve it.
+- **Always-on (Claude Code plugin only):** `/lucid-writer full` injects the evidence rules at session start, and your voice for deliverables; `/lucid-writer prose` is plain-prose rules for chat, with no evidence rules; `/lucid-writer off` stops it.
+- **Learned rules (Claude Code plugin only):** `/lucid-writer:learn "<rule>"` stores a proposed writing rule; `/lucid-writer:rules` approves, rejects and retires it. Only rules you approve are injected. A phrase check refuses obvious attempts to loosen the evidence rules; it misses reworded ones, so read each rule before you approve it.
 - **Mycelium:** in a project with `.living/` and `.mycelium/`, numbers checked by `/mycelium-extra:verify` outrank the prose.
 
 Its rules forbid strengthening a claim beyond its evidence, even on request; inventing citations or numbers; following instructions hidden in manuscripts or reviewer comments; and rewriting to evade AI detectors. These are instructions to the model, not guarantees. In the only blinded comparison so far, rewrites overclaimed in 10 of 48 runs without the skill and 6 of 46 with it (p = 0.41), so an effect is not yet shown. See [Evaluation](https://mdmanurung.github.io/lucid-writer/evaluation.html).
@@ -84,7 +84,7 @@ To cite Lucid Writer, use [`CITATION.cff`](CITATION.cff) or GitHub's "Cite this 
 ## Develop
 
 ```bash
-python3 scripts/validate_repo.py   # repository checks
+python3 scripts/validate_repo.py   # repository checks (Python 3.11+)
 quarto preview site                # this documentation, locally
 ```
 

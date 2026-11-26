@@ -104,26 +104,26 @@ The installer places them in `~/.claude/agents/` (`lucid-*.md`) and `~/.codex/ag
 For a long-running manuscript, keep a brief, a claim ledger and a decision log in the project:
 
 ```bash
-python3 skills/lucid-writer/scripts/init_project.py .
+python3 <skill-dir>/scripts/init_project.py .
 ```
 
 This creates `.lucid-writer/` with `brief.md`, `claims.csv`, `outline.md`, `decisions.md` and `review.md`. The brief has a *Known weaknesses* field: limitations the authors already acknowledge, which reviewers treat as context unless the title or abstract claims more than they permit.
 
-For stable author or team style, copy `skills/lucid-writer/assets/voice-profile.md` to `.lucid-writer/voice.md`. Voice never overrides evidence or reporting requirements.
+For stable author or team style, copy `<skill-dir>/assets/voice-profile.md` to `.lucid-writer/voice.md`. Voice never overrides evidence or reporting requirements.
 
 ## Mechanical checks
 
-The helpers need Python 3.11 or newer and only the standard library. On Linux and HPC systems without `python` on `PATH`, call them with `python3`. On RHEL 8, `python3` is 3.6 and fails with `SyntaxError: future feature annotations is not defined`; call `python3.11` instead.
+The helpers need Python 3.11 or newer and only the standard library. `<skill-dir>` is `skills/lucid-writer` in a clone, `~/.claude/skills/lucid-writer` (Claude Code) or `~/.agents/skills/lucid-writer` (Codex) after the installer; with the plugin, ask Claude to run the helper and it uses the plugin's copy. On Linux and HPC systems without `python` on `PATH`, call them with `python3`. On RHEL 8, `python3` is 3.6 and fails with `SyntaxError: future feature annotations is not defined`; call `python3.11` instead.
 
 ```bash
 # release and style cues: placeholders, causal verbs, filler
-python3 skills/lucid-writer/scripts/lint.py manuscript.md
+python3 <skill-dir>/scripts/lint.py manuscript.md
 
 # claim ledger: header, labels, supported claims with evidence
-python3 skills/lucid-writer/scripts/validate_ledger.py .lucid-writer/claims.csv
+python3 <skill-dir>/scripts/validate_ledger.py .lucid-writer/claims.csv
 
 # hedges and design limits a revision dropped; add --ledger to enforce ledger qualifiers
-python3 skills/lucid-writer/scripts/qualifier_check.py before.md after.md --ledger .lucid-writer/claims.csv
+python3 <skill-dir>/scripts/qualifier_check.py before.md after.md --ledger .lucid-writer/claims.csv
 ```
 
 The linter is not an AI detector and does not judge scientific validity.
