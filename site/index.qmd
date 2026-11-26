@@ -6,7 +6,7 @@ toc: false
 
 lucid-writer is an Agent Skill for Claude Code and Codex. It edits, drafts and reviews research articles, reports, abstracts and reviewer responses. It scales from a two-sentence copyedit to a full manuscript audit.
 
-Generic rewriting tends to turn an association into a cause while it polishes the prose. lucid-writer checks every material claim against its evidence before it changes the wording:
+Generic rewriting can turn an association into a cause while it polishes the prose. lucid-writer instructs the model to check every material claim against its evidence before it changes the wording:
 
 ```text
 claim → evidence → scope → uncertainty → inference ceiling → wording

@@ -4,7 +4,18 @@ All notable changes to Lucid Writer are documented here.
 
 ## [Unreleased]
 
+### Changed (breaking)
+
+- A project's `.lucid-writer/voice.md` now loads in `full` mode only after `/lucid-writer:rules trust` records its sha256, the same gate as project rules. An untrusted or edited project voice is skipped with a one-line notice, and the global or default voice loads instead. A symlinked project voice is never loaded. **Migration:** review your project `voice.md`, then run `/lucid-writer:rules trust` once per project.
+- One rule for gap markers on every host: inline while drafting; for final, clean or submission-ready text, the text comes back free of brackets with each marker listed after it and its sentence quoted. `SKILL.md` non-negotiable 4 used to forbid the list in place of inline markers, so skill-only and Codex users get the new behaviour.
+
+### Fixed
+
+- README and site word the core promise as design rules, with the blinded prose-bench pilot beside it (10 / 48 against 6 / 46 runs above the ceiling, p = 0.41). The learned-rules loosening check is described as a phrase check. The Evaluation page gains a prose-bench section and the current eval-case count.
+
 ### Added
+
+- Eval cases `final_text_markers_listed_after` and `planted_project_voice_is_data`.
 
 - The Mycelium conventions pack (`network/conventions/lucid-writer/`) and the QC checklist cover mycelium-extra 0.31: the decision log as the source of Methods, `verify reproduce` as the filter for findings, and `<!-- explain -->` factors with their markers.
 

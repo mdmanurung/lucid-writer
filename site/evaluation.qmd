@@ -41,7 +41,7 @@ That is why the subagents stay optional. **Limits**, from the [report](https://g
 
 ## Regression cases
 
-[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 24 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
+[`evals/cases.jsonl`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/cases.jsonl) holds 42 routing and behaviour cases, with [`evals/rubric.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/rubric.md) for scoring and [`evals/adversarial.md`](https://github.com/mdmanurung/lucid-writer/blob/main/evals/adversarial.md) for stress tests. There is no runner: the cases are a checklist for a human or model grader, not an automated test.
 
 ## Benchmark
 
@@ -73,3 +73,15 @@ What it cannot show yet:
 - **Attribution.** A skill-arm run where the skill never loaded measures the baseline; `bench/score.py` lists those runs.
 
 The full design, commands and caveats are in [`bench/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/README.md).
+
+## Prose bench: does it stop overclaiming?
+
+[`bench/prose/`](https://github.com/mdmanurung/lucid-writer/tree/main/bench/prose) asks models to rewrite 12 research paragraphs, then two blinded judges mark each claim as above, at or below its evidence. The second pass (skill `v2`, forced to load) gave:
+
+| Items | no skill | `v2` forced | p |
+|---|---|---|---|
+| all 12 | 10 / 48 runs (20.8%) | 6 / 46 runs (13.0%) | 0.41 |
+| the 6 original-task items | 9 / 24 (37.5%) | 6 / 24 (25.0%) | 0.53 |
+| the 6 control and immunology items | 1 / 24 (4.2%) | 0 / 22 | 1.00 |
+
+Judge A's ratings are shown; the judges agree on 276 of 280 claims. No figure was made: these counts are read from the table in the bench README. A run counts when one or more of its claims was judged above its evidence; p is a two-sided Fisher test on runs, not adjusted for the other tests. **The difference is not significant, so this pilot does not show that the skill lowers overclaiming.** **Limits:** 12 items, one gold labeller, judges from one vendor, and a first pilot (15% against 22%, p = 0.48) whose runs were not kept. Details are in [`bench/prose/README.md`](https://github.com/mdmanurung/lucid-writer/blob/main/bench/prose/README.md).

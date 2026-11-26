@@ -46,7 +46,7 @@ Statements are also sorted by what supports them: observed in this study, from t
 
 ## Rules an author cannot lift
 
-Most defaults, such as minimal intervention or review-only mode, are the author's call. When an author overrides one, the output begins with `Overrides applied: <default>`. Seven rules are fixed, because lifting them makes the output false or deceptive:
+Most defaults, such as minimal intervention or review-only mode, are the author's call. When an author overrides one, the output begins with `Overrides applied: <default>`. Seven rules are fixed by design, because lifting them makes the output false or deceptive. They are instructions to the model; how often it keeps them is measured on the [Evaluation](evaluation.qmd) page:
 
 1. Never invent or strengthen data, methods, statistics, citations, mechanisms, causal claims or generalisations; never claim to have read a source that was not read.
 2. Keep numbers, units, effect direction, uncertainty, citations and caveats.
