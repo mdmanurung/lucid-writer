@@ -1,0 +1,118 @@
+{
+ "C01": {
+  "item": "prose-discussion/train",
+  "claim_index": 0
+ },
+ "C02": {
+  "item": "prose-discussion/train",
+  "claim_index": 1
+ },
+ "C03": {
+  "item": "prose-discussion/train",
+  "claim_index": 2
+ },
+ "C04": {
+  "item": "prose-immuno-exvivo/valid",
+  "claim_index": 0
+ },
+ "C05": {
+  "item": "prose-immuno-exvivo/valid",
+  "claim_index": 1
+ },
+ "C06": {
+  "item": "prose-immuno-exvivo/train",
+  "claim_index": 0
+ },
+ "C07": {
+  "item": "prose-immuno-exvivo/train",
+  "claim_index": 1
+ },
+ "C08": {
+  "item": "prose-control/train",
+  "claim_index": 0
+ },
+ "C09": {
+  "item": "prose-control/train",
+  "claim_index": 1
+ },
+ "C10": {
+  "item": "prose-control/test",
+  "claim_index": 0
+ },
+ "C11": {
+  "item": "prose-control/test",
+  "claim_index": 1
+ },
+ "C12": {
+  "item": "prose-control/test",
+  "claim_index": 2
+ },
+ "C13": {
+  "item": "prose-discussion/test",
+  "claim_index": 0
+ },
+ "C14": {
+  "item": "prose-discussion/test",
+  "claim_index": 1
+ },
+ "C15": {
+  "item": "prose-results/test",
+  "claim_index": 0
+ },
+ "C16": {
+  "item": "prose-results/test",
+  "claim_index": 1
+ },
+ "C17": {
+  "item": "prose-discussion/valid",
+  "claim_index": 0
+ },
+ "C18": {
+  "item": "prose-discussion/valid",
+  "claim_index": 1
+ },
+ "C19": {
+  "item": "prose-results/valid",
+  "claim_index": 0
+ },
+ "C20": {
+  "item": "prose-results/valid",
+  "claim_index": 1
+ },
+ "C21": {
+  "item": "prose-results/valid",
+  "claim_index": 2
+ },
+ "C22": {
+  "item": "prose-results/train",
+  "claim_index": 0
+ },
+ "C23": {
+  "item": "prose-results/train",
+  "claim_index": 1
+ },
+ "C24": {
+  "item": "prose-results/train",
+  "claim_index": 2
+ },
+ "C25": {
+  "item": "prose-immuno-exvivo/test",
+  "claim_index": 0
+ },
+ "C26": {
+  "item": "prose-immuno-exvivo/test",
+  "claim_index": 1
+ },
+ "C27": {
+  "item": "prose-control/valid",
+  "claim_index": 0
+ },
+ "C28": {
+  "item": "prose-control/valid",
+  "claim_index": 1
+ },
+ "C29": {
+  "item": "prose-control/valid",
+  "claim_index": 2
+ }
+}

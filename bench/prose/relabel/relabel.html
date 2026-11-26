@@ -1,0 +1,258 @@
+<title>Blind ceiling relabel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: one judgment per screen. Claim on top, evidence paragraph below, the six answers as a fixed ladder. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --fg:#1b2230; --muted:#5b6474; --line:#d9dde4;
+  --accent:#2f5d8a; --accent-soft:#e6eef6; --pick:#1f4b73; --warn:#8a5a12; --warn-soft:#f7efe1;
+  --font-ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-read:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --font-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161d; --surface:#1a2029; --fg:#e4e8ee; --muted:#9aa3b2; --line:#2c3440;
+  --accent:#7fb0de; --accent-soft:#1f2c3b; --pick:#a9cdf0; --warn:#e0b46a; --warn-soft:#2e2618; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161d; --surface:#1a2029; --fg:#e4e8ee; --muted:#9aa3b2; --line:#2c3440;
+  --accent:#7fb0de; --accent-soft:#1f2c3b; --pick:#a9cdf0; --warn:#e0b46a; --warn-soft:#2e2618; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:15px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1{font-size:1.35rem;margin:0;text-wrap:balance;font-weight:600}
+h2{font-size:1.05rem;margin:0;font-weight:600}
+p{margin:0}
+.muted{color:var(--muted)}
+.bar{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.track{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.fill{height:100%;background:var(--accent);width:0}
+.claim{background:var(--accent-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.claim .text{font-size:1.12rem;font-weight:600;line-height:1.4}
+.para{font-family:var(--font-read);font-size:1.06rem;line-height:1.62;max-width:65ch}
+.q{font-weight:500}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:grid;grid-template-columns:2rem 9.5rem 1fr;gap:10px;align-items:baseline;text-align:left;width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--fg);font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt[aria-pressed="true"]{border-color:var(--pick);box-shadow:inset 0 0 0 2px var(--pick)}
+.key{font-family:var(--font-mono);font-size:.85rem;color:var(--muted);border:1px solid var(--line);border-radius:5px;text-align:center;padding:1px 0}
+.name{font-weight:600}
+.def{color:var(--muted);font-size:.92rem;min-width:0}
+.sep{font-size:.78rem;color:var(--muted);padding:4px 2px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button.ghost,button.main{font:inherit;border-radius:8px;padding:9px 16px;cursor:pointer}
+button.main{background:var(--accent);color:var(--surface);border:1px solid var(--accent);font-weight:600}
+button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+button:disabled{opacity:.45;cursor:default}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.card ul{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:6px}
+.note{background:var(--warn-soft);color:var(--fg);border-radius:8px;padding:10px 12px;font-size:.9rem}
+.note b{color:var(--warn)}
+.status{font-size:.8rem;color:var(--muted)}
+table.legend{border-collapse:collapse;font-size:.92rem;width:100%}
+table.legend td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:top}
+table.legend td:first-child{font-weight:600;white-space:nowrap}
+@media (max-width:520px){.opt{grid-template-columns:1.8rem 1fr}.def{grid-column:2}}
+@media (prefers-reduced-motion:no-preference){.fill{transition:width .25s}}
+</style>
+
+<div class="wrap" id="app">
+  <div class="card"><p>Loading the labelling sheet…</p></div>
+</div>
+
+<script>
+const DATA = {"paragraphs": {"P01": "Mayfly density was lower in streams with higher neonicotinoid concentrations (rho = −0.52, 31 streams). One possible explanation is that sublethal exposure impairs larval development, as reported for other aquatic insects (Lindqvist et al., 2020), but we did not measure larval development, and agricultural runoff carries other stressors that could produce the same pattern.", "P02": "In a paired ex vivo stimulation of whole blood from 31 participants, TNF-α secretion at 6 h after stimulation with lipopolysaccharide (100 ng/mL) was lower than in the paired pre-exposure sample (geometric mean ratio 0.64, 95% CI 0.48–0.85). A dampened inflammatory response could point to a mechanism by which these participants were protected from severe disease, but severe disease was not recorded.", "P03": "In a paired ex vivo stimulation of peripheral blood mononuclear cells from 24 participants, IFN-γ secretion at 24 h after stimulation with schizont lysate (10 µg/mL) was higher than in unstimulated paired cultures (geometric mean ratio 2.1, 95% CI 1.5–2.9). These findings suggest a possible mechanism of protection in the participants, although clinical outcomes were not assessed in this study.", "P04": "In 150 adults with type 2 diabetes, higher fasting plasma lactate was associated with higher HbA1c (rho = 0.31, 95% CI 0.15–0.45). The association was similar after adjustment for age and BMI (adjusted rho = 0.28, 95% CI 0.11–0.43). Because the data are cross-sectional, they cannot show whether lactate affects glycaemic control, whether glycaemic control affects lactate, or whether a third factor affects both.", "P05": "Of 1180 households surveyed in the dry season of 2024, 311 (26%, 95% CI 24–29%) reported at least one episode of diarrhoea in a child under five during the preceding two weeks. Prevalence was 31% in the lowest wealth quintile and 19% in the highest. The survey did not record water source, so it cannot show why prevalence differed.", "P06": "In 60 undergraduates at a single university, randomly assigned to spaced or massed practice, spaced practice raised final-exam scores by 7 points (95% CI 2–12). These results are consistent with laboratory studies of the spacing effect (Cepeda et al., 2006), although our sample was small and drawn from one introductory course, so the size of the benefit in other settings is uncertain.", "P07": "In the randomised trial (n = 480), intensive glycaemic control lowered HbA1c at 12 months compared with standard care (mean difference −0.6 percentage points, 95% CI −0.8 to −0.4). In an exploratory subgroup analysis, the difference appeared larger in participants younger than 60 years (−0.8 vs −0.4 percentage points), but the test for interaction was not significant (p = 0.21).", "P08": "Validation accuracy at epoch 5 was strongly associated with final out-of-distribution accuracy across our 40 training runs (R² = 0.61, computed on the same runs), suggesting that early validation performance may be a useful signal for model selection. Whether it would predict out-of-distribution accuracy for new architectures or datasets remains to be tested.", "P09": "Knockdown of GENE1 reduced colony formation by 38% (95% CI 22–51%; n = 6 biological replicates), whereas knockdown of GENE2 produced a smaller reduction of 9% that was not statistically significant (95% CI −4 to 21%; p = 0.17). Neither knockdown detectably changed cell viability at 72 h.", "P10": "In this cohort of 212 adults, higher baseline CD161+ CD4 T-cell frequency was associated with a longer time to parasitaemia (HR 0.72, 95% CI 0.55–0.95; p = 0.018), and the association persisted after adjustment for age and prior malaria episodes (HR 0.75, 95% CI 0.57–0.99). Participants in the top tertile remained parasite-free for a median of 41 days, compared with 27 days in the bottom tertile. These cells may therefore contribute to early parasite control, although the observational design does not allow us to determine whether they are protective.", "P11": "In a paired ex vivo stimulation of CD4 T cells from 18 participants, IL-10 secretion at 48 h after stimulation with anti-CD3/CD28 beads was higher than in unstimulated paired cultures (geometric mean ratio 1.8, 95% CI 1.2–2.7). This response might reflect a regulatory mechanism that protected participants from symptomatic infection, although we did not test its association with infection outcomes.", "P12": "In a randomised, double-blind trial of 90 adults with chronic low back pain, 8 weeks of drug A lowered mean pain intensity by 1.4 points on a 0–10 scale compared with placebo (95% CI 0.6 to 2.2; p = 0.001). Adverse events were similar between arms (22% vs 20%). Participants came from one outpatient clinic, so the effect in other populations is unknown."}, "claims": [{"id": "C01", "para": "P01", "claim": "mayfly density lower where neonicotinoid concentrations higher"}, {"id": "C02", "para": "P01", "claim": "sublethal exposure impairing larval development is one possible explanation"}, {"id": "C03", "para": "P01", "claim": "runoff carries other stressors that could produce the pattern"}, {"id": "C04", "para": "P02", "claim": "TNF-α secretion was lower after ex vivo LPS stimulation (6 h) than in the paired pre-exposure sample"}, {"id": "C05", "para": "P02", "claim": "a dampened response could point to protection from severe disease"}, {"id": "C06", "para": "P03", "claim": "IFN-γ secretion was higher after ex vivo schizont-lysate stimulation (24 h, paired)"}, {"id": "C07", "para": "P03", "claim": "the response may point to a protective mechanism in participants"}, {"id": "C08", "para": "P04", "claim": "higher lactate associated with higher HbA1c, also after adjustment for age and BMI"}, {"id": "C09", "para": "P04", "claim": "the cross-sectional design cannot show direction or rule out a third factor"}, {"id": "C10", "para": "P05", "claim": "26% of households reported a child diarrhoea episode in the past two weeks"}, {"id": "C11", "para": "P05", "claim": "prevalence was 31% in the lowest wealth quintile and 19% in the highest"}, {"id": "C12", "para": "P05", "claim": "the survey cannot show why prevalence differed"}, {"id": "C13", "para": "P06", "claim": "spaced practice raised exam scores in this randomised sample"}, {"id": "C14", "para": "P06", "claim": "the size of the benefit in other settings is uncertain"}, {"id": "C15", "para": "P07", "claim": "intensive control lowered HbA1c versus standard care"}, {"id": "C16", "para": "P07", "claim": "the difference appeared larger under 60 years in an exploratory subgroup"}, {"id": "C17", "para": "P08", "claim": "epoch-5 validation accuracy associated with final out-of-distribution accuracy, in sample"}, {"id": "C18", "para": "P08", "claim": "early validation performance may be a useful model-selection signal"}, {"id": "C19", "para": "P09", "claim": "GENE1 knockdown reduced colony formation"}, {"id": "C20", "para": "P09", "claim": "GENE2 knockdown gave a non-significant 9% reduction"}, {"id": "C21", "para": "P09", "claim": "neither knockdown detectably changed viability at 72 h"}, {"id": "C22", "para": "P10", "claim": "higher CD161+ frequency associated with longer time to parasitaemia"}, {"id": "C23", "para": "P10", "claim": "association persists after adjustment for age and prior episodes"}, {"id": "C24", "para": "P10", "claim": "these cells may contribute to early parasite control"}, {"id": "C25", "para": "P11", "claim": "IL-10 secretion was higher after ex vivo anti-CD3/CD28 stimulation (48 h, paired)"}, {"id": "C26", "para": "P11", "claim": "the response might reflect a regulatory mechanism that protected participants"}, {"id": "C27", "para": "P12", "claim": "drug A lowered pain intensity versus placebo in this randomised trial"}, {"id": "C28", "para": "P12", "claim": "adverse events were similar between arms"}, {"id": "C29", "para": "P12", "claim": "the effect in other populations is unknown"}]};
+const LEVELS = [
+  {k:"1", v:"DESCRIPTIVE", name:"Descriptive", def:"a measurement, with no relation asserted"},
+  {k:"2", v:"ASSOCIATIVE", name:"Associative", def:"two variables covary"},
+  {k:"3", v:"PREDICTIVE",  name:"Predictive",  def:"a relationship tested on data not used to fit it"},
+  {k:"4", v:"CAUSAL",      name:"Causal",      def:"changing one variable changed another"},
+  {k:"5", v:"MECHANISTIC", name:"Mechanistic", def:"a specific pathway or intermediate was shown"},
+  {k:"6", v:"HYPOTHESIS",  name:"Hypothesis",  def:"a plausible extension the data do not establish"},
+  {k:"0", v:"CANT_TELL",   name:"Can’t tell",  def:"the paragraph does not let you decide"},
+];
+const BLOCK = 12, REPEATS = 6, MIN_MS = 700;
+
+// Seeded order, identical on every load, so a session can resume.
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffle(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function spread(list,r){ // no two neighbours from the same paragraph, when possible
+  for(let tries=0;tries<500;tries++){const s=shuffle(list,r);if(s.every((c,i)=>i===0||c.para!==s[i-1].para))return s}
+  return shuffle(list,r);
+}
+const r = rng(20261126);
+const main = spread(DATA.claims, r);
+const early = shuffle(main.slice(0, BLOCK), r).slice(0, REPEATS);
+let tail = spread(early, r);
+if (tail[0].para === main[main.length-1].para) tail.push(tail.shift());
+const SLOTS = main.map((c,i)=>({slot:"s"+String(i+1).padStart(2,"0"),claim:c.id,repeat:false}))
+  .concat(tail.map((c,i)=>({slot:"s"+String(main.length+i+1).padStart(2,"0"),claim:c.id,repeat:true})));
+const BY_ID = Object.fromEntries(DATA.claims.map(c=>[c.id,c]));
+
+const state = {answers:{}, pos:0, phase:"intro", shownAt:0, db:null, saveNote:"", breaks:[]};
+const LS = "relabel-v1";
+function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||"null")}catch(e){return null}}
+function lsSave(){try{localStorage.setItem(LS,JSON.stringify({answers:state.answers,breaks:state.breaks}))}catch(e){}}
+
+const app = document.getElementById("app");
+function el(tag, attrs={}, ...kids){const n=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(v==null)continue;if(k==="class")n.className=v;else if(k.startsWith("on"))n.addEventListener(k.slice(2),v);else n.setAttribute(k,v)}for(const k of kids){if(k==null)continue;n.append(k.nodeType?k:document.createTextNode(String(k)))}return n}
+
+function firstOpen(){const i=SLOTS.findIndex(s=>!state.answers[s.slot]);return i<0?SLOTS.length:i}
+function done(){return Object.keys(state.answers).length}
+
+function render(){
+  app.replaceChildren();
+  if(state.phase==="intro") return renderIntro();
+  if(state.phase==="break") return renderBreak();
+  if(state.phase==="end") return renderEnd();
+  renderItem();
+}
+
+function legend(){
+  const t=el("table",{class:"legend"});
+  for(const l of LEVELS.slice(0,6)) t.append(el("tr",{},el("td",{},l.name),el("td",{},l.def)));
+  return t;
+}
+
+function renderIntro(){
+  const resumed = done()>0;
+  app.append(
+    el("h1",{},"Blind relabel of the gold claim ceilings"),
+    el("p",{class:"muted"},`${SLOTS.length} short judgments, one per screen, in three blocks with a break between. About 25 to 35 minutes.`),
+    el("div",{class:"card"},
+      el("h2",{},"What you judge"),
+      el("p",{},"Each screen shows one claim and the paragraph it comes from. Pick the strongest ceiling that the evidence described in the paragraph supports for that claim."),
+      el("ul",{},
+        el("li",{},"Judge the study design and data the paragraph describes, not the verbs it uses. Some paragraphs overclaim on purpose."),
+        el("li",{},"Hypothesis is for a claim the data do not establish at any level, such as a proposed explanation."),
+        el("li",{},"Use Can’t tell when the paragraph does not give you enough to decide. Don’t guess."),
+        el("li",{},"Your earlier labels, the original labels and any tally of your answers stay hidden.")),
+      legend()),
+    el("div",{class:"card"},
+      el("h2",{},"Built to keep you consistent"),
+      el("ul",{},
+        el("li",{},"The order is shuffled and claims from one paragraph are spread apart, so tiredness falls on random claims, not on one kind."),
+        el("li",{},`The last ${REPEATS} screens repeat claims from the first block without saying which. They measure whether your judgments drift as you tire.`),
+        el("li",{},"Each answer’s time on screen is recorded. Take the breaks; they are part of the method."),
+        el("li",{},"Keys 1 to 6 and 0 answer, Backspace goes back one screen. A press in the first moment after a screen appears is ignored."))),
+    el("div",{class:"row"},
+      el("button",{class:"main",id:"start",onclick:()=>{state.phase="item";state.pos=firstOpen();if(state.pos>=SLOTS.length)state.phase="end";show()}}, resumed?`Resume at ${firstOpen()+1} of ${SLOTS.length}`:"Start block 1"),
+      el("span",{class:"status"},state.saveNote)));
+}
+
+function renderBreak(){
+  const b = Math.floor(state.pos/BLOCK);
+  const started = Date.now();
+  app.append(
+    el("h1",{},`Block ${b} done`),
+    el("div",{class:"card"},
+      el("p",{},"Stand up, look away from the screen, get some water. Two minutes is enough."),
+      el("p",{class:"muted"},"Your answers so far are saved. You can also close this page and come back later; it resumes where you stopped.")),
+    el("div",{class:"row"},
+      el("button",{class:"main",id:"cont",onclick:()=>{state.breaks.push({after:state.pos,ms:Date.now()-started});lsSave();saveMeta();state.phase="item";show()}},`Start block ${b+1}`)));
+}
+
+function renderEnd(){
+  app.append(
+    el("h1",{},"All done"),
+    el("div",{class:"card"},
+      el("p",{},`${done()} of ${SLOTS.length} judgments saved.`),
+      el("p",{class:"muted"},state.db?"They are stored with this page, so Claude can read them back and compute agreement. You don’t need to send anything.":"This view could not reach the page’s store. Save the file below and give it to Claude.")),
+    el("div",{class:"row"},
+      el("button",{class:"ghost",id:"review",onclick:()=>{state.phase="item";state.pos=SLOTS.length-1;show()}},"Go back to the last screen"),
+      el("button",{class:"ghost",id:"dl",onclick:download},"Save a copy (JSON)"),
+      el("span",{class:"status",id:"dlnote"},"")));
+}
+
+function renderItem(){
+  const s = SLOTS[state.pos], c = BY_ID[s.claim], cur = state.answers[s.slot];
+  const blockNo = Math.floor(state.pos/BLOCK)+1, blocks = Math.ceil(SLOTS.length/BLOCK);
+  const fill = el("div",{class:"fill"}); fill.style.width = (100*state.pos/SLOTS.length)+"%";
+  const opts = el("div",{class:"opts",role:"group","aria-label":"Ceiling"});
+  LEVELS.forEach((l,i)=>{
+    if(i===5) opts.append(el("div",{class:"sep"},"Not established by these data"));
+    if(i===6) opts.append(el("div",{class:"sep"},"Not enough to decide"));
+    opts.append(el("button",{class:"opt",id:"opt-"+l.k,"aria-pressed":String(cur&&cur.label===l.v),onclick:()=>answer(l.v)},
+      el("span",{class:"key"},l.k), el("span",{class:"name"},l.name), el("span",{class:"def"},l.def)));
+  });
+  app.append(
+    el("div",{class:"bar"},el("span",{},`Block ${blockNo} of ${blocks}`),el("div",{class:"track"},fill),el("span",{},`${state.pos+1} / ${SLOTS.length}`)),
+    el("div",{class:"claim"},el("span",{class:"eyebrow"},"Claim"),el("span",{class:"text"},c.claim)),
+    el("div",{},el("span",{class:"eyebrow"},"Paragraph"),el("p",{class:"para"},DATA.paragraphs[c.para])),
+    el("p",{class:"q"},"What is the strongest ceiling the evidence in this paragraph supports for the claim?"),
+    opts,
+    el("div",{class:"row"},
+      el("button",{class:"ghost",id:"back",onclick:back,disabled:state.pos===0?"":null},"Back"),
+      el("span",{class:"status"},state.saveNote)));
+  if(state.pos===0) document.getElementById("back").disabled=true;
+}
+
+function show(){state.shownAt=performance.now();render();window.scrollTo(0,0)}
+
+async function answer(label){
+  if(performance.now()-state.shownAt<MIN_MS) return;
+  const s = SLOTS[state.pos], prev = state.answers[s.slot];
+  const rec = {slot:s.slot, claim:s.claim, repeat:s.repeat, position:state.pos+1, label,
+    ms:Math.round(performance.now()-state.shownAt), at:new Date().toISOString(),
+    revisions:(prev?prev.revisions+1:0), previous:(prev?prev.label:null)};
+  state.answers[s.slot]=rec; lsSave(); saveAnswer(rec);
+  state.pos++;
+  if(state.pos>=SLOTS.length) state.phase="end";
+  else if(state.pos%BLOCK===0 && !state.answers[SLOTS[state.pos].slot]) state.phase="break";
+  show();
+}
+function back(){if(state.pos>0){state.pos--;state.phase="item";show()}}
+
+document.addEventListener("keydown",e=>{
+  if(state.phase!=="item"||e.metaKey||e.ctrlKey||e.altKey) return;
+  const l = LEVELS.find(x=>x.k===e.key);
+  if(l){e.preventDefault();answer(l.v);return}
+  if(e.key==="Backspace"){e.preventDefault();back()}
+});
+
+let writing = Promise.resolve();
+function saveAnswer(rec){
+  if(!state.db) return;
+  writing = writing.then(()=>state.db.collection("relabel").doc(rec.slot).set(rec))
+    .then(()=>{state.saveNote="Saved"; const n=document.querySelector(".status"); if(n) n.textContent="Saved";})
+    .catch(()=>{state.saveNote="Not saved to the page store; kept in this browser. Save a copy at the end."; const n=document.querySelector(".status"); if(n) n.textContent=state.saveNote;});
+}
+function saveMeta(){
+  if(!state.db) return;
+  writing = writing.then(()=>state.db.doc("relabel_meta/session").set({breaks:state.breaks, slots:SLOTS, seed:20261126, version:1})).catch(()=>{});
+}
+
+async function download(){
+  const note=document.getElementById("dlnote");
+  const body=JSON.stringify({seed:20261126,slots:SLOTS,breaks:state.breaks,answers:Object.values(state.answers)},null,1);
+  try{
+    const d = await window.claude?.use?.("downloads");
+    if(!d){note.textContent="Saving files is not available in this view."; return}
+    await d.save({filename:"relabel-answers.json", data:new Blob([body],{type:"application/json"})});
+    note.textContent="Saved.";
+  }catch(e){note.textContent="Not saved"+(e&&e.code?` (${e.code})`:"")+"."}
+}
+
+async function boot(){
+  const local = lsLoad();
+  if(local){state.answers=local.answers||{};state.breaks=local.breaks||[]}
+  render();
+  let db=null;
+  try{ db = await window.claude?.use?.("db"); }catch(e){ db=null }
+  if(!db){state.saveNote="Answers are kept in this browser only.";if(state.phase==="intro")render();return}
+  state.db = db;
+  const timer = setTimeout(()=>{state.saveNote="The page store is slow to answer; answers are kept in this browser meanwhile.";if(state.phase==="intro")render()},10000);
+  try{
+    const snap = await db.collection("relabel").get();
+    clearTimeout(timer);
+    for(const d of snap.docs){const v=d.data(); if(v&&v.slot&&!state.answers[v.slot]) state.answers[v.slot]=v}
+    const meta = await db.doc("relabel_meta/session").get();
+    if(meta.exists && Array.isArray(meta.data().breaks) && !state.breaks.length) state.breaks = meta.data().breaks;
+    state.saveNote = done()?`${done()} answers found; they are saved with this page.`:"Answers save with this page as you go.";
+    lsSave();
+  }catch(e){clearTimeout(timer);state.saveNote="Could not read the page store; answers are kept in this browser."}
+  if(state.phase==="intro") render();
+}
+boot();
+</script>

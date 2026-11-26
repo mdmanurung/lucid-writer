@@ -24,7 +24,7 @@ above its evidence, compared with no skill?
 | 8 | Arms | No skill; skill `v2` forced (`tasks-forced.yaml`). No unforced arm | user (pilot value) |
 | 9 | Replicates | 10 per item × model: 240 runs per arm, 480 in all | user, 2026-11-26 |
 | 10 | Packet-shuffle seed | `20261102`. Model sampling has no seed; each run's model id and CLI version are recorded from `result.json` | user |
-| 11 | Second gold labeller | The author re-labels all 60 claim ceilings blind to the existing labels; Cohen's kappa is reported, and items where labels differ are listed | user, 2026-11-26 |
+| 11 | Second gold labeller | The author re-labels all 29 claim ceilings blind to the existing labels, in a page that shuffles them, spreads claims of one paragraph apart, adds 6 hidden repeats of block-1 claims at the end to measure drift, and records time per answer (`relabel/`); Cohen's kappa is reported, and items where labels differ are listed | user, 2026-11-26 |
 | 12 | Gold synonym lists | Frozen as they are now. The post-result extension in commit `859f7c9` is disclosed. The sha256 of `gold.yaml`, `tasks.yaml` and `tasks-forced.yaml` is recorded below before the first run | user |
 | 13 | Headline figure | Per-item dot plot: each of the 12 items as a pair of points (no skill, forced) joined by a line, over each arm's rate with a Wilson 95% interval | user |
 | 14 | Legacy scores (80/80, 13/14) | Cited as development smoke tests with their limits; no claim rests on them | user |
